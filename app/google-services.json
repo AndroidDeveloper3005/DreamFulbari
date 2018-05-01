@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "461378307146",
+    "firebase_url": "https://dreamfulbari.firebaseio.com",
+    "project_id": "dreamfulbari",
+    "storage_bucket": "dreamfulbari.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461378307146:android:2ae1c4ab201d3896",
+        "android_client_info": {
+          "package_name": "com.himel.androiddeveloper3005.dreamfulbari"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "461378307146-jri51c26viurjtnurq8c5aud1co05nrs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.himel.androiddeveloper3005.dreamfulbari",
+            "certificate_hash": "44b0efc0043ecf343c8b4556c0bb89e021bf248e"
+          }
+        },
+        {
+          "client_id": "461378307146-trjugvi58uf91n6fmt191of4c18e14s3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRutj1ki-Fx4UoYi3swbUzJNFFc54lRAA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "461378307146-trjugvi58uf91n6fmt191of4c18e14s3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
