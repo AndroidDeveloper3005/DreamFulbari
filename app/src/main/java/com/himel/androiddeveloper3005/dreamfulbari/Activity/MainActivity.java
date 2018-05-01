@@ -55,10 +55,6 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-   /*     if (mAuth.getCurrentUser() == null) {
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            finish();
-        }*/
         setContentView(R.layout.activity_main);
 
         getToolbar();
@@ -66,7 +62,7 @@ public class MainActivity extends BaseActivity {
         initFireBaseAuth();
         this.mHandler = new Handler();
 
-        this.mHandler.postDelayed(m_Runnable,8000);
+        this.mHandler.postDelayed(m_Runnable,500);
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -81,10 +77,8 @@ public class MainActivity extends BaseActivity {
         };
 
 
-       // initLoader();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference().child(Constans.POST_DATABSE_PATH);
 
-       // checkUser();
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -97,8 +91,6 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-
-       // showDataOnRecyclerView();
         showData();
 
     }
@@ -110,7 +102,7 @@ public class MainActivity extends BaseActivity {
         {
             //Toast.makeText(MainActivity.this,"in runnable",Toast.LENGTH_SHORT).show();
 
-            MainActivity.this.mHandler.postDelayed(m_Runnable, 8000);
+            MainActivity.this.mHandler.postDelayed(m_Runnable, 500);
         }
 
     };
@@ -120,13 +112,9 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //showDataOnRecyclerView();
-
         mAuth.addAuthStateListener(mAuthStateListener);
 
         showData();
-
-
 
     }
 
@@ -204,7 +192,7 @@ public class MainActivity extends BaseActivity {
                 viewHolder.setUserName(model.getUsername());
                 viewHolder.set_UserImage(getApplicationContext(),model.getUserImage());
                 viewHolder.setLkeButton(post_key);
-               // viewHolder.countLike(post_key);
+                viewHolder.countLike(post_key);
 
                 /*viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -222,21 +210,24 @@ public class MainActivity extends BaseActivity {
                             mDatabaseLikes.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
+                                    //Long number =dataSnapshot.child(post_key).getChildrenCount();
 
                                     if (mProcessLike){
 
                                         if (dataSnapshot.child(post_key).hasChild(mAuth.getCurrentUser().getUid())){
 
 
+
                                             mDatabaseLikes.child(post_key).child(mAuth.getCurrentUser().getUid()).removeValue();
-                                            viewHolder.like_count.setText(""+dataSnapshot.child(post_key).getChildrenCount());
+                                            //viewHolder.like_count.setText(""+(number-1));
                                             mProcessLike = false;
 
                                         }
 
                                         else {
-                                            viewHolder.like_count.setText(""+dataSnapshot.child(post_key).getChildrenCount());
+
                                             mDatabaseLikes.child(post_key).child(mAuth.getCurrentUser().getUid()).setValue("0");
+                                           // viewHolder.like_count.setText(""+(number+1));
                                             mProcessLike = false;
                                         }
 
@@ -298,19 +289,14 @@ public class MainActivity extends BaseActivity {
         }
 
 
-/*        public void countLike(final String post_key){
+        public void countLike(final String post_key){
 
             mDatabaseLikesCounts.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    String mvalue = dataSnapshot.getKey();
-                    if (dataSnapshot.child(post_key).hasChild(mAuth.getCurrentUser().getUid())) {
+                    Long number =dataSnapshot.child(post_key).getChildrenCount();
+                            like_count.setText("" + number);
 
-                        for (DataSnapshot snap : dataSnapshot.getChildren()) {
-
-                            like_count.setText("" + snap.getChildrenCount());
-                        }
-                    }
                 }
 
                 @Override
@@ -319,7 +305,7 @@ public class MainActivity extends BaseActivity {
                 }
             });
 
-        }*/
+        }
 
 
 
