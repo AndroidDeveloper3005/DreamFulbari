@@ -12,23 +12,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.himel.androiddeveloper3005.dreamfulbari.Adapter.BlogPostAdapter;
+import com.himel.androiddeveloper3005.dreamfulbari.Adapter.BlogPostCommentAdapter;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.BlogPost;
+import com.himel.androiddeveloper3005.dreamfulbari.Model.Comment;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.MyDividerItemDecoration;
 
@@ -37,19 +38,21 @@ import java.util.ArrayList;
 public class MainActivity extends BaseActivity {
     private android.support.v7.widget.Toolbar toolbar;
     private FloatingActionButton fab;
-    private RecyclerView blogListShow;
+    private RecyclerView blogListShow,commentListShow;
     private FirebaseDatabase database;
     private DatabaseReference mDatabaseRef;
-    private ArrayList<BlogPost> blogPost;
-    private BlogPostAdapter adapter;
     private BlogPost post;
     private ProgressBar bar;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private DatabaseReference mDatabaseUsers;
     private boolean mProcessLike = false;
+    private boolean mProcessComment = false;
     private DatabaseReference mDatabaseLikes;
+    private DatabaseReference mDatabaseComment;
     private Handler mHandler;
+    private ArrayList<Comment>commentArrayList;
+    private BlogPostCommentAdapter commentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +95,30 @@ public class MainActivity extends BaseActivity {
         });
 
         showData();
+     //   showComment();
+
+    }
+
+    private void showComment() {
+        mDatabaseComment.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                commentArrayList = new ArrayList<>();
+                for (DataSnapshot snapshot:dataSnapshot.getChildren()){
+                    String guideId = snapshot.getKey().toString();
+
+                    //Comment guides=new Comment();
+                    //commentArrayList.add(guides);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
@@ -154,6 +181,10 @@ public class MainActivity extends BaseActivity {
         blogListShow = findViewById(R.id.show_blog_Post_recyclerView);
         blogListShow.setHasFixedSize(true);
         blogListShow.setLayoutManager(layoutManager);
+        /*commentListShow = findViewById(R.id.comment_recyclerview);
+        commentListShow.setHasFixedSize(true);
+        commentListShow.setLayoutManager(layoutManager);*/
+
 
     }
 
@@ -164,7 +195,9 @@ public class MainActivity extends BaseActivity {
         mDatabaseRef.keepSynced(true);
         mDatabaseUsers.keepSynced(true);
         mDatabaseLikes = FirebaseDatabase.getInstance().getReference().child(Constans.LIKES);
+        mDatabaseComment = FirebaseDatabase.getInstance().getReference().child(Constans.COMMENT);
         mDatabaseLikes.keepSynced(true);
+        mDatabaseComment.keepSynced(true);
 
 
 
@@ -251,6 +284,55 @@ public class MainActivity extends BaseActivity {
 
 
 
+                // comment section start form here
+
+                viewHolder.mComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final String getComment = viewHolder.mComment_editText.getText().toString();
+                        final String comment_key = mDatabaseComment.push().getKey();
+
+                        mProcessComment = true;
+
+                        mDatabaseLikes.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                //Long number =dataSnapshot.child(post_key).getChildrenCount();
+
+
+                                if (mProcessComment){
+
+                                    if (dataSnapshot.child(post_key).hasChild(mAuth.getCurrentUser().getUid())){
+
+
+
+                                        mDatabaseComment.child(post_key).child(mAuth.getCurrentUser().getUid()).child(comment_key).setValue(getComment);
+                                        // viewHolder.like_count.setText(""+(number+1));
+                                        mProcessComment = false;
+
+                                    }
+
+
+                                }
+
+                                //startActivity(new Intent(getApplicationContext(),MainActivity.class));
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+
+
+
+                    }
+                });
+
+
+
                 bar.setVisibility(View.GONE);
 
             }
@@ -264,9 +346,10 @@ public class MainActivity extends BaseActivity {
 
     public static class BlogViewHolder extends RecyclerView.ViewHolder{
         View mView;
-        ImageButton mLike;
+        ImageButton mLike,mComment;
+        EditText mComment_editText;
         TextView like_count;
-        DatabaseReference mDatabaseR;
+        DatabaseReference mDatabaseLike,mDatabaseComment;
         DatabaseReference mDatabase;
         DatabaseReference mDatabaseLikesCounts;
 
@@ -277,15 +360,17 @@ public class MainActivity extends BaseActivity {
             super(itemView);
             mView = itemView;
             mLike =mView.findViewById(R.id.like_button);
+            mComment =mView.findViewById(R.id.iv_comment_send);
+            mComment_editText = mView.findViewById(R.id.et_comment);
             like_count = mView.findViewById(R.id.like_count);
-            mDatabaseR = FirebaseDatabase.getInstance().getReference().child(Constans.LIKES);
-
+            mDatabaseLike = FirebaseDatabase.getInstance().getReference().child(Constans.LIKES);
+            mDatabaseComment = FirebaseDatabase.getInstance().getReference().child(Constans.COMMENT);
             mAuth =FirebaseAuth.getInstance();
             mDatabase = FirebaseDatabase.getInstance().getReference().child(Constans.POST_DATABSE_PATH);
             mDatabaseLikesCounts = FirebaseDatabase.getInstance().getReference().child(Constans.LIKES);
 
 
-            mDatabaseR.keepSynced(true);
+            mDatabaseLike.keepSynced(true);
         }
 
 
@@ -310,7 +395,7 @@ public class MainActivity extends BaseActivity {
 
 
         public void setLkeButton(final String post_key){
-            mDatabaseR.addValueEventListener(new ValueEventListener() {
+            mDatabaseLike.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.child(post_key).hasChild(mAuth.getCurrentUser().getUid())){
