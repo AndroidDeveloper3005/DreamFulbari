@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.himel.androiddeveloper3005.dreamfulbari">
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,35 +19,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.MainActivity">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
+        <activity android:name=".Activity.MainActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
         <!-- optional (needed if default theme has no action bar) -->
 
         <activity android:name=".Activity.PostActivity" />
+        <activity android:name=".Activity.UserAccountSetupActivity" />
+        <activity android:name=".Activity.RegistrationActivity" />
+        <activity android:name=".Activity.LoginActivity" />
+        <activity android:name=".Activity.ResetPasswordActivity" />
+        <activity android:name=".Activity.CommentActivity" />
+        <activity
+            android:name=".Activity.HomePageActivity"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        <activity android:name=".Activity.SetupActivity" />
-
-        <activity android:name=".Activity.RegistrationActivity" >
-
-
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-
-        <activity android:name=".Activity.LoginActivity" >
-
-
-        </activity>
-        <activity android:name=".Activity.ResetPasswordActivity"></activity>
+        <activity android:name=".Activity.PostOrganizationsNewsActivity" />
+        <activity android:name=".Activity.ShowOrganizationsNewsActivity" />
+        <activity android:name=".Activity.StudentActivity" />
+        <activity android:name=".Activity.StudentSingleActivity"></activity>
     </application>
 
 </manifest>

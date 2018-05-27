@@ -3,7 +3,6 @@ package com.himel.androiddeveloper3005.dreamfulbari.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
@@ -12,12 +11,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,7 +23,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.himel.androiddeveloper3005.dreamfulbari.Adapter.BlogPostCommentAdapter;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.BlogPost;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.Comment;
@@ -52,7 +48,6 @@ public class MainActivity extends BaseActivity {
     private DatabaseReference mDatabaseComment;
     private Handler mHandler;
     private ArrayList<Comment>commentArrayList;
-    private BlogPostCommentAdapter commentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +62,7 @@ public class MainActivity extends BaseActivity {
 
         this.mHandler.postDelayed(m_Runnable,500);
 
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+        /*mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
@@ -77,7 +72,7 @@ public class MainActivity extends BaseActivity {
                 }
 
             }
-        };
+        };*/
 
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference().child(Constans.POST_DATABSE_PATH);
@@ -95,32 +90,11 @@ public class MainActivity extends BaseActivity {
         });
 
         showData();
-     //   showComment();
+
 
     }
 
-    private void showComment() {
-        mDatabaseComment.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                commentArrayList = new ArrayList<>();
-                for (DataSnapshot snapshot:dataSnapshot.getChildren()){
-                    String guideId = snapshot.getKey().toString();
 
-                    //Comment guides=new Comment();
-                    //commentArrayList.add(guides);
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-    }
 
     private final Runnable m_Runnable = new Runnable()
     {
@@ -139,7 +113,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthStateListener);
+        //mAuth.addAuthStateListener(mAuthStateListener);
 
         showData();
 
@@ -159,7 +133,7 @@ public class MainActivity extends BaseActivity {
             logout();
         }
         else if (item.getItemId() == R.id.Account_Setup){
-            Intent accountIntent = new Intent(getApplicationContext(),SetupActivity.class);
+            Intent accountIntent = new Intent(getApplicationContext(),UserAccountSetupActivity.class);
             accountIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(accountIntent);
         }
@@ -181,9 +155,7 @@ public class MainActivity extends BaseActivity {
         blogListShow = findViewById(R.id.show_blog_Post_recyclerView);
         blogListShow.setHasFixedSize(true);
         blogListShow.setLayoutManager(layoutManager);
-        /*commentListShow = findViewById(R.id.comment_recyclerview);
-        commentListShow.setHasFixedSize(true);
-        commentListShow.setLayoutManager(layoutManager);*/
+
 
 
     }
@@ -217,13 +189,15 @@ public class MainActivity extends BaseActivity {
             @Override
             protected void populateViewHolder(final BlogViewHolder viewHolder, BlogPost model, int position) {
 
-                final String post_key = getRef(position).getKey();
+                final String post_key = getRef(position).getKey().toString();
+                String dateTime =/*" has been posted on " +*/ (model.getDate() + " "+ model.getTime()).toString() ;
 
                 viewHolder.setTitle(model.getTitle());
                 viewHolder.set_Description(model.getDescription());
                 viewHolder.set_Image(getApplicationContext(),model.getImageUri());
                 viewHolder.setUserName(model.getUsername());
                 viewHolder.set_UserImage(getApplicationContext(),model.getUserImage());
+                viewHolder.setDateTime(dateTime);
                 viewHolder.setLkeButton(post_key);
                 viewHolder.countLike(post_key);
 
@@ -243,7 +217,6 @@ public class MainActivity extends BaseActivity {
                             mDatabaseLikes.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
-                                    //Long number =dataSnapshot.child(post_key).getChildrenCount();
 
                                     if (mProcessLike){
 
@@ -252,7 +225,6 @@ public class MainActivity extends BaseActivity {
 
 
                                             mDatabaseLikes.child(post_key).child(mAuth.getCurrentUser().getUid()).removeValue();
-                                            //viewHolder.like_count.setText(""+(number-1));
                                             mProcessLike = false;
 
                                         }
@@ -260,13 +232,11 @@ public class MainActivity extends BaseActivity {
                                         else {
 
                                             mDatabaseLikes.child(post_key).child(mAuth.getCurrentUser().getUid()).setValue("0");
-                                           // viewHolder.like_count.setText(""+(number+1));
                                             mProcessLike = false;
                                         }
 
                                     }
 
-                                    //startActivity(new Intent(getApplicationContext(),MainActivity.class));
 
                                 }
 
@@ -289,44 +259,9 @@ public class MainActivity extends BaseActivity {
                 viewHolder.mComment.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        final String getComment = viewHolder.mComment_editText.getText().toString();
-                        final String comment_key = mDatabaseComment.push().getKey();
-
-                        mProcessComment = true;
-
-                        mDatabaseLikes.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                //Long number =dataSnapshot.child(post_key).getChildrenCount();
-
-
-                                if (mProcessComment){
-
-                                    if (dataSnapshot.child(post_key).hasChild(mAuth.getCurrentUser().getUid())){
-
-
-
-                                        mDatabaseComment.child(post_key).child(mAuth.getCurrentUser().getUid()).child(comment_key).setValue(getComment);
-                                        // viewHolder.like_count.setText(""+(number+1));
-                                        mProcessComment = false;
-
-                                    }
-
-
-                                }
-
-                                //startActivity(new Intent(getApplicationContext(),MainActivity.class));
-
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-
-
-
+                        Intent comments = new Intent(getApplicationContext(),CommentActivity.class);
+                        comments.putExtra("post_key",post_key);
+                        startActivity(comments);
 
                     }
                 });
@@ -347,22 +282,19 @@ public class MainActivity extends BaseActivity {
     public static class BlogViewHolder extends RecyclerView.ViewHolder{
         View mView;
         ImageButton mLike,mComment;
-        EditText mComment_editText;
-        TextView like_count;
+        TextView like_count,date;
         DatabaseReference mDatabaseLike,mDatabaseComment;
         DatabaseReference mDatabase;
         DatabaseReference mDatabaseLikesCounts;
-
-
         FirebaseAuth mAuth;
 
         public BlogViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
             mLike =mView.findViewById(R.id.like_button);
-            mComment =mView.findViewById(R.id.iv_comment_send);
-            mComment_editText = mView.findViewById(R.id.et_comment);
+            mComment =mView.findViewById(R.id.comment_button);
             like_count = mView.findViewById(R.id.like_count);
+            date = mView.findViewById(R.id.date_textView);
             mDatabaseLike = FirebaseDatabase.getInstance().getReference().child(Constans.LIKES);
             mDatabaseComment = FirebaseDatabase.getInstance().getReference().child(Constans.COMMENT);
             mAuth =FirebaseAuth.getInstance();
@@ -380,7 +312,7 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Long number =dataSnapshot.child(post_key).getChildrenCount();
-                            like_count.setText("" + number);
+                            like_count.setText( number +" "+"likes");
 
                 }
 
@@ -399,10 +331,10 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.child(post_key).hasChild(mAuth.getCurrentUser().getUid())){
-                        mLike.setImageResource(R.drawable.likered);
+                        mLike.setImageResource(R.drawable.like);
                     }
                     else {
-                        mLike.setImageResource(R.drawable.likeblack);
+                        mLike.setImageResource(R.drawable.dislike);
 
 
                     }
@@ -449,6 +381,11 @@ public class MainActivity extends BaseActivity {
 
             Glide.with(cntx).load(userImage)
                     .into(user_Image);
+        }
+
+        public void setDateTime(String date){
+            TextView dateText = mView.findViewById(R.id.date_textView);
+            dateText.setText(date);
         }
 
     }

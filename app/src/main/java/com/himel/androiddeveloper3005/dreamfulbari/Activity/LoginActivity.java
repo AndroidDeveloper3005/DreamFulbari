@@ -33,7 +33,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
                 if (mAuth.getCurrentUser() != null) {
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    startActivity(new Intent(LoginActivity.this, HomePageActivity.class));
                     finish();
                 }
 
@@ -52,6 +52,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthStateListener);
     }
 
     @Override
@@ -80,7 +86,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, HomePageActivity.class);
                         bar.setVisibility(View.GONE);
                         startActivity(intent);
                         finish();

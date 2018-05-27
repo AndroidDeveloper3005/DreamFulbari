@@ -24,4 +24,5 @@
     <color name="profilebackColor">#2962FF</color>
     <color name="signup">#00bcd4</color>
     <color name="siginupbutton">#f2fe71</color>
+    <color name="navBack">#E11870</color>
 </resources>

@@ -33,6 +33,8 @@ import com.google.firebase.storage.UploadTask;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class PostActivity extends AppCompatActivity implements View.OnClickListener{
     public static final int GALLERY_REQUEST = 1;
@@ -41,30 +43,55 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private Button postSubmitBtn;
     private Uri mImageUri = null;
     private StorageReference mStorageReference;
-    private DatabaseReference mDatabaseRef;
+    private DatabaseReference mDatabaseRef,mDatabaseUserRef;
     private LinearLayout linearLayout;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentUser;
     private DatabaseReference mDatabaseReferenceUser;
+    private String postRandomKey = null,saveDate,saveTime,current_uid;
+    private String currentUserID,currentEmail;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initFireBase();
+        checkUser();
         setContentView(R.layout.activity_post);
         selectImageButton = findViewById(R.id.addimage_ImageView);
 
         initView();
-        initFireBase();
+
         selectImageButton.setOnClickListener(this);
         postSubmitBtn.setOnClickListener(this);
         progressBar.setVisibility(View.GONE);
 
     }
 
+    private void checkUser() {
 
+        mDatabaseUserRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.child(Constans.USER_DATABSE_PATH).child(currentUserID).exists()){
+
+                    Intent checkAccountExistOrNot = new Intent(getApplicationContext(),UserAccountSetupActivity.class);
+                    startActivity(checkAccountExistOrNot);
+                    finish();
+
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 
     @Override
@@ -116,25 +143,40 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
 
         final String titleValue = postTitle.getText().toString().trim();
         final String descriptionValue = postDescription.getText().toString().trim();
+        current_uid = mAuth.getCurrentUser().getUid().toString();
+        Calendar getDate = Calendar.getInstance();
+        SimpleDateFormat curentDate = new SimpleDateFormat("dd-MMMM-yyyy");
+        saveDate = curentDate.format(getDate.getTime());
+
+        Calendar get_Time = Calendar.getInstance();
+        SimpleDateFormat curentTime = new SimpleDateFormat("HH:mm");
+        saveTime = curentTime.format(get_Time.getTime());
+        postRandomKey = current_uid + saveDate +saveTime ;
+
 
         if (!TextUtils.isEmpty(titleValue) &&  !TextUtils.isEmpty(descriptionValue) &&  mImageUri !=null){
+
             StorageReference filePath = mStorageReference.child(Constans.POST_STOREAGE_PATH).child(mImageUri.getLastPathSegment());
             filePath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                   final  String downloadUri = taskSnapshot.getDownloadUrl().toString();
 
-                  final  DatabaseReference newPost = mDatabaseRef.push();
+                  //savePostInfo();
 
+                  final  DatabaseReference newPost = mDatabaseRef.child(postRandomKey);
 
 
                     mDatabaseReferenceUser.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+
                             newPost.child(Constans.TITLE).setValue(titleValue);
                             newPost.child(Constans.DESCRITION).setValue(descriptionValue);
                             newPost.child(Constans.IMAGE_URI).setValue(downloadUri);
                             newPost.child(Constans.UID).setValue(mCurrentUser.getUid());
+                            newPost.child("date").setValue(saveDate);
+                            newPost.child("time").setValue(saveTime);
                             newPost.child("username").setValue(dataSnapshot.child("name").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -192,10 +234,13 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     }
     public void initFireBase(){
         mAuth = FirebaseAuth.getInstance();
+        currentUserID = mAuth.getCurrentUser().getUid().toString();
+        currentEmail = mAuth.getCurrentUser().getEmail().toString();
         mCurrentUser = mAuth.getCurrentUser();
         mDatabaseReferenceUser =FirebaseDatabase.getInstance().getReference().child(Constans.USER_DATABSE_PATH).child(mCurrentUser.getUid());
         mStorageReference = FirebaseStorage.getInstance().getReference();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference().child(Constans.POST_DATABSE_PATH);
+        mDatabaseUserRef = FirebaseDatabase.getInstance().getReference();
 
     }
 

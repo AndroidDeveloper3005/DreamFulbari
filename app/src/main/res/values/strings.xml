@@ -49,4 +49,16 @@
     <string name="btn_sign_out">Sign Out</string>
     <string name="lbl_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_home_page">HomePageActivity</string>
+    <string name="organization">Enter Your Organization Or Institute Name</string>
+    <string name="currentlocation">Enter Your Current Location Like Mirpur 01 Or Rangpurcity Etc.</string>
+    <string name="history">History</string>
+    <string name="studen_info">Student Information</string>
+    <string name="help_line">Help Line</string>
+    <string name="blood_group">Blood Group</string>
+    <string name="employer_information">Employer Information</string>
+    <string name="organizations">Organizations</string>
 </resources>
