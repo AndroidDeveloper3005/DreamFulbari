@@ -27,14 +27,13 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_margin="2dp"
             android:id="@+id/student_imagelayout"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/student_image_view"
+                android:id="@+id/employee_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
                 android:scaleType="centerCrop"
@@ -46,7 +45,6 @@
 
 
         <LinearLayout
-            android:layout_marginLeft="12dp"
             android:id="@+id/name_layout"
             android:orientation="horizontal"
             android:layout_below="@+id/student_imagelayout"
@@ -56,17 +54,16 @@
             <TextView
                 android:maxLines="15"
                 android:layout_weight="2.8"
-                android:id="@+id/studentname_textview"
+                android:id="@+id/employee_name_textview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Name"
-                android:textColor="@color/red"
+                android:textColor="@color/black"
                 android:textSize="20sp" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginLeft="12dp"
             android:layout_marginTop="10dp"
             android:id="@+id/address_layout"
             android:orientation="horizontal"
@@ -76,7 +73,7 @@
             <TextView
                 android:maxLines="10"
                 android:layout_weight="2.8"
-                android:id="@+id/address_textview"
+                android:id="@+id/employee_address_textview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Address"
@@ -87,7 +84,6 @@
 
 
         <LinearLayout
-            android:layout_marginLeft="12dp"
             android:layout_marginTop="10dp"
             android:id="@+id/phone_layout"
             android:orientation="horizontal"
@@ -98,7 +94,7 @@
                 android:visibility="invisible"
                 android:maxLines="10"
                 android:layout_weight="2.0"
-                android:id="@+id/phone_textview"
+                android:id="@+id/employee_phone_textview"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:textColor="@color/black"
@@ -106,7 +102,7 @@
 
             <ImageView
                 android:visibility="invisible"
-                android:id="@+id/phonecall_imageview"
+                android:id="@+id/employee_phonecall_imageview"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="0.5"

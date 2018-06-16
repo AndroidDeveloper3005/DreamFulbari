@@ -1,12 +1,16 @@
 package com.himel.androiddeveloper3005.dreamfulbari.Activity;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -47,6 +51,8 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
     private List<String> professionList,bloodList,genderList;
     private String professionItemSelected,bloodgroupItemSelected,genderitemSelected;
     private ProgressDialog dialog;
+    private static final int REQUEST_PHONE_CALL =1 ;
+    private static final String TAG ="UserAccountSetupActivity";
 
 
     @Override
@@ -175,7 +181,15 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
         if (v == user_setUp_imageView){
             Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
             galleryIntent.setType("image/*");
-            startActivityForResult(Intent.createChooser(galleryIntent, "Select Picture"), GALLERY_REQUEST);
+
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE},REQUEST_PHONE_CALL);
+            }
+            else
+            {
+                startActivityForResult(Intent.createChooser(galleryIntent, "Select Picture"), GALLERY_REQUEST);
+            }
+
         }
 
         else if (v == setup_button){

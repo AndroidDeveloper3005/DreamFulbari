@@ -144,6 +144,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         final String titleValue = postTitle.getText().toString().trim();
         final String descriptionValue = postDescription.getText().toString().trim();
         current_uid = mAuth.getCurrentUser().getUid().toString();
+
         Calendar getDate = Calendar.getInstance();
         SimpleDateFormat curentDate = new SimpleDateFormat("dd-MMMM-yyyy");
         saveDate = curentDate.format(getDate.getTime());

@@ -265,6 +265,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
             commentsMap.put("username",userName);
             commentsMap.put("userimage",userImage);
 
+
             mDatabasePostRef.child(randomCommentKey).updateChildren(commentsMap)
                     .addOnCompleteListener(new OnCompleteListener() {
                         @Override

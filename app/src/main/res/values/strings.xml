@@ -61,4 +61,5 @@
     <string name="blood_group">Blood Group</string>
     <string name="employer_information">Employer Information</string>
     <string name="organizations">Organizations</string>
+    <string name="google_map_Api_key">AIzaSyC20APzDzFoXDeFIgjiGyv7g0vuA-ubcNI</string>
 </resources>

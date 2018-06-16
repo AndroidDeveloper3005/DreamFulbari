@@ -272,7 +272,7 @@ public class MainActivity extends BaseActivity {
 
             }
         };
-        blogListShow.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
+        blogListShow.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.VERTICAL, 10));
 
         blogListShow.setAdapter(fireBaseRecyclerAdapter);
 

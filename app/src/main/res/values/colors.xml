@@ -25,4 +25,5 @@
     <color name="signup">#00bcd4</color>
     <color name="siginupbutton">#f2fe71</color>
     <color name="navBack">#E11870</color>
+    <color name="red">#F44336</color>
 </resources>

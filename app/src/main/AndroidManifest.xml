@@ -11,6 +11,9 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -19,6 +22,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_map_Api_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity android:name=".Activity.MainActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
@@ -43,7 +53,10 @@
         <activity android:name=".Activity.PostOrganizationsNewsActivity" />
         <activity android:name=".Activity.ShowOrganizationsNewsActivity" />
         <activity android:name=".Activity.StudentActivity" />
-        <activity android:name=".Activity.StudentSingleActivity"></activity>
+        <activity android:name=".Activity.StudentSingleActivity" />
+        <activity android:name=".Activity.MapActivity" />
+        <activity android:name=".Activity.EmployeeActivity" />
+        <activity android:name=".Activity.EmployeeSingleActivity"></activity>
     </application>
 
 </manifest>

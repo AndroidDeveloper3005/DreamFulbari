@@ -1,11 +1,20 @@
 package com.himel.androiddeveloper3005.dreamfulbari.Activity;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
@@ -22,13 +31,16 @@ import com.himel.androiddeveloper3005.dreamfulbari.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class StudentSingleActivity extends BaseActivity {
+
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseReference;
-    private TextView name,phone,email,blood,institute,address,profession;
+    private TextView name, phone, email, blood, institute, address, profession;
     private ImageView callNumber;
     private ImageView studentImage;
     private Student student;
-    private String uid;
+    private String uid, number;
+    private static final int REQUEST_PHONE_CALL =1 ;
+    private static final String TAG ="StudentSingleActivity";
 
 
     @Override
@@ -42,7 +54,6 @@ public class StudentSingleActivity extends BaseActivity {
         initFirebase();
 
 
-
         mDatabaseReference.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -54,7 +65,7 @@ public class StudentSingleActivity extends BaseActivity {
                     final String tempGender = student.getGender().toString();
 
 
-                    if (userGender.equals(tempGender)){
+                    if (userGender.equals(tempGender)) {
                         phone.setVisibility(View.VISIBLE);
                         callNumber.setVisibility(View.VISIBLE);
                     }
@@ -68,7 +79,6 @@ public class StudentSingleActivity extends BaseActivity {
                     }*/
 
 
-
             }
 
             @Override
@@ -76,7 +86,29 @@ public class StudentSingleActivity extends BaseActivity {
 
             }
         });
+
+        callNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(StudentSingleActivity.this, "Call Button Clicked", Toast.LENGTH_SHORT).show();
+
+                Log.d(TAG,"   : Call Button Clicked");
+                String phoneNumber = phone.getText().toString();
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + phoneNumber));
+                if (ContextCompat.checkSelfPermission(StudentSingleActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(StudentSingleActivity.this, new String[]{Manifest.permission.CALL_PHONE},REQUEST_PHONE_CALL);
+                }
+                else
+                {
+                    startActivity(callIntent);
+                }
+
+            }
+        });
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -108,14 +140,14 @@ public class StudentSingleActivity extends BaseActivity {
             final String studentProfession = student.getProfession().toString();
             final String sImage = student.getImage().toString();
             final String gender = student.getGender().toString();
-            name.setText(studentName);
-            address.setText(parmanentAddress);
-            email.setText(studentEmail);
+            final String singleStudentinfo = "Address :\t"+ parmanentAddress + "\n" +"Email :\t" +studentEmail
+                    + "\n"+"Profession : \t" + studentProfession + "\n" +"Organization :\t" +organization + "\n"
+                    +"Blood Group:\t"+ bloodGroup + "\n"+"Gender : \t" +gender;
+            name.setText(studentName );
+            address.setText(singleStudentinfo);
             phone.setText(studentPhone);
-            institute.setText(organization);
-            blood.setText(bloodGroup);
-            profession.setText(studentProfession);
             Glide.with(getApplicationContext()).load(sImage).into(studentImage);
+
 
 
         }
@@ -123,15 +155,19 @@ public class StudentSingleActivity extends BaseActivity {
 
     private void initVariable() {
         name = findViewById(R.id.studentname_textview);
-        email = findViewById(R.id.email_textview);
+        //email = findViewById(R.id.email_textview);
         address = findViewById(R.id.address_textview);
-        institute = findViewById(R.id.organization_name_textview);
-        profession = findViewById(R.id.profession_textview);
-        blood = findViewById(R.id.blood_group_textview);
+        //institute = findViewById(R.id.organization_name_textview);
+        //profession = findViewById(R.id.profession_textview);
+        //blood = findViewById(R.id.blood_group_textview);
         phone = findViewById(R.id.phone_textview);
         callNumber = findViewById(R.id.phonecall_imageview);
         studentImage = findViewById(R.id.student_image_view);
 
 
+
     }
-}
+
+
+    }
+
