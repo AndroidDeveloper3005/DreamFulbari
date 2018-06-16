@@ -15,9 +15,11 @@ public class Constans {
     public static final String USER_ADDRESS ="address";
     public static final String USER_PROFESSION ="profession";
     public static final String BLOODGROUP ="bloodGroup";
+    public static final String BLOODDONER ="ConfirmDoner";
     public static final String GENDER ="gender";
     public static final String CURRENT_LOCATION ="currentlocation";
     public static final String ORGANIZATION ="organizationName";
+    public static final String INSTITUTE ="instituteName";
     public static final String EMAIL="email";
     public static final String USER_PHONE ="phone";
     public static final String USER_IMAGE ="image";

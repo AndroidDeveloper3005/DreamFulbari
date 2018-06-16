@@ -56,6 +56,7 @@ dependencies {
     implementation 'com.stone.vega.library:VegaLayoutManager:1.0.6'
     implementation 'com.google.android.gms:play-services:11.8.0'
     implementation 'com.android.support:multidex:1.0.3'
+    compile 'id.zelory:compressor:2.1.0'
 
 }
 apply plugin: 'com.google.gms.google-services'

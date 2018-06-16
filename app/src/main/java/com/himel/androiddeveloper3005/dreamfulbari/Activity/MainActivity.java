@@ -214,37 +214,37 @@ public class MainActivity extends BaseActivity {
 
                         mProcessLike = true;
 
-                            mDatabaseLikes.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
+                        mDatabaseLikes.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                    if (mProcessLike){
+                                if (mProcessLike){
 
-                                        if (dataSnapshot.child(post_key).hasChild(mAuth.getCurrentUser().getUid())){
+                                    if (dataSnapshot.child(post_key).hasChild(mAuth.getCurrentUser().getUid())){
 
 
 
-                                            mDatabaseLikes.child(post_key).child(mAuth.getCurrentUser().getUid()).removeValue();
-                                            mProcessLike = false;
-
-                                        }
-
-                                        else {
-
-                                            mDatabaseLikes.child(post_key).child(mAuth.getCurrentUser().getUid()).setValue("0");
-                                            mProcessLike = false;
-                                        }
+                                        mDatabaseLikes.child(post_key).child(mAuth.getCurrentUser().getUid()).removeValue();
+                                        mProcessLike = false;
 
                                     }
 
+                                    else {
+
+                                        mDatabaseLikes.child(post_key).child(mAuth.getCurrentUser().getUid()).setValue("0");
+                                        mProcessLike = false;
+                                    }
 
                                 }
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
 
-                                }
-                            });
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
 
 
 
@@ -312,7 +312,7 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Long number =dataSnapshot.child(post_key).getChildrenCount();
-                            like_count.setText( number +" "+"likes");
+                    like_count.setText( number +" "+"likes");
 
                 }
 

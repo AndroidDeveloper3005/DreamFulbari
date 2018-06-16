@@ -53,7 +53,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_home_page">HomePageActivity</string>
-    <string name="organization">Enter Your Organization Or Institute Name</string>
+    <string name="institute">Enter Your Institute Name</string>
     <string name="currentlocation">Enter Your Current Location Like Mirpur 01 Or Rangpurcity Etc.</string>
     <string name="history">History</string>
     <string name="studen_info">Student Information</string>
@@ -61,5 +61,6 @@
     <string name="blood_group">Blood Group</string>
     <string name="employer_information">Employer Information</string>
     <string name="organizations">Organizations</string>
+    <string name="organizationsName">Enter Your Organizations Name.</string>
     <string name="google_map_Api_key">AIzaSyC20APzDzFoXDeFIgjiGyv7g0vuA-ubcNI</string>
 </resources>

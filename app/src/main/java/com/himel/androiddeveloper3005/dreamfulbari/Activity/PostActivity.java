@@ -32,16 +32,21 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
+import com.theartofdev.edmodo.cropper.CropImage;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import id.zelory.compressor.Compressor;
 
 public class PostActivity extends AppCompatActivity implements View.OnClickListener{
     public static final int GALLERY_REQUEST = 1;
     private ImageView selectImageButton;
     private EditText postTitle,postDescription;
     private Button postSubmitBtn;
-    private Uri mImageUri = null;
     private StorageReference mStorageReference;
     private DatabaseReference mDatabaseRef,mDatabaseUserRef;
     private LinearLayout linearLayout;
@@ -51,6 +56,9 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private DatabaseReference mDatabaseReferenceUser;
     private String postRandomKey = null,saveDate,saveTime,current_uid;
     private String currentUserID,currentEmail;
+    private Bitmap thumb_bitmap,bitmap;
+    private File thump_filepath;
+    private Uri mImageUri,resultUri;
 
 
 
@@ -116,7 +124,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-    @Override
+/*    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -134,6 +142,53 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
                 e.printStackTrace();
             }
         }
+    }*/
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK && data != null) {
+
+            mImageUri = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mImageUri);
+                selectImageButton.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            CropImage.activity(mImageUri)
+                    .start(this);
+        }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                resultUri = result.getUri();
+                thump_filepath = new File(resultUri.getPath());
+                try {
+                    //bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mImageUri);
+
+                    thumb_bitmap = new Compressor(this)
+                            .setMaxWidth(300)
+                            .setMaxHeight(300)
+                            .setQuality(50)
+                            .compressToBitmap(thump_filepath);
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+        }
+
+
     }
 
 
@@ -157,8 +212,13 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
 
         if (!TextUtils.isEmpty(titleValue) &&  !TextUtils.isEmpty(descriptionValue) &&  mImageUri !=null){
 
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            thumb_bitmap.compress(Bitmap.CompressFormat.JPEG,60,byteArrayOutputStream);
+            final byte[] thumb_byte = byteArrayOutputStream.toByteArray();
+
             StorageReference filePath = mStorageReference.child(Constans.POST_STOREAGE_PATH).child(mImageUri.getLastPathSegment());
-            filePath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            UploadTask uploadTask = filePath.putBytes(thumb_byte);
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                   final  String downloadUri = taskSnapshot.getDownloadUrl().toString();

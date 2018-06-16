@@ -1,7 +1,6 @@
 package com.himel.androiddeveloper3005.dreamfulbari.Activity;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -30,29 +29,35 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
+import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import id.zelory.compressor.Compressor;
 
 public class UserAccountSetupActivity extends BaseActivity implements View.OnClickListener {
     private CircleImageView user_setUp_imageView;
-    private EditText user_name,user_address,user_phone,userCurrentLoc,organization;
-    private Spinner user_professionSpinner,user_bloodgroup_spinner,gender_spinner;
+    private EditText user_name,user_address,user_phone,userCurrentLoc,organization,institute;
+    private Spinner user_professionSpinner,user_bloodgroup_spinner,gender_spinner,bloodDoner_spinner;
     private Button setup_button;
     public static final int GALLERY_REQUEST = 1;
-    private Uri mImageUri = null;
     private StorageReference mStorageReference;
     private DatabaseReference mDatabaseRef;
     private FirebaseAuth mAuth;
     private ProgressBar mProgressBar;
-    private List<String> professionList,bloodList,genderList;
-    private String professionItemSelected,bloodgroupItemSelected,genderitemSelected;
+    private List<String> professionList,bloodList,genderList,donnerconfirmList;
+    private String professionItemSelected,bloodgroupItemSelected,genderitemSelected, wantToDoneritemSelected;
     private ProgressDialog dialog;
     private static final int REQUEST_PHONE_CALL =1 ;
     private static final String TAG ="UserAccountSetupActivity";
+    private Bitmap thumb_bitmap,bitmap;
+    private File thump_filepath;
+    private Uri mImageUri,resultUri;
 
 
     @Override
@@ -67,6 +72,12 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
         professionList.add("Select One");
         professionList.add("Job Holder");
         professionList.add("Student");
+
+
+        donnerconfirmList = new ArrayList<String>();
+        donnerconfirmList.add("Select One");
+        donnerconfirmList.add("Yes");
+        donnerconfirmList.add("No");
 
         bloodList = new ArrayList<String>();
         bloodList.add("Select One");
@@ -97,6 +108,14 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
         dataAdapterProfession.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         user_professionSpinner.setAdapter(dataAdapterProfession);
 
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataDonerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, donnerconfirmList);
+
+        // Drop down layout style - list view with radio button
+        dataDonerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        bloodDoner_spinner.setAdapter(dataDonerAdapter);
+
         ArrayAdapter<String> dataAdapterBlood = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, bloodList);
 
         // Drop down layout style - list view with radio button
@@ -117,15 +136,33 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
         user_address = findViewById(R.id.userAddress_editText);
         userCurrentLoc =findViewById(R.id.userCurrent_location_editText);
         organization = findViewById(R.id.organization_name_editText);
+        institute = findViewById(R.id.institute_name_editText);
         user_phone = findViewById(R.id.userPhone_editText);
         user_professionSpinner = findViewById(R.id.userProfession_spinner);
         user_bloodgroup_spinner = findViewById(R.id.userBloodGroup_spinner);
         gender_spinner = findViewById(R.id.userGender_spinner);
+        bloodDoner_spinner = findViewById(R.id.wantto_donet_blood_spinner);
         setup_button = findViewById(R.id.userSetup_button);
         user_setUp_imageView.setOnClickListener(this);
         setup_button.setOnClickListener(this);
         dialog = new ProgressDialog(this);
         dialog.setMessage("Loading..");
+
+
+
+        bloodDoner_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                wantToDoneritemSelected = parent.getItemAtPosition(position).toString();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
 
         user_professionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -182,8 +219,8 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
             Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
             galleryIntent.setType("image/*");
 
-            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE},REQUEST_PHONE_CALL);
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_PHONE_CALL);
             }
             else
             {
@@ -200,7 +237,7 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
     }
 
 
-    @Override
+/*    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mImageUri = data.getData();
@@ -214,12 +251,62 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }*/
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK && data != null) {
+
+            mImageUri = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mImageUri);
+                user_setUp_imageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            CropImage.activity(mImageUri)
+                    .start(this);
+        }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                resultUri = result.getUri();
+                thump_filepath = new File(resultUri.getPath());
+                try {
+                    //bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mImageUri);
+
+                    thumb_bitmap = new Compressor(this)
+                            .setMaxWidth(300)
+                            .setMaxHeight(300)
+                            .setQuality(50)
+                            .compressToBitmap(thump_filepath);
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+        }
+
+
     }
+
+
+
+
 
     private void startsetupaccount() {
         final   String name = user_name.getText().toString().trim();
         final   String address = user_address.getText().toString().trim();
         final   String curentLocation = userCurrentLoc.getText().toString().trim();
+        final String instituteName = institute.getText().toString().trim();
         final   String organizationName = organization.getText().toString().trim();
         final   String phone = user_phone.getText().toString().trim();
         final   String profession = professionItemSelected;
@@ -227,10 +314,18 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
         final   String gender = genderitemSelected;
         final  String user_id = mAuth.getCurrentUser().getUid().toString().trim();
         final  String email =   mAuth.getCurrentUser().getEmail().toString().trim();
+        final  String wantToBllodDonate =   wantToDoneritemSelected;
 
-        if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(address)&& !TextUtils.isEmpty(curentLocation)&& !TextUtils.isEmpty(organizationName)&& !TextUtils.isEmpty(phone) && !TextUtils.isEmpty(profession) && !TextUtils.isEmpty(bloodgroup)&& !TextUtils.isEmpty(gender) && mImageUri != null){
+        if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(wantToBllodDonate) &&  !TextUtils.isEmpty(instituteName) && !TextUtils.isEmpty(address)&& !TextUtils.isEmpty(curentLocation)&& !TextUtils.isEmpty(organizationName)&& !TextUtils.isEmpty(phone) && !TextUtils.isEmpty(profession) && !TextUtils.isEmpty(bloodgroup)&& !TextUtils.isEmpty(gender) && mImageUri != null){
+
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            thumb_bitmap.compress(Bitmap.CompressFormat.JPEG,60,byteArrayOutputStream);
+            final byte[] thumb_byte = byteArrayOutputStream.toByteArray();
+
             StorageReference filePath = mStorageReference.child(Constans.USER_IMAGE_STOREAGE_PATH).child(mImageUri.getLastPathSegment());
-            filePath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            UploadTask uploadTask = filePath.putBytes(thumb_byte);
+
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     String downloadUri = taskSnapshot.getDownloadUrl().toString();
@@ -238,9 +333,11 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
                     mDatabaseRef.child(user_id).child(Constans.USER_ADDRESS).setValue(address);
                     mDatabaseRef.child(user_id).child(Constans.CURRENT_LOCATION).setValue(curentLocation);
                     mDatabaseRef.child(user_id).child(Constans.ORGANIZATION).setValue(organizationName);
+                    mDatabaseRef.child(user_id).child(Constans.INSTITUTE).setValue(instituteName);
                     mDatabaseRef.child(user_id).child(Constans.USER_PHONE).setValue(phone);
                     mDatabaseRef.child(user_id).child(Constans.USER_PROFESSION).setValue(profession);
                     mDatabaseRef.child(user_id).child(Constans.BLOODGROUP).setValue(bloodgroup);
+                    mDatabaseRef.child(user_id).child(Constans.BLOODDONER).setValue(wantToBllodDonate);
                     mDatabaseRef.child(user_id).child(Constans.GENDER).setValue(gender);
                     mDatabaseRef.child(user_id).child(Constans.EMAIL).setValue(email);
                     mDatabaseRef.child(user_id).child(Constans.USER_IMAGE).setValue(downloadUri);
