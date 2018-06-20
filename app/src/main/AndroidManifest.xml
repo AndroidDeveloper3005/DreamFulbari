@@ -56,7 +56,9 @@
         <activity android:name=".Activity.StudentSingleActivity" />
         <activity android:name=".Activity.MapActivity" />
         <activity android:name=".Activity.EmployeeActivity" />
-        <activity android:name=".Activity.EmployeeSingleActivity"></activity>
+        <activity android:name=".Activity.EmployeeSingleActivity" />
+        <activity android:name=".Activity.BloodActivity" />
+        <activity android:name=".Activity.DonateBloodActivity"></activity>
     </application>
 
 </manifest>

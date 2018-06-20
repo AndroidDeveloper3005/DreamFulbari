@@ -1,6 +1,8 @@
 package com.himel.androiddeveloper3005.dreamfulbari.Activity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -161,6 +163,8 @@ public class HomePageActivity extends BaseActivity
         bloodgroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //startActivity(new Intent(getApplicationContext(),BloodActivity.class));
+                alartDialog();
 
             }
         });
@@ -172,6 +176,27 @@ public class HomePageActivity extends BaseActivity
         });
     }
 
+    private void alartDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Are you sure, You wanted to make decision");
+        alertDialogBuilder.setIcon(R.drawable.ic_save_black_24dp);
+                alertDialogBuilder.setPositiveButton("Show All Doner", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                             startActivity(new Intent(getApplicationContext(), BloodActivity.class));                            }
+                        });
+                alertDialogBuilder.setNegativeButton("Blood Donation Complete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    startActivity(new Intent(getApplicationContext(), DonateBloodActivity.class));
+
+                    }
+                });
+
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
 
 
     private void castNavViewItem() {

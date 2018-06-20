@@ -7,6 +7,7 @@ public class Constans {
     public static final String USER_IMAGE_STOREAGE_PATH ="Profile_Images";
     public static final String POST_DATABSE_PATH ="Blog";
     public static final String USER_DATABSE_PATH ="Users";
+    public static final String BLOOD_DONER_DATABSE_PATH ="BloodDoner";
     public static final String TITLE ="title";
     public static final String DESCRITION ="description";
     public static final String IMAGE_URI ="imageUri";
