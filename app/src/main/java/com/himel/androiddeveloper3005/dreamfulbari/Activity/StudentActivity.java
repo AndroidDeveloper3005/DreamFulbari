@@ -34,7 +34,7 @@ public class StudentActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private View view;
     private Context mContext;
-    private final String TAG ="MainActivity";
+    private final String TAG ="NewsActivity";
     private DatabaseReference studentRef;
     private ArrayList<Student> studentArrayList;
     private ProgressDialog progressDialog;

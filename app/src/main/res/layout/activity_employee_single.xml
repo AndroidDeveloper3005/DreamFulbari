@@ -21,97 +21,113 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <RelativeLayout
-
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/colorWhite"
+        app:cardCornerRadius="@dimen/layout_margin_10dp"
+        app:cardElevation="@dimen/margin_pad_5dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
 
-        <LinearLayout
-            android:id="@+id/student_imagelayout"
-            android:orientation="vertical"
+        <RelativeLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/employee_image_view"
+            <LinearLayout
+                android:id="@+id/student_imagelayout"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/facebook_avatar"
-                android:layout_gravity="center"
-                />
+                android:layout_height="wrap_content">
 
-        </LinearLayout>
+                <ImageView
+                    android:layout_margin="10dp"
+                    android:id="@+id/employee_image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/facebook_avatar"
+                    android:layout_gravity="center"
+                    />
 
-
-        <LinearLayout
-            android:id="@+id/name_layout"
-            android:orientation="horizontal"
-            android:layout_below="@+id/student_imagelayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:maxLines="15"
-                android:layout_weight="2.8"
-                android:id="@+id/employee_name_textview"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Name"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="10dp"
-            android:id="@+id/address_layout"
-            android:orientation="horizontal"
-            android:layout_below="@+id/name_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:maxLines="10"
-                android:layout_weight="2.8"
-                android:id="@+id/employee_address_textview"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Address"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-
-        </LinearLayout>
+            </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_marginTop="10dp"
-            android:id="@+id/phone_layout"
-            android:orientation="horizontal"
-            android:layout_below="@+id/address_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:visibility="invisible"
-                android:maxLines="10"
-                android:layout_weight="2.0"
-                android:id="@+id/employee_phone_textview"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+            <LinearLayout
+                android:id="@+id/name_layout"
+                android:orientation="horizontal"
+                android:layout_below="@+id/student_imagelayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <ImageView
-                android:visibility="invisible"
-                android:id="@+id/employee_phonecall_imageview"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="0.5"
-                android:src="@drawable/ic_phone_black_24dp" />
-        </LinearLayout>
+                <TextView
+                    android:layout_marginLeft="@dimen/layout_margin_10dp"
+                    android:maxLines="15"
+                    android:layout_weight="2.8"
+                    android:id="@+id/employee_name_textview"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:id="@+id/address_layout"
+                android:orientation="horizontal"
+                android:layout_below="@+id/name_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginLeft="@dimen/layout_margin_10dp"
+                    android:maxLines="10"
+                    android:layout_weight="2.8"
+                    android:id="@+id/employee_address_textview"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Address"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:id="@+id/phone_layout"
+                android:orientation="horizontal"
+                android:layout_below="@+id/address_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:visibility="invisible"
+                    android:maxLines="10"
+                    android:layout_weight="2.0"
+                    android:id="@+id/employee_phone_textview"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:visibility="invisible"
+                    android:id="@+id/employee_phonecall_imageview"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="0.5"
+                    android:src="@drawable/ic_phone_black_24dp" />
+            </LinearLayout>
 
 
 
-    </RelativeLayout>
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
 
 
 

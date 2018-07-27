@@ -328,6 +328,7 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
                     String downloadUri = taskSnapshot.getDownloadUrl().toString();
                     mDatabaseRef.child(user_id).child(Constans.USER_NAME).setValue(name);
                     mDatabaseRef.child(user_id).child(Constans.USER_ADDRESS).setValue(address);

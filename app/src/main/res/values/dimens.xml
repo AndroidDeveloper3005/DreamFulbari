@@ -5,4 +5,58 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">200dp</dimen>
+    <!--search view padding and height width-->
+    <dimen name="search_view_inset">5dp</dimen>
+    <dimen name="sliding_search_view_header_height">250dp</dimen>
+
+
+    <!--layout margin-->
+    <dimen name="margin_18dp">18dp</dimen>
+    <dimen name="margin_53dp">53dp</dimen>
+    <dimen name="margin_35dp">35dp</dimen>
+    <dimen name="margin_17dp">17dp</dimen>
+    <dimen name="layout_margin_0dp">0dp</dimen>
+    <dimen name="layout_margin_5dp">5dp</dimen>
+    <dimen name="layout_margin_16dp">16dp</dimen>
+    <dimen name="layout_margin_50dp">50dp</dimen>
+    <dimen name="layout_margin_55dp">55dp</dimen>
+    <dimen name="layout_margin_60dp">60dp</dimen>
+    <dimen name="height_weight_70dp">70dp</dimen>
+    <dimen name="layout_margin_20dp">20dp</dimen>
+    <dimen name="layout_margin_25dp">25dp</dimen>
+    <dimen name="layout_margin_10dp">10dp</dimen>
+    <dimen name="layout_height_width_2dp">2dp</dimen>
+    <dimen name="layout_height_weight_5dp">5dp</dimen>
+    <dimen name="layout_height_width_8dp">8dp</dimen>
+    <dimen name="layout_height_width_15dp">15dp</dimen>
+    <dimen name="layout_height_weight_49dp">49dp</dimen>
+    <dimen name="layout_height_width_40dp">40dp</dimen>
+    <dimen name="layout_height_width_120dp">220dp</dimen>
+    <dimen name="layout_height_width_150dp">150dp</dimen>
+    <dimen name="layout_height_width_170dp">170dp</dimen>
+    <dimen name="layout_height_width_200dp">200dp</dimen>
+    <dimen name="layout_height_width_250dp">250dp</dimen>
+    <dimen name="layout_height_width_300dp">300dp</dimen>
+
+    <!--All layout padding-->
+    <dimen name="margin_pad_3dp">3dp</dimen>
+    <dimen name="margin_pad_5dp">5dp</dimen>
+    <dimen name="margin_pad_16dp">16dp</dimen>
+    <dimen name="margin_pad_65dp">65dp</dimen>
+
+    <!--All text Size-->
+    <dimen name="textsize_8sp">8sp</dimen>
+    <dimen name="textsize_10sp">10sp</dimen>
+    <dimen name="textsize_11sp">11sp</dimen>
+    <dimen name="textsize_14sp">14sp</dimen>
+    <dimen name="textsize_16sp">16sp</dimen>
+    <dimen name="textsize_18sp">18sp</dimen>
+    <dimen name="text_size">30sp</dimen>
+    <dimen name="text_size_12sp">12sp</dimen>
+    <dimen name="text_size_20sp">20sp</dimen>
+
+    <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
+         https://developer.android.com/design/patterns/navigation-drawer.html -->
+    <dimen name="navigation_drawer_width">240dp</dimen>
+
 </resources>

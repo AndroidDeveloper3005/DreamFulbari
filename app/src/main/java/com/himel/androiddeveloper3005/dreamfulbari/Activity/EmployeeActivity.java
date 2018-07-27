@@ -36,7 +36,7 @@ public class EmployeeActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private View view;
     private Context mContext;
-    private final String TAG ="MainActivity";
+    private final String TAG ="NewsActivity";
     private DatabaseReference employeeRef;
     private ArrayList<Employee> employeeArrayList;
     private ProgressDialog progressDialog;

@@ -135,10 +135,10 @@ public class EmployeeSingleActivity extends BaseActivity {
             final String gender = employee.getGender().toString();
             final String singleEmployeeinfo = "Address :\t"+ parmanentAddress + "\n" +"Email :\t" +employeeEmail
                     + "\n"+"Profession : \t" + employeeProfession + "\n" +"Organization :\t" +organization + "\n"
-                    +"Blood Group:\t"+ bloodGroup + "\n"+"Gender : \t" +gender;
+                    +"Blood Group:\t"+ bloodGroup + "\n"+"Gender : \t" +gender+ "\n"+"Phone : \t" +employeePhone;
             name.setText(employeeName );
             address.setText(singleEmployeeinfo);
-            phone.setText(employeePhone);
+            //phone.setText(employeePhone);
             Glide.with(getApplicationContext()).load(sImage).into(employeeImage);
 
 

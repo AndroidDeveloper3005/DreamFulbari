@@ -10,6 +10,7 @@ public class Constans {
     public static final String BLOOD_DONER_DATABSE_PATH ="BloodDoner";
     public static final String TITLE ="title";
     public static final String DESCRITION ="description";
+    public static final int REQUEST_PHONE_CALL = 2;
     public static final String IMAGE_URI ="imageUri";
     public static final String UID ="uid";
     public static final String USER_NAME ="name";

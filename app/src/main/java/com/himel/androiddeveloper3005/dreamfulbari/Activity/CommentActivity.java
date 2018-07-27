@@ -119,7 +119,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         public void run()
 
         {
-            //Toast.makeText(MainActivity.this,"in runnable",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(NewsActivity.this,"in runnable",Toast.LENGTH_SHORT).show();
 
             CommentActivity.this.mHandler.postDelayed(m_Runnable, 500);
         }

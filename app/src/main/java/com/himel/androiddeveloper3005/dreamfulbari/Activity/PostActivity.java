@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -68,14 +67,17 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         initFireBase();
         checkUser();
         setContentView(R.layout.activity_post);
-        selectImageButton = findViewById(R.id.addimage_ImageView);
-
         initView();
+        initListener();
+
+
+    }
+
+    private void initListener() {
 
         selectImageButton.setOnClickListener(this);
         postSubmitBtn.setOnClickListener(this);
         progressBar.setVisibility(View.GONE);
-
     }
 
     private void checkUser() {
@@ -88,8 +90,6 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
                     Intent checkAccountExistOrNot = new Intent(getApplicationContext(),UserAccountSetupActivity.class);
                     startActivity(checkAccountExistOrNot);
                     finish();
-
-
                 }
 
             }
@@ -119,31 +119,6 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
-
-
-
-
-
-/*    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK && data != null) {
-
-            mImageUri = data.getData();
-
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mImageUri);
-                // Log.d(TAG, String.valueOf(bitmap));
-
-
-                selectImageButton.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }*/
-
 
 
     @Override
@@ -242,7 +217,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){
-                                        startActivity(new Intent(PostActivity.this,MainActivity.class));
+                                        startActivity(new Intent(PostActivity.this,NewsActivity.class));
                                     }
                                     else {
                                         Toast.makeText(PostActivity.this, "Your Post Does Not Stored.! ", Toast.LENGTH_SHORT).show();
@@ -254,7 +229,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){
-                                        startActivity(new Intent(PostActivity.this,MainActivity.class));
+                                        startActivity(new Intent(PostActivity.this,NewsActivity.class));
                                     }
                                     else {
                                         Toast.makeText(PostActivity.this, "Your Post Does Not Stored.! ", Toast.LENGTH_SHORT).show();
@@ -284,6 +259,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public void initView(){
+        selectImageButton = findViewById(R.id.addimage_ImageView);
         postTitle = findViewById(R.id.post_Title_editText);
         postDescription = findViewById(R.id.post_Discription_editText);
         postSubmitBtn = findViewById(R.id.post_Button);

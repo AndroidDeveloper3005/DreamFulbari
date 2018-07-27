@@ -28,10 +28,11 @@ import com.himel.androiddeveloper3005.dreamfulbari.Model.BlogPost;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.Comment;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.MyDividerItemDecoration;
+import com.himel.androiddeveloper3005.dreamfulbari.Util.ToolBarAndStatusBar;
 
 import java.util.ArrayList;
 
-public class MainActivity extends BaseActivity {
+public class NewsActivity extends ToolBarAndStatusBar {
     private android.support.v7.widget.Toolbar toolbar;
     private FloatingActionButton fab;
     private RecyclerView blogListShow,commentListShow;
@@ -55,7 +56,7 @@ public class MainActivity extends BaseActivity {
 
         setContentView(R.layout.activity_main);
 
-        getToolbar();
+        inittoolBar();
         initView();
         initFireBaseAuth();
         this.mHandler = new Handler();
@@ -101,9 +102,9 @@ public class MainActivity extends BaseActivity {
         public void run()
 
         {
-            //Toast.makeText(MainActivity.this,"in runnable",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(NewsActivity.this,"in runnable",Toast.LENGTH_SHORT).show();
 
-            MainActivity.this.mHandler.postDelayed(m_Runnable, 500);
+            NewsActivity.this.mHandler.postDelayed(m_Runnable, 500);
         }
 
     };
@@ -204,7 +205,7 @@ public class MainActivity extends BaseActivity {
                 /*viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(MainActivity.this, "Click Post  "+post_key, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NewsActivity.this, "Click Post  "+post_key, Toast.LENGTH_SHORT).show();
                     }
                 });*/
 

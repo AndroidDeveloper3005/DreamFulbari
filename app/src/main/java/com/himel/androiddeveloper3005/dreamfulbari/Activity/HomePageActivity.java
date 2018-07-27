@@ -21,15 +21,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
 
@@ -214,12 +210,40 @@ public class HomePageActivity extends BaseActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+/*        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-        }
+        }*/
+
+
+        final android.support.v7.app.AlertDialog.Builder alertDialogBuilder =
+                new android.support.v7.app.AlertDialog.Builder(this);
+
+        alertDialogBuilder.setMessage(getResources().getString(R.string.dialoge_text));
+        alertDialogBuilder.setPositiveButton(getResources().getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton(getResources().getString(R.string.no),new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
+
+
     }
 
     @Override
@@ -250,7 +274,7 @@ public class HomePageActivity extends BaseActivity
         if (id == R.id.nav_home) {
             // Handle the camera action
         } else if (id == R.id.nav_news) {
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            startActivity(new Intent(getApplicationContext(),NewsActivity.class));
 
         } else if (id == R.id.nav_me) {
 
@@ -288,6 +312,8 @@ public class HomePageActivity extends BaseActivity
     private void logOut() {
         mAuth.signOut();
     }
+
+
 
 
 }
