@@ -30,4 +30,5 @@
     <color name="siginupbutton">#f2fe71</color>
     <color name="navBack">#E11870</color>
     <color name="red">#F44336</color>
+    <color name="button_text_color">#EB6BA9</color>
 </resources>

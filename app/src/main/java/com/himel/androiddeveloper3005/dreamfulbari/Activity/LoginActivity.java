@@ -43,7 +43,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         setContentView(R.layout.activity_login);
         initView();
-        getToolbar();
+        //getToolbar();
 
 
 
@@ -86,10 +86,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
+
                         Intent intent = new Intent(LoginActivity.this, HomePageActivity.class);
                         bar.setVisibility(View.GONE);
                         startActivity(intent);
                         finish();
+                    }
+                    else {
+                        Toast.makeText(LoginActivity.this, "Please Enter Correct Email And Password", Toast.LENGTH_SHORT).show();
                     }
 
                 }
