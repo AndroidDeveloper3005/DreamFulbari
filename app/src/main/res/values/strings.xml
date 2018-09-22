@@ -75,5 +75,6 @@
     <string name="organizationsName">Enter Your Organizations Name.</string>
     <string name="google_map_Api_key">AIzaSyC20APzDzFoXDeFIgjiGyv7g0vuA-ubcNI</string>
     <string name="text_title">Employee Name</string>
+    <string name="splashTitle">Degital Fulbari</string>
 
 </resources>
