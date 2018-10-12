@@ -24,8 +24,11 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
 
@@ -45,6 +48,7 @@ public class HomePageActivity extends BaseActivity
     private String currentUserID,currentEmail;
     private View navView;
     private Button history,organization,student, employer,bloodgroup, helpline;
+    private boolean accountCreated = false;
 
 
     @Override
@@ -92,7 +96,6 @@ public class HomePageActivity extends BaseActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navView = navigationView.inflateHeaderView(R.layout.nav_header_home_page);
 
-        castNavViewItem();
         navigationView.setItemIconTintList(null);
 
         navigationView.setNavigationItemSelectedListener(this);
@@ -159,14 +162,15 @@ public class HomePageActivity extends BaseActivity
         bloodgroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(getApplicationContext(),BloodActivity.class));
-                alartDialog();
+                startActivity(new Intent(getApplicationContext(),BloodActivity.class));
+                //alartDialog();
 
             }
         });
         helpline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(HomePageActivity.this, "Help Line", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -195,11 +199,6 @@ public class HomePageActivity extends BaseActivity
     }
 
 
-    private void castNavViewItem() {
-        userImageView =navView.findViewById(R.id.user_imageView);
-        user_name = navView.findViewById(R.id.userName_textview);
-        user_address = navView.findViewById(R.id.userPhone_textView);
-    }
 
     @Override
     protected void onStart() {
@@ -274,7 +273,16 @@ public class HomePageActivity extends BaseActivity
         if (id == R.id.nav_home) {
             // Handle the camera action
         } else if (id == R.id.nav_news) {
-            startActivity(new Intent(getApplicationContext(),NewsActivity.class));
+
+            if (hasAccount()){
+                startActivity(new Intent(getApplicationContext(),NewsActivity.class));
+
+            }
+            else {
+                startActivity(new Intent(getApplicationContext(),UserAccountSetupActivity.class));
+
+            }
+
 
         } else if (id == R.id.nav_me) {
 
@@ -296,6 +304,7 @@ public class HomePageActivity extends BaseActivity
     }
 
 
+
     public void initFireBaseAuth(){
         mAuth = FirebaseAuth.getInstance();
 /*        currentUserID = mAuth.getCurrentUser().getUid().toString();
@@ -312,6 +321,35 @@ public class HomePageActivity extends BaseActivity
     private void logOut() {
         mAuth.signOut();
     }
+
+
+    private boolean hasAccount() {
+        currentUserID = mAuth.getCurrentUser().getUid().toString();
+
+        mDatabaseUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    if (dataSnapshot.hasChild(currentUserID)){
+                        accountCreated = true;
+                    }
+                    else {
+                        accountCreated = false;
+                    }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return accountCreated;
+
+    }
+
 
 
 

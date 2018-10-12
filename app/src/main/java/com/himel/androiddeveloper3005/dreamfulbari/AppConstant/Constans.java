@@ -1,8 +1,12 @@
 package com.himel.androiddeveloper3005.dreamfulbari.AppConstant;
 
+import com.himel.androiddeveloper3005.dreamfulbari.Model.Users;
+
 import java.util.ArrayList;
 
 public class Constans {
+    //MY_PERMISSIONS_REQUEST_SEND_SMS
+    public static final int MY_PERMISSIONS_REQUEST_SEND_SMS =1;
     public static final String POST_STOREAGE_PATH ="Blog_Images";
     public static final String USER_IMAGE_STOREAGE_PATH ="Profile_Images";
     public static final String POST_DATABSE_PATH ="Blog";
@@ -29,6 +33,8 @@ public class Constans {
     public static final String DISLIKES="dislikes";
     public static final String COMMENT="comments";
     public static ArrayList<String>loadAllDataList;
+    public static final ArrayList<Users> USER_LIST = new ArrayList<>();
+
 
 
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="9dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="@string/sms_send"
+            android:textSize="25sp"
+            android:textColor="@color/btn_login"
+            android:textStyle="bold|italic" />
+
+        <EditText
+            android:textColor="@color/colorAccent"
+            android:background="@drawable/edittextshape"
+            android:gravity="center_horizontal"
+            android:id="@+id/sms_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="@string/enter_your_message"
+            android:inputType="textEmailAddress" />
+
+
+        <Button
+            android:layout_marginBottom="@dimen/layout_height_weight_5dp"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/sms_send_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/home_page_button_back_color"
+            android:text="Send"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

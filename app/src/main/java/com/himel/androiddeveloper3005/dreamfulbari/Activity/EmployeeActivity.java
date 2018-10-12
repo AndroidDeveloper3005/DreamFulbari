@@ -79,6 +79,7 @@ public class EmployeeActivity extends AppCompatActivity {
                     String profession=snapshot.child(Constans.USER_PROFESSION).getValue().toString();
 
                     Employee employee = new Employee(name,email,phone,organization,image,address,currentLoc,gender,blood,profession);
+
                     if (profession.equals("Job Holder")){
                         employeeArrayList.add(employee);
 

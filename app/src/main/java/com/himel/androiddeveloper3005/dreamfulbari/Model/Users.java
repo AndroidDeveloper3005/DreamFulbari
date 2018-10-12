@@ -1,23 +1,22 @@
 package com.himel.androiddeveloper3005.dreamfulbari.Model;
 
+import java.io.Serializable;
+
 /**
- * Created by AkshayeJH on 15/12/17.
+ * Created by himel on 15/12/17.
  */
 
-public class Users {
+public class Users implements Serializable {
 
-    public String name, image, phone,bloodGroup,status;
+    private String name, image, phone,bloodgroup,donner_status,location;
 
-    public Users(){
-
-    }
-
-    public Users(String name, String image, String phone, String bloodGroup, String status) {
+    public Users(String name, String image, String phone, String bloodgroup, String donner_status, String location) {
         this.name = name;
         this.image = image;
         this.phone = phone;
-        this.bloodGroup = bloodGroup;
-        this.status = status;
+        this.bloodgroup = bloodgroup;
+        this.donner_status = donner_status;
+        this.location = location;
     }
 
     public String getName() {
@@ -44,19 +43,27 @@ public class Users {
         this.phone = phone;
     }
 
-    public String getBloodGroup() {
-        return bloodGroup;
+    public String getBloodgroup() {
+        return bloodgroup;
     }
 
-    public void setBloodGroup(String bloodGroup) {
-        this.bloodGroup = bloodGroup;
+    public void setBloodgroup(String bloodgroup) {
+        this.bloodgroup = bloodgroup;
     }
 
-    public String getStatus() {
-        return status;
+    public String getDonner_status() {
+        return donner_status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setDonner_status(String donner_status) {
+        this.donner_status = donner_status;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

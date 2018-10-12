@@ -62,14 +62,14 @@ public class DonateBloodActivity extends AppCompatActivity {
         Calendar get_Time = Calendar.getInstance();
         SimpleDateFormat curentTime = new SimpleDateFormat("HH:mm");
         saveTime = curentTime.format(get_Time.getTime());
-        randomKey = current_uid + saveDate +saveTime ;
+        //randomKey = current_uid + saveDate +saveTime ;
 
         if (!TextUtils.isEmpty(confirm)){
             mDatabaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    final  DatabaseReference c_donate = mDatabaseReference.child(randomKey);
-                    c_donate.child(current_uid).setValue(confirm);
+                    mDatabaseReference.child(current_uid).setValue(confirm);
+                    //c_donate.child(current_uid).setValue(confirm);
                     dialog.dismiss();
 
 

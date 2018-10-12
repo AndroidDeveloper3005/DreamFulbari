@@ -76,5 +76,7 @@
     <string name="google_map_Api_key">AIzaSyC20APzDzFoXDeFIgjiGyv7g0vuA-ubcNI</string>
     <string name="text_title">Employee Name</string>
     <string name="splashTitle">Degital Fulbari</string>
+    <string name="sms_send">SMS SEND</string>
+    <string name="enter_your_message">Enter Your Message</string>
 
 </resources>
