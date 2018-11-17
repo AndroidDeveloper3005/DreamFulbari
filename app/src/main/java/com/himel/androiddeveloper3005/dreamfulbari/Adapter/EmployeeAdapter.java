@@ -1,9 +1,7 @@
 package com.himel.androiddeveloper3005.dreamfulbari.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +14,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.firebase.database.DatabaseReference;
-import com.himel.androiddeveloper3005.dreamfulbari.Activity.EmployeeSingleActivity;
-import com.himel.androiddeveloper3005.dreamfulbari.Activity.StudentSingleActivity;
+import com.himel.androiddeveloper3005.dreamfulbari.Interface.OnItemClickListener;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.Employee;
 import com.himel.androiddeveloper3005.dreamfulbari.MyFilter.EmployeeCustomFilter;
-import com.himel.androiddeveloper3005.dreamfulbari.MyFilter.StudentCustomFilter;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
 
 import java.util.ArrayList;
@@ -33,6 +29,8 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
     private String number;
     private View mView;
     EmployeeCustomFilter filter;
+    private OnItemClickListener mListener;
+
 
     public EmployeeAdapter(Context context, ArrayList<Employee> employeeArrayList) {
         this.context = context;
@@ -42,30 +40,21 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
     @NonNull
     @Override
     public EmployeeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        LayoutInflater inflater = LayoutInflater.from(context);
         mView = inflater.from(parent.getContext()).inflate(R.layout.emploee_item_layout, parent, false);
-        EmployeeViewHolder employeeViewHolder = new EmployeeViewHolder(mView);
+        EmployeeViewHolder employeeViewHolder = new EmployeeViewHolder(mView,context,employeeArrayList);
         return employeeViewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull EmployeeAdapter.EmployeeViewHolder holder, int position) {
         final Employee employee = employeeArrayList.get(position);
+        String employee_details = employee.getEmail() + "\n"
+                + employee.getCurrentLoc() + " \n"
+                + employee.getOrganization();
         holder.setName("Name : "+employee.getName());
-        holder.setEmail("Email : "+employee.getEmail());
-        holder.setOrganization("Organization : "+employee.getOrganization());
+        holder.setDetails(employee_details);
         holder.setImage(context,employee.getImage());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, EmployeeSingleActivity.class);
-                intent.putExtra("employeeSingle",employee);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-
-
-            }
-        });
 
     }
 
@@ -79,6 +68,10 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
 
     }
 
+    public ArrayList<Employee>getDataList(){
+        return employeeArrayList;
+    }
+
     @Override
     public Filter getFilter() {
         if(filter==null)
@@ -90,17 +83,33 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
 
     public class EmployeeViewHolder extends RecyclerView.ViewHolder {
 
-        public CardView cardView;
-        public ImageView profileImage;
-        public TextView username,email,organization;
+        Context mContext;
+        ArrayList<Employee>arrayList;
+        public ImageView profileImage,phoneImage,smsImage;
+        public TextView username,details;
 
-        public EmployeeViewHolder(View itemView) {
+        public EmployeeViewHolder(View itemView,Context mContext, ArrayList<Employee> arrayList) {
             super(itemView);
-            cardView = itemView.findViewById(R.id.employee_card);
+            this.mContext = mContext;
+            this.arrayList = arrayList;
             profileImage = itemView.findViewById(R.id.user_image_view);
             username = itemView.findViewById(R.id.employee_name_textview);
-            email = itemView.findViewById(R.id.employee_email_textview);
-            organization = itemView.findViewById(R.id.employee_organization_name_textview);
+            details = itemView.findViewById(R.id.employee_details);
+            phoneImage = mView.findViewById(R.id.phone_call_imgeview);
+            smsImage = mView.findViewById(R.id.sms_send_imgeview);
+            phoneImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onItemListener(view,getLayoutPosition());
+                }
+            });
+            smsImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onItemListener(view,getLayoutPosition());
+                }
+            });
+
         }
 
 
@@ -109,20 +118,18 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
 
         }
 
-        public void setEmail(String e) {
-            email.setText(e);
+        public void setDetails(String e) {
+            details.setText(e);
         }
 
-
-
-        public void setOrganization(String organizationname) {
-            organization.setText(organizationname);
-
-        }
 
         public void setImage(Context cntx ,String image) {
             Glide.with(cntx).load(image).into(profileImage);
 
         }
+    }
+
+    public void setItemClickListener(OnItemClickListener mListener) {
+        this.mListener = mListener;
     }
 }

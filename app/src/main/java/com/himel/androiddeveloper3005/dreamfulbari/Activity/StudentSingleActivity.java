@@ -155,7 +155,7 @@ public class StudentSingleActivity extends BaseActivity {
 
     private void initVariable() {
         name = findViewById(R.id.studentname_textview);
-        //email = findViewById(R.id.email_textview);
+        //details_student = findViewById(R.id.email_textview);
         address = findViewById(R.id.address_textview);
         //institute = findViewById(R.id.organization_name_textview);
         //profession = findViewById(R.id.profession_textview);

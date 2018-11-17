@@ -36,11 +36,11 @@
                 android:textSize="15sp"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:text="@string/organizations"
+                android:text="News"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/home_page_button_back_color"
-                android:id="@+id/organization_button"
+                android:id="@+id/news_button"
                 android:layout_width="0dp"
                 android:layout_height="60dp" />
 

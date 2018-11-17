@@ -1,0 +1,50 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimaryDark"
+    >
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <RelativeLayout
+            android:id="@+id/rlLayout"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height_weight_49dp"
+            android:layout_marginLeft="@dimen/margin_18dp"
+            android:layout_marginRight="@dimen/margin_18dp"
+            android:layout_marginTop="@dimen/margin_53dp"
+            android:padding="10dp"
+            android:background="@drawable/searchbox_shape">
+                <ImageView
+                    android:paddingRight="@dimen/margin_pad_5dp"
+                    android:paddingBottom="@dimen/margin_pad_5dp"
+                    android:paddingTop="@dimen/margin_pad_5dp"
+                    android:id="@+id/img_search_view_arrow"
+                    android:layout_width="@dimen/layout_height_width_40dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_arrow"/>
+
+                <AutoCompleteTextView
+                    android:textAlignment="gravity"
+                    android:paddingLeft="@dimen/layout_margin_10dp"
+                    android:layout_marginLeft="@dimen/margin_35dp"
+                    android:id="@+id/auto_complete_searchBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/colorWhite"
+                    android:shadowColor="#C1C1C1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsize_18sp"
+                    />
+        </RelativeLayout>
+
+</FrameLayout>
+
+

@@ -22,7 +22,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class UserAdapterForBloodInfo extends RecyclerView.Adapter<UserAdapterForBloodInfo.BloodInfoViewHolder> implements Filterable {
+public class UserAdapterForBloodInfo extends RecyclerView.Adapter<UserAdapterForBloodInfo.BloodInfoViewHolder>
+        implements Filterable {
+
     public Context mContext;
     public ArrayList<Users>usersList;
     private BloodCustomFilter filter;

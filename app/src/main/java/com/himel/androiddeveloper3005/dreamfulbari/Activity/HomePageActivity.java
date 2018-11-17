@@ -47,7 +47,7 @@ public class HomePageActivity extends BaseActivity
     private TextView user_name, user_address;
     private String currentUserID,currentEmail;
     private View navView;
-    private Button history,organization,student, employer,bloodgroup, helpline;
+    private Button history, news,student, employer,bloodgroup, helpline;
     private boolean accountCreated = false;
 
 
@@ -122,7 +122,7 @@ public class HomePageActivity extends BaseActivity
 
     private void initView() {
         history = findViewById(R.id.history_button);
-        organization = findViewById(R.id.organization_button);
+        news = findViewById(R.id.news_button);
         student = findViewById(R.id.student_button);
         employer = findViewById(R.id.employer_button);
         bloodgroup = findViewById(R.id.bloodgroup_button);
@@ -138,9 +138,18 @@ public class HomePageActivity extends BaseActivity
 
             }
         });
-        organization.setOnClickListener(new View.OnClickListener() {
+        news.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (hasAccount()){
+                    startActivity(new Intent(getApplicationContext(),NewsActivity.class));
+
+                }
+                else {
+                    startActivity(new Intent(getApplicationContext(),UserAccountSetupActivity.class));
+
+                }
 
             }
         });
@@ -155,7 +164,6 @@ public class HomePageActivity extends BaseActivity
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),StudentActivity.class));
-
 
             }
         });
@@ -272,19 +280,7 @@ public class HomePageActivity extends BaseActivity
 
         if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_news) {
-
-            if (hasAccount()){
-                startActivity(new Intent(getApplicationContext(),NewsActivity.class));
-
-            }
-            else {
-                startActivity(new Intent(getApplicationContext(),UserAccountSetupActivity.class));
-
-            }
-
-
-        } else if (id == R.id.nav_me) {
+        }  else if (id == R.id.nav_me) {
 
         } else if (id == R.id.nav_map) {
             if (isServiceOk()){

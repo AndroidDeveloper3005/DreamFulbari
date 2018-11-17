@@ -1,38 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/backgroud_color_changer"
-    tools:context=".Activity.StudentActivity">
-
-    <LinearLayout
+    android:background="@drawable/login_page_backgroud_color"
+    tools:context=".Activity.BloodActivity"
+    >
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-        <android.support.v7.widget.SearchView
-            android:id="@+id/studentSearchView"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/bg_white_rounded"
-            android:clickable="true"
-            android:layout_margin="20dp"
-            android:layout_gravity="left|center"
-            />
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-    </LinearLayout>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
-        app:layout_constraintTop_toBottomOf="@+id/studentSearchView"
         android:id="@+id/studentRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/app" />
 
-        />
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="277dp"
+        android:foregroundGravity="center_horizontal"
+        android:theme="@style/AppTheme.WhiteAccent" />
 
-
-</LinearLayout>
+</RelativeLayout>

@@ -1,8 +1,6 @@
 package com.himel.androiddeveloper3005.dreamfulbari.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,15 +9,13 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.firebase.database.DatabaseReference;
-import com.himel.androiddeveloper3005.dreamfulbari.Activity.StudentSingleActivity;
+import com.himel.androiddeveloper3005.dreamfulbari.Interface.OnItemClickListener;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.Student;
 import com.himel.androiddeveloper3005.dreamfulbari.MyFilter.StudentCustomFilter;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
-
 import java.util.ArrayList;
 
 public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentViewHolder> implements Filterable {
@@ -27,63 +23,75 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     private DatabaseReference mDatabaseReference;
     private Context context;
     public ArrayList<Student> studentsList;
-    private String number;
+    private StudentCustomFilter filter;
     private View mView;
-    StudentCustomFilter filter;
-
+    private OnItemClickListener mListener;
 
     public StudentAdapter(Context context, ArrayList<Student> students) {
         this.context = context;
         this.studentsList = students;
-
-
     }
+    //viewholder class
+    public   class StudentViewHolder extends RecyclerView.ViewHolder {
+        Context mContext;
+        ArrayList<Student>arrayList;
+        public ImageView profileImage,phoneImage,smsImage;
+        public TextView username, details_student;
 
+        public StudentViewHolder(View mView, Context mContext, ArrayList<Student> arrayList) {
+            super(mView);
+            this.mContext = mContext;
+            this.arrayList = arrayList;
+            profileImage = mView.findViewById(R.id.user_image_view);
+            username = mView.findViewById(R.id.studentname_textview);
+            details_student = mView.findViewById(R.id.student_details);
+            phoneImage = mView.findViewById(R.id.phone_call_imgeview);
+            smsImage = mView.findViewById(R.id.sms_send_imgeview);
+            phoneImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onItemListener(view,getLayoutPosition());
+
+                }
+            });
+            smsImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onItemListener(view,getLayoutPosition());
+                }
+            });
+        }
+    }
 
     @Override
     public StudentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        LayoutInflater inflater = LayoutInflater.from(context);
         mView = inflater.from(parent.getContext()).inflate(R.layout.student_item_layout, parent, false);
-        StudentViewHolder studentViewHolder = new StudentViewHolder(mView);
+        StudentViewHolder studentViewHolder = new StudentViewHolder(mView,context,studentsList);
         return studentViewHolder;
     }
 
     @Override
     public void onBindViewHolder(final StudentViewHolder holder, final int position) {
-
         final Student student = studentsList.get(position);
-
-        holder.setName("Name : "+student.getName());
-       // holder.setPhone(student.getPhone());
-        holder.setOrganization("Organization : "+student.getOrganization());
-        holder.setEmail("Email : "+student.getEmail());
-        holder.setImage(context, student.getImage());
-        //number = getphoneNumber.getPhone().toString();
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, StudentSingleActivity.class);
-                intent.putExtra("studentSingle",student);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-
-
-            }
-        });
-
+        String student_Details = student.getCurrentLoc() +"\n"
+                +student.getGender() +"\n"
+                +student.getEmail()+"\n"
+                +student.getAddress();
+        holder.username.setText(student.getName());
+        holder.details_student.setText(student_Details);
+        Glide.with(context).load(student.getImage()).into(holder.profileImage);
 
     }
 
     @Override
     public int getItemCount() {
+        return studentsList.size();
+    }
 
-
-        if (studentsList !=null) {
-            return studentsList.size();
-        }
-        return 0;
+    public ArrayList<Student> getDataList() {
+        return studentsList;
     }
 
     @Override
@@ -96,59 +104,8 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     }
 
 
-    //viewholder class
-    public static  class StudentViewHolder extends RecyclerView.ViewHolder {
-
-        public CardView cardView;
-        public ImageView profileImage;
-        public TextView username,email,phone,organization;
-
-
-
-        public StudentViewHolder(View itemView) {
-            super(itemView);
-            cardView = itemView.findViewById(R.id.student_card);
-            profileImage = itemView.findViewById(R.id.user_image_view);
-            username = itemView.findViewById(R.id.studentname_textview);
-            email = itemView.findViewById(R.id.email_textview);
-            organization = itemView.findViewById(R.id.organization_name_textview);
-
-        }
-
-
-
-        public void setName(String name) {
-            username.setText(name);
-
-        }
-
-        public void setEmail(String e) {
-            email.setText(e);
-        }
-
-
-
-        public String setPhone(String p) {
-            phone.setText(p);
-            return p;
-        }
-
-
-
-        public void setOrganization(String organizationname) {
-            organization.setText(organizationname);
-
-        }
-
-
-
-        public void setImage(Context cntx ,String image) {
-            Glide.with(cntx).load(image).into(profileImage);
-
-        }
-
-
-
+    public void setItemClickListener(OnItemClickListener mListener) {
+        this.mListener = mListener;
     }
 
 

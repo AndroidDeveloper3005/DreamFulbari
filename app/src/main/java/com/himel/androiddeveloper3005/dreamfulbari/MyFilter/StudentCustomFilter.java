@@ -33,7 +33,8 @@ public class StudentCustomFilter extends Filter {
             for (int i = 0; i< studentArrayList.size(); i++)
             {
                 //CHECK
-                if(studentArrayList.get(i).getOrganization().toUpperCase().contains(constraint) )
+                if(studentArrayList.get(i).getOrganization().toUpperCase().contains(constraint) ||
+                        studentArrayList.get(i).getCurrentLoc().toUpperCase().contains(constraint) )
                 {
                     //ADD PLAYER TO FILTERED PLAYERS
                     filteredStudent.add(studentArrayList.get(i));
