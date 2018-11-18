@@ -1,13 +1,18 @@
 package com.himel.androiddeveloper3005.dreamfulbari.Activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,6 +27,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private ProgressBar bar;
     private Button registrationButton, loginButton, resetButton;
+    private Toolbar mToolbar;
+    private CoordinatorLayout mCoordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +105,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                 }
             });
+        } else {
+            Snackbar mSnackbar = Snackbar.make(mCoordinatorLayout,"You Need To Provide Your Email And Password"
+                    ,Snackbar.LENGTH_INDEFINITE).setAction("OK", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            // Changing message text color
+            mSnackbar.setActionTextColor(Color.RED);
+            // Changing action button text color
+            View sbView = mSnackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.YELLOW);
+            mSnackbar.show();
         }
     }
 
@@ -112,6 +134,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         loginButton.setOnClickListener(this);
         registrationButton.setOnClickListener(this);
         resetButton.setOnClickListener(this);
+        mToolbar = findViewById(R.id.toolBar);
+        setSupportActionBar(mToolbar);
+        mCoordinatorLayout = findViewById(R.id.mCoordinatorLayout);
 
 
 
