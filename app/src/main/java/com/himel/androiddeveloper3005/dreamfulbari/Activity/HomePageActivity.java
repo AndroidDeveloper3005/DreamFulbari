@@ -130,6 +130,27 @@ public class HomePageActivity extends BaseActivity
     }
 
 
+    private boolean hasAccount() {
+        currentUserID = mAuth.getCurrentUser().getUid();
+
+        mDatabaseUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if (!dataSnapshot.hasChild(currentUserID)){
+                    accountCreated = false;
+                }
+                else {
+                    accountCreated = true;
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+        return accountCreated;
+    }
+
     private void onClickMethod(){
         history.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -319,32 +340,7 @@ public class HomePageActivity extends BaseActivity
     }
 
 
-    private boolean hasAccount() {
-        currentUserID = mAuth.getCurrentUser().getUid().toString();
 
-        mDatabaseUsers.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    if (dataSnapshot.hasChild(currentUserID)){
-                        accountCreated = true;
-                    }
-                    else {
-                        accountCreated = false;
-                    }
-
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        return accountCreated;
-
-    }
 
 
 

@@ -11,10 +11,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -223,8 +226,6 @@ public class NewsActivity extends ToolBarAndStatusBar {
 
                                     if (dataSnapshot.child(post_key).hasChild(mAuth.getCurrentUser().getUid())){
 
-
-
                                         mDatabaseLikes.child(post_key).child(mAuth.getCurrentUser().getUid()).removeValue();
                                         mProcessLike = false;
 
@@ -266,6 +267,24 @@ public class NewsActivity extends ToolBarAndStatusBar {
 
                     }
                 });
+                //for post edit
+                viewHolder.edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(NewsActivity.this, "Edited", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+                //for post delete
+                viewHolder.delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(NewsActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
+
+
+                    }
+                });
 
 
 
@@ -282,6 +301,7 @@ public class NewsActivity extends ToolBarAndStatusBar {
 
     public static class BlogViewHolder extends RecyclerView.ViewHolder{
         View mView;
+        Button edit,delete;
         ImageButton mLike,mComment;
         TextView like_count,date;
         DatabaseReference mDatabaseLike,mDatabaseComment;
@@ -296,6 +316,8 @@ public class NewsActivity extends ToolBarAndStatusBar {
             mComment =mView.findViewById(R.id.comment_button);
             like_count = mView.findViewById(R.id.like_count);
             date = mView.findViewById(R.id.date_textView);
+            edit = mView.findViewById(R.id.button_edit);
+            delete = mView.findViewById(R.id.button_delete);
             mDatabaseLike = FirebaseDatabase.getInstance().getReference().child(Constans.LIKES);
             mDatabaseComment = FirebaseDatabase.getInstance().getReference().child(Constans.COMMENT);
             mAuth =FirebaseAuth.getInstance();
