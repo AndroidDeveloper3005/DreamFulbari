@@ -1,13 +1,19 @@
 package com.himel.androiddeveloper3005.dreamfulbari.Activity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -30,7 +36,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
+import com.himel.androiddeveloper3005.dreamfulbari.Model.HelpLine;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -42,13 +51,15 @@ public class HomePageActivity extends BaseActivity
     private DatabaseReference mDatabaseRef;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
-    private DatabaseReference mDatabaseUsers,mDatabaseUserRef;
+    private DatabaseReference mDatabaseUsers,mDatabaseUserRef,mDatabaseRefhelp;
     private CircleImageView userImageView;
     private TextView user_name, user_address;
     private String currentUserID,currentEmail;
     private View navView;
     private Button history, news,student, employer,bloodgroup, helpline;
     private boolean accountCreated = false;
+    private ArrayList<HelpLine>helpLines;
+    private String uno,ambulance,chairman,police,fireservice;
 
 
     @Override
@@ -60,18 +71,8 @@ public class HomePageActivity extends BaseActivity
         initFireBaseAuth();
         initView();
         onClickMethod();
+        getHelpLineData();
 
-
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -101,6 +102,31 @@ public class HomePageActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    private void getHelpLineData() {
+        mDatabaseRefhelp.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                     uno=snapshot.child("uno").getValue().toString();
+                     ambulance=snapshot.child("ambulance").getValue().toString();
+                     chairman=snapshot.child("chairman").getValue().toString();
+                     police=snapshot.child("police").getValue().toString();
+                     fireservice=snapshot.child("fireservice").getValue().toString();
+
+                    HelpLine mHelpLine = new HelpLine(ambulance,chairman,fireservice,uno,police);
+                    helpLines.add(mHelpLine);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public boolean isServiceOk(){
         Log.d(TAG,"isServiceOK : checking google service version");
         int avialbale = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(HomePageActivity.this);
@@ -127,21 +153,23 @@ public class HomePageActivity extends BaseActivity
         employer = findViewById(R.id.employer_button);
         bloodgroup = findViewById(R.id.bloodgroup_button);
         helpline = findViewById(R.id.helpline_button);
+        helpLines = new ArrayList<>();
+
     }
 
 
     private boolean hasAccount() {
-        currentUserID = mAuth.getCurrentUser().getUid();
+        currentUserID = mAuth.getCurrentUser().getUid().toString();
 
         mDatabaseUsers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if (!dataSnapshot.hasChild(currentUserID)){
-                    accountCreated = false;
+                if (dataSnapshot.hasChild(currentUserID)){
+                    accountCreated = true;
                 }
                 else {
-                    accountCreated = true;
+                    accountCreated = false;
                 }
             }
             @Override
@@ -162,15 +190,7 @@ public class HomePageActivity extends BaseActivity
         news.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (hasAccount()){
-                    startActivity(new Intent(getApplicationContext(),NewsActivity.class));
-
-                }
-                else {
-                    startActivity(new Intent(getApplicationContext(),UserAccountSetupActivity.class));
-
-                }
+                startActivity(new Intent(getApplicationContext(),NewsActivity.class));
 
             }
         });
@@ -199,7 +219,89 @@ public class HomePageActivity extends BaseActivity
         helpline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HomePageActivity.this, "Help Line", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(HomePageActivity.this);
+                View mView = getLayoutInflater().inflate(R.layout.emargency_dialog, null);
+
+                Button ambulance_btn =  (Button) mView.findViewById(R.id.ambulance_btn);
+                Button chairman_btn =  (Button) mView.findViewById(R.id.chairman_btn);
+                Button fire_service_btn =  (Button) mView.findViewById(R.id.fireservice_btn);
+                Button police_btn =  (Button) mView.findViewById(R.id.police_btn);
+                Button uno_btn =  (Button) mView.findViewById(R.id.uno_btn);
+                mBuilder.setView(mView);
+                final AlertDialog dialog = mBuilder.create();
+                dialog.show();
+
+                ambulance_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse("tel:"+ambulance));
+                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions((Activity) getApplicationContext(), new String[]{Manifest.permission.CALL_PHONE}, Constans.REQUEST_PHONE_CALL);
+                            return;
+                        }
+                        else {
+                            startActivity(callIntent);
+                        }
+                    }
+                });
+                chairman_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse("tel:"+chairman));
+                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions((Activity) getApplicationContext(), new String[]{Manifest.permission.CALL_PHONE}, Constans.REQUEST_PHONE_CALL);
+                            return;
+                        }
+                        else {
+                            startActivity(callIntent);
+                        }
+                    }
+                });
+                fire_service_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse("tel:"+fireservice));
+                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions((Activity) getApplicationContext(), new String[]{Manifest.permission.CALL_PHONE}, Constans.REQUEST_PHONE_CALL);
+                            return;
+                        }
+                        else {
+                            startActivity(callIntent);
+                        }
+                    }
+                });
+                police_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse("tel:"+police));
+                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions((Activity) getApplicationContext(), new String[]{Manifest.permission.CALL_PHONE}, Constans.REQUEST_PHONE_CALL);
+                            return;
+                        }
+                        else {
+                            startActivity(callIntent);
+                        }
+                    }
+                });
+                uno_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse("tel:"+uno));
+                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions((Activity) getApplicationContext(), new String[]{Manifest.permission.CALL_PHONE}, Constans.REQUEST_PHONE_CALL);
+                            return;
+                        }
+                        else {
+                            startActivity(callIntent);
+                        }
+                    }
+                });
+
 
             }
         });
@@ -274,7 +376,7 @@ public class HomePageActivity extends BaseActivity
 
     }
 
-    @Override
+/*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_manu, menu);
@@ -291,7 +393,7 @@ public class HomePageActivity extends BaseActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -324,6 +426,8 @@ public class HomePageActivity extends BaseActivity
 
     public void initFireBaseAuth(){
         mAuth = FirebaseAuth.getInstance();
+        mDatabaseRefhelp = FirebaseDatabase.getInstance().getReference(Constans.HELPLINE_DATABSE_PATH);
+
 /*        currentUserID = mAuth.getCurrentUser().getUid().toString();
         currentEmail = mAuth.getCurrentUser().getEmail().toString();*/
         mDatabaseRef =FirebaseDatabase.getInstance().getReference().child(Constans.POST_DATABSE_PATH);

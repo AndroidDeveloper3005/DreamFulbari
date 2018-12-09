@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="9dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/extra"
+    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="Emergency Contact"
+            android:textSize="25sp"
+            android:textColor="@color/white"
+            android:textStyle="bold|italic" />
+        <LinearLayout
+            android:weightSum="3"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:layout_weight="1"
+                    android:layout_marginBottom="@dimen/layout_height_weight_5dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/ambulance_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/home_page_button_back_color"
+                    android:text="Ambulance"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white" />
+                <Button
+                    android:layout_marginLeft="@dimen/layout_height_weight_5dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="@dimen/layout_height_weight_5dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/chairman_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/home_page_button_back_color"
+                    android:text="Chairman"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:layout_weight="1"
+                    android:layout_marginBottom="@dimen/layout_height_weight_5dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/fireservice_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/home_page_button_back_color"
+                    android:text="Fire Service"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white" />
+                <Button
+                    android:layout_marginLeft="@dimen/layout_height_weight_5dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="@dimen/layout_height_weight_5dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/police_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/home_page_button_back_color"
+                    android:text="Police"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <Button
+                    android:layout_marginLeft="@dimen/layout_height_weight_5dp"
+                    android:layout_marginRight="@dimen/layout_height_weight_5dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="@dimen/layout_height_weight_5dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/uno_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/home_page_button_back_color"
+                    android:text="UNO"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

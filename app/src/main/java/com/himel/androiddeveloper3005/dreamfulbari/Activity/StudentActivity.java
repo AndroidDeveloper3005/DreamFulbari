@@ -276,14 +276,14 @@ public class StudentActivity extends AppCompatActivity {
                     String phone=snapshot.child(Constans.USER_PHONE).getValue().toString();
                     String address=snapshot.child(Constans.USER_ADDRESS).getValue().toString();
                     String email=snapshot.child(Constans.EMAIL).getValue().toString();
-                    String organization=snapshot.child(Constans.ORGANIZATION).getValue().toString();
+                    String institute=snapshot.child(Constans.INSTITUTE).getValue().toString();
                     String gender=snapshot.child(Constans.GENDER).getValue().toString();
                     String currentLoc=snapshot.child(Constans.CURRENT_LOCATION).getValue().toString();
                     String image=snapshot.child(Constans.USER_IMAGE).getValue().toString();
                     String blood=snapshot.child(Constans.BLOODGROUP).getValue().toString();
                     String profession=snapshot.child(Constans.USER_PROFESSION).getValue().toString();
 
-                    Student student = new Student(name,email,phone,organization,image,address,currentLoc,gender,blood,profession);
+                    Student student = new Student(name,email,phone,institute,image,address,currentLoc,gender,blood,profession);
                     if (profession.equals("Student")){
                         studentArrayList.add(student);
                     }

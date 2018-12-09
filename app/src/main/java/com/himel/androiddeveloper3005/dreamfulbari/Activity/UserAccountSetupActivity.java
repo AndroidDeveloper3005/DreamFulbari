@@ -135,7 +135,7 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
         user_name = findViewById(R.id.userName_editText);
         user_address = findViewById(R.id.userAddress_editText);
         userCurrentLoc =findViewById(R.id.userCurrent_location_editText);
-        organization = findViewById(R.id.organization_name_editText);
+        //organization = findViewById(R.id.organization_name_editText);
         institute = findViewById(R.id.institute_name_editText);
         user_phone = findViewById(R.id.userPhone_editText);
         user_professionSpinner = findViewById(R.id.userProfession_spinner);
@@ -306,17 +306,18 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
         final   String name = user_name.getText().toString().trim();
         final   String address = user_address.getText().toString().trim();
         final   String curentLocation = userCurrentLoc.getText().toString().trim();
-        final String instituteName = institute.getText().toString().trim();
-        final   String organizationName = organization.getText().toString().trim();
+        final   String instituteName = institute.getText().toString().trim();
         final   String phone = user_phone.getText().toString().trim();
         final   String profession = professionItemSelected;
         final   String bloodgroup = bloodgroupItemSelected;
         final   String gender = genderitemSelected;
-        final  String user_id = mAuth.getCurrentUser().getUid().toString().trim();
-        final  String email =   mAuth.getCurrentUser().getEmail().toString().trim();
-        final  String wantToBllodDonate =   wantToDoneritemSelected;
+        final   String user_id = mAuth.getCurrentUser().getUid().toString().trim();
+        final   String email =   mAuth.getCurrentUser().getEmail().toString().trim();
+        final   String wantToBllodDonate =   wantToDoneritemSelected;
 
-        if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(wantToBllodDonate) &&  !TextUtils.isEmpty(instituteName) && !TextUtils.isEmpty(address)&& !TextUtils.isEmpty(curentLocation)&& !TextUtils.isEmpty(organizationName)&& !TextUtils.isEmpty(phone) && !TextUtils.isEmpty(profession) && !TextUtils.isEmpty(bloodgroup)&& !TextUtils.isEmpty(gender) && mImageUri != null){
+        if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(wantToBllodDonate) &&  !TextUtils.isEmpty(instituteName)
+                && !TextUtils.isEmpty(address)&& !TextUtils.isEmpty(curentLocation)
+                && !TextUtils.isEmpty(phone) && !TextUtils.isEmpty(profession) && !TextUtils.isEmpty(bloodgroup)&& !TextUtils.isEmpty(gender) && mImageUri != null){
 
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             thumb_bitmap.compress(Bitmap.CompressFormat.JPEG,60,byteArrayOutputStream);
@@ -333,7 +334,6 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
                     mDatabaseRef.child(user_id).child(Constans.USER_NAME).setValue(name);
                     mDatabaseRef.child(user_id).child(Constans.USER_ADDRESS).setValue(address);
                     mDatabaseRef.child(user_id).child(Constans.CURRENT_LOCATION).setValue(curentLocation);
-                    mDatabaseRef.child(user_id).child(Constans.ORGANIZATION).setValue(organizationName);
                     mDatabaseRef.child(user_id).child(Constans.INSTITUTE).setValue(instituteName);
                     mDatabaseRef.child(user_id).child(Constans.USER_PHONE).setValue(phone);
                     mDatabaseRef.child(user_id).child(Constans.USER_PROFESSION).setValue(profession);
@@ -343,7 +343,7 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
                     mDatabaseRef.child(user_id).child(Constans.EMAIL).setValue(email);
                     mDatabaseRef.child(user_id).child(Constans.USER_IMAGE).setValue(downloadUri);
                     dialog.dismiss();
-                    Intent goHome = new Intent(getApplicationContext(),PostActivity.class);
+                    Intent goHome = new Intent(getApplicationContext(),LoginActivity.class);
                     startActivity(goHome);
                     finish();
 

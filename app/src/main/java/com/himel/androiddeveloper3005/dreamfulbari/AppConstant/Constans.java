@@ -11,6 +11,15 @@ public class Constans {
     public static final String USER_IMAGE_STOREAGE_PATH ="Profile_Images";
     public static final String POST_DATABSE_PATH ="Blog";
     public static final String USER_DATABSE_PATH ="Users";
+
+    public static final String HELPLINE_DATABSE_PATH ="Emergency";
+    public static final String AMBULANCE ="Ambulance";
+    public static final String FIRESERVICE ="FireService";
+    public static final String POLICE ="Police";
+    public static final String CHAIRMAN ="Chairman";
+    public static final String UNO ="UNO";
+
+
     public static final String BLOOD_DONER_DATABSE_PATH ="BloodDoner";
     public static final String TITLE ="title";
     public static final String DESCRITION ="description";
