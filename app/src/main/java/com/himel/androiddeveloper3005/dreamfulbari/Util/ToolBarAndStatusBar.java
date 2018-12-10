@@ -20,6 +20,11 @@ public class ToolBarAndStatusBar extends AppCompatActivity {
     public void initalStatusBar() {
         StatusBarColor.darkenStatusBar(this, R.color.colorPrimaryDark);
     }
+    public void setToolbarTitle(String title) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
+        }
+    }
 
     public void inittoolBar() {
         myToolbar = (Toolbar) findViewById(R.id.my_toolbar);

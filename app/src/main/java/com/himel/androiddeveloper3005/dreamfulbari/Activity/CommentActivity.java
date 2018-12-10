@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -56,13 +57,26 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     private ArrayList<String> setPostcommentIDs;
     private ArrayList<Comment>comments;
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
-        getToolbar();
+
         initView();
         initFireBaseAuth();
+        getToolbar();
+        enableBackButton();
+        setToolbarTitle("Comments");
         this.mHandler = new Handler();
 
         this.mHandler.postDelayed(m_Runnable,500);
@@ -181,8 +195,8 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                 viewHolder.setComment(model.getComment());
                 viewHolder.setUsername(model.getUsername());
                 viewHolder.set_Userimage(getApplicationContext(),model.getUserimage());
-                viewHolder.setDate(model.getDate());
-                viewHolder.setTime(model.getTime());
+                viewHolder.setDate(model.getDate() + " "+model.getTime());
+                //viewHolder.setTime(model.getTime());
 
             }
         };
@@ -204,15 +218,10 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
              mView = itemView ;
         }
 
-        public void setTime(String time){
-            TextView timeTextView = itemView.findViewById(R.id.time_textView);
-            timeTextView.setText("Time :"+time);
-
-        }
 
         public void setDate(String date){
             TextView dateTextView = itemView.findViewById(R.id.date_textView);
-            dateTextView.setText("Comment On :"+date);
+            dateTextView.setText(date);
 
         }
 
@@ -252,7 +261,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
             SimpleDateFormat curentDate = new SimpleDateFormat("dd-MMMM-yyyy");
             final String saveDate = curentDate.format(getDate.getTime());
             Calendar get_Time = Calendar.getInstance();
-            SimpleDateFormat curentTime = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat curentTime = new SimpleDateFormat("hh:mm a");
             final String saveTime = curentTime.format(get_Time.getTime());
 
             final String randomCommentKey = user_id + saveDate + saveTime;

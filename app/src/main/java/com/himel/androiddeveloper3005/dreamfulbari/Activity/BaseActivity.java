@@ -47,8 +47,10 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void enableBackButton() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
     }
 
     public Toolbar getToolbar() {

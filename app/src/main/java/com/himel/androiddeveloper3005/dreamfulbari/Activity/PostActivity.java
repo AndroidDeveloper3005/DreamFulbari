@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,7 +42,7 @@ import java.util.Calendar;
 
 import id.zelory.compressor.Compressor;
 
-public class PostActivity extends AppCompatActivity implements View.OnClickListener{
+public class PostActivity extends BaseActivity implements View.OnClickListener{
     public static final int GALLERY_REQUEST = 1;
     private ImageView selectImageButton;
     private EditText postTitle,postDescription;
@@ -69,6 +70,9 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_post);
         initView();
         initListener();
+        getToolbar();
+        enableBackButton();
+        setToolbarTitle("Posts");
 
 
     }
@@ -99,6 +103,15 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -180,7 +193,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         saveDate = curentDate.format(getDate.getTime());
 
         Calendar get_Time = Calendar.getInstance();
-        SimpleDateFormat curentTime = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat curentTime = new SimpleDateFormat("hh:mm a");
         saveTime = curentTime.format(get_Time.getTime());
         postRandomKey = current_uid + saveDate +saveTime ;
 

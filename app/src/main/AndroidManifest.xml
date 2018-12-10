@@ -65,6 +65,7 @@
         <activity android:name=".Activity.BloodActivity" />
         <activity android:name=".Activity.DonateBloodActivity" />
         <activity android:name=".Activity.HistoricalActivity" />
+        <activity android:name=".Activity.ProfileActivity"></activity>
     </application>
 
 </manifest>

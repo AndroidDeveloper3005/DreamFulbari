@@ -58,10 +58,10 @@ public class NewsActivity extends ToolBarAndStatusBar {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
-        inittoolBar();
         initView();
         initFireBaseAuth();
+        inittoolBar();
+        setToolbarTitle("News");
         this.mHandler = new Handler();
 
         this.mHandler.postDelayed(m_Runnable,500);
@@ -126,22 +126,11 @@ public class NewsActivity extends ToolBarAndStatusBar {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_manu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.logOutItem){
-            logout();
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish();
         }
-        else if (item.getItemId() == R.id.Account_Setup){
-            Intent accountIntent = new Intent(getApplicationContext(),UserAccountSetupActivity.class);
-            accountIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(accountIntent);
-        }
-
         return super.onOptionsItemSelected(item);
     }
 

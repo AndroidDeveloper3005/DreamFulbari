@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/conslayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/conslayout"
+    android:background="@drawable/homeactivity_back_color"
     android:orientation="vertical"
     >
 
@@ -24,45 +25,56 @@
     </android.support.design.widget.AppBarLayout>
 
 
-
     <ImageView
+        android:layout_margin="@dimen/layout_margin_10dp"
         android:id="@+id/addimage_ImageView"
         android:layout_width="match_parent"
         android:layout_height="230dp"
-        android:scaleType="fitXY"
         android:background="@drawable/images"
+        android:scaleType="fitXY"
          />
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layout_margin_10dp"
+        android:layout_marginRight="@dimen/layout_margin_10dp"
+        android:theme="@style/TextInputLayout">
 
     <EditText
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
         android:id="@+id/post_Title_editText"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:layout_marginTop="5dp"
         android:layout_below="@+id/addimage_ImageView"
-        android:layout_marginBottom="287dp"
-        android:background="@drawable/input_outline"
-        android:gravity="center"
-        android:inputType="textPersonName"
         android:layout_margin="5dp"
-        android:hint="Post Title" />
+        android:layout_marginBottom="287dp"
+        android:gravity="fill"
+        android:hint="Post Title"
+        android:inputType="textPersonName" />
+    </android.support.design.widget.TextInputLayout>
 
 
 
-
-
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layout_margin_10dp"
+        android:layout_marginRight="@dimen/layout_margin_10dp"
+        android:theme="@style/TextInputLayout">
     <EditText
         android:id="@+id/post_Discription_editText"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/post_Title_editText"
-        android:background="@drawable/input_outline"
-        android:ems="10"
         android:layout_margin="5dp"
-        android:gravity="center"
+        android:ems="10"
         android:hint="Post Description"
         android:inputType="textPersonName"
-        android:layout_marginTop="5dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
         />
+</android.support.design.widget.TextInputLayout>
 
 
 
@@ -72,8 +84,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginTop="10dp"
+        android:orientation="vertical"
         >
 
         <Button
@@ -82,21 +94,21 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="28dp"
-            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/buttonshape"
             android:text="Post"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_gravity="center"
             />
 
     </LinearLayout>
     <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
         android:layout_gravity="center|bottom"
         android:layout_marginTop="5dp"
         />

@@ -48,19 +48,20 @@
                     android:id="@+id/username_textView"
                     android:text="User Name"
                     android:textStyle="bold"
-                    android:textColor="#F44336"
-                    android:textSize="18sp"
+                    android:textColor="#365899"
+                    android:textSize="16sp"
                     android:layout_margin="5dp"
                     />
 
                 <TextView
+                    android:gravity="top"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/date_textView"
-                    android:layout_margin="5dp"
+                    android:layout_marginLeft="5dp"
                     android:text="Date"
                     android:textStyle="bold"
-                    android:textColor="@color/black"
+                    android:textColor="#858A91"
                     android:textSize="10sp"
                     />
 
@@ -74,21 +75,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
-                android:padding="10dp"
                 android:text="User Comment"
                 android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="@dimen/layout_height_width_40dp"
+                />
 
-        <TextView
-            android:id="@+id/time_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:text="Time"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="bold" />
 
 
     </LinearLayout>
