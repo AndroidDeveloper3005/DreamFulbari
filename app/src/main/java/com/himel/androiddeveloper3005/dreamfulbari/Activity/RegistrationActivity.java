@@ -62,6 +62,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         initView();
         getToolbar();
         enableBackButton();
+        setToolbarTitle("Member Registration");
         initFireBaseAuth();
 
 

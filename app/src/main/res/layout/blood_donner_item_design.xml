@@ -14,12 +14,14 @@
         android:background="@drawable/recycleview_item_shape"
         android:orientation="horizontal">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
             android:layout_width="80dp"
             android:layout_height="80dp"
+            android:layout_marginTop="10dp"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="10dp"
+            android:scaleType="centerCrop"
             app:srcCompat="@drawable/facebook_avatar" />
 
         <LinearLayout

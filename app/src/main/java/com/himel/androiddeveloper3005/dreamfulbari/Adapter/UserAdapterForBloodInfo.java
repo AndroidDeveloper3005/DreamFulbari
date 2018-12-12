@@ -22,6 +22,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class UserAdapterForBloodInfo extends RecyclerView.Adapter<UserAdapterForBloodInfo.BloodInfoViewHolder>
         implements Filterable {
 
@@ -38,7 +40,8 @@ public class UserAdapterForBloodInfo extends RecyclerView.Adapter<UserAdapterFor
     public class BloodInfoViewHolder extends RecyclerView.ViewHolder{
         Context mContext;
         ArrayList<Users>arrayList;
-        ImageView userImageView,phoneImage,smsImage;
+        ImageView phoneImage,smsImage;
+        CircleImageView userImageView;
         TextView userName,userDetails;
         DatabaseReference mDatabaseReference,mDataBaseUser;
         FirebaseAuth mAuth;

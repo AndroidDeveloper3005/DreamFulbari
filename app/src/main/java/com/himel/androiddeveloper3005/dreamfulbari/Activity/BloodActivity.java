@@ -65,6 +65,7 @@ public class BloodActivity extends ToolBarAndStatusBar {
         initVariable();
         initFirebase();
         intView();
+        setToolbarTitle("Blood Information");
         getDataFromDatabase();
         sentPI = PendingIntent.getBroadcast(BloodActivity.this, 0, new Intent(SENT), 0);
         deliveredPI = PendingIntent.getBroadcast(BloodActivity.this, 0, new Intent(DELIVERED), 0);

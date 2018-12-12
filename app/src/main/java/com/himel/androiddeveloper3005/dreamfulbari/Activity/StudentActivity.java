@@ -42,10 +42,11 @@ import com.himel.androiddeveloper3005.dreamfulbari.Model.Student;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.ActivityUtils;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.MyDividerItemDecoration;
+import com.himel.androiddeveloper3005.dreamfulbari.Util.ToolBarAndStatusBar;
 
 import java.util.ArrayList;
 
-public class StudentActivity extends AppCompatActivity {
+public class StudentActivity extends ToolBarAndStatusBar {
     private RecyclerView studentListShow;
     private FirebaseDatabase database;
     private DatabaseReference mDatabaseRef;
@@ -108,8 +109,10 @@ public class StudentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initVariable();
         initView();
+        setToolbarTitle("Student Information");
         initFireBase();
         getDataFromDatabase();
+
     }
 
     private void loadData() {

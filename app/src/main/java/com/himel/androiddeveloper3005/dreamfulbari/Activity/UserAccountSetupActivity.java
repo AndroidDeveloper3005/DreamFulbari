@@ -67,6 +67,7 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
         initView();
         getToolbar();
         enableBackButton();
+        setToolbarTitle("User Information");
         initFireBase();
         professionList = new ArrayList<String>();
         professionList.add("Select One");

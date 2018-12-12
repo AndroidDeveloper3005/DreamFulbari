@@ -1,6 +1,5 @@
 package com.himel.androiddeveloper3005.dreamfulbari.Activity;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -9,15 +8,13 @@ import android.support.design.widget.Snackbar;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,7 +24,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
-import com.himel.androiddeveloper3005.dreamfulbari.Dialog.Button_Sheet_Dialog_Post;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.BlogPost;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.Comment;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
@@ -53,10 +49,6 @@ public class NewsActivity extends ToolBarAndStatusBar {
     private DatabaseReference mDatabaseComment;
     private Handler mHandler;
     private ArrayList<Comment>commentArrayList;
-    private String post_key ;
-    private Button_Sheet_Dialog_Post mButton_sheet_dialog_post;
-    private Bundle mBundle;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,9 +119,6 @@ public class NewsActivity extends ToolBarAndStatusBar {
         showData();
 
     }
-
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle arrow click here
@@ -138,6 +127,7 @@ public class NewsActivity extends ToolBarAndStatusBar {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     private void logout() {
         mAuth.signOut();
@@ -153,8 +143,8 @@ public class NewsActivity extends ToolBarAndStatusBar {
         blogListShow = findViewById(R.id.show_blog_Post_recyclerView);
         blogListShow.setHasFixedSize(true);
         blogListShow.setLayoutManager(layoutManager);
-        mButton_sheet_dialog_post = new Button_Sheet_Dialog_Post();
-        mBundle = new Bundle();
+
+
 
     }
 
@@ -187,12 +177,7 @@ public class NewsActivity extends ToolBarAndStatusBar {
             @Override
             protected void populateViewHolder(final BlogViewHolder viewHolder, BlogPost model, int position) {
 
-                post_key = getRef(position).getKey().toString();
-                //pass post key into ButtonSheet Data.
-                mBundle.putString("post_key",post_key);
-                mButton_sheet_dialog_post.setArguments(mBundle);
-
-
+                final String post_key = getRef(position).getKey().toString();
                 String dateTime =/*" has been posted on " +*/ (model.getDate() + " "+ model.getTime()).toString() ;
 
                 viewHolder.setTitle(model.getTitle());
@@ -204,6 +189,12 @@ public class NewsActivity extends ToolBarAndStatusBar {
                 viewHolder.setLkeButton(post_key);
                 viewHolder.countLike(post_key);
 
+                /*viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(NewsActivity.this, "Click Post  "+post_key, Toast.LENGTH_SHORT).show();
+                    }
+                });*/
 
                 viewHolder.mLike.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -218,6 +209,8 @@ public class NewsActivity extends ToolBarAndStatusBar {
                                 if (mProcessLike){
 
                                     if (dataSnapshot.child(post_key).hasChild(mAuth.getCurrentUser().getUid())){
+
+
 
                                         mDatabaseLikes.child(post_key).child(mAuth.getCurrentUser().getUid()).removeValue();
                                         mProcessLike = false;
@@ -260,16 +253,6 @@ public class NewsActivity extends ToolBarAndStatusBar {
 
                     }
                 });
-                //for post more
-                viewHolder.more.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //for show buttonsheet
-
-                        mButton_sheet_dialog_post.show(getSupportFragmentManager(),"Tag");
-
-                    }
-                });
 
 
 
@@ -284,35 +267,8 @@ public class NewsActivity extends ToolBarAndStatusBar {
 
     }
 
-    private void delete_selected_post() {
-        mDatabaseRef.child(post_key).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String id = (String) dataSnapshot.child(Constans.UID).getValue();
-                if (mAuth.getCurrentUser().getUid().equals(id)){
-                    mDatabaseLikes.child(post_key).removeValue();
-                    mDatabaseRef.child(post_key).removeValue();
-
-                }
-                else {
-                    Toast.makeText(NewsActivity.this, "You Can Not Delete Others Post", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-
-    }
-
-
-    public static   class BlogViewHolder extends RecyclerView.ViewHolder{
+    public static class BlogViewHolder extends RecyclerView.ViewHolder{
         View mView;
-        Button  more;
         ImageButton mLike,mComment;
         TextView like_count,date;
         DatabaseReference mDatabaseLike,mDatabaseComment;
@@ -327,18 +283,13 @@ public class NewsActivity extends ToolBarAndStatusBar {
             mComment =mView.findViewById(R.id.comment_button);
             like_count = mView.findViewById(R.id.like_count);
             date = mView.findViewById(R.id.date_textView);
-            more = mView.findViewById(R.id.button_more);
             mDatabaseLike = FirebaseDatabase.getInstance().getReference().child(Constans.LIKES);
             mDatabaseComment = FirebaseDatabase.getInstance().getReference().child(Constans.COMMENT);
             mAuth =FirebaseAuth.getInstance();
             mDatabase = FirebaseDatabase.getInstance().getReference().child(Constans.POST_DATABSE_PATH);
             mDatabaseLikesCounts = FirebaseDatabase.getInstance().getReference().child(Constans.LIKES);
             mDatabaseLike.keepSynced(true);
-
-
         }
-
-
 
         public void countLike(final String post_key){
 

@@ -42,10 +42,11 @@ import com.himel.androiddeveloper3005.dreamfulbari.Model.Employee;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.ActivityUtils;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.MyDividerItemDecoration;
+import com.himel.androiddeveloper3005.dreamfulbari.Util.ToolBarAndStatusBar;
 
 import java.util.ArrayList;
 
-public class EmployeeActivity extends AppCompatActivity {
+public class EmployeeActivity extends ToolBarAndStatusBar {
     private RecyclerView employeeListShow;
     private FirebaseDatabase database;
     private DatabaseReference mDatabaseRef;
@@ -77,6 +78,7 @@ public class EmployeeActivity extends AppCompatActivity {
         initVariable();
         initFireBase();
         initView();
+        setToolbarTitle("Employer Information");
         //searchEmployee();
         getDataFromDatabase();
         sentPI = PendingIntent.getBroadcast(EmployeeActivity.this, 0, new Intent(SENT), 0);

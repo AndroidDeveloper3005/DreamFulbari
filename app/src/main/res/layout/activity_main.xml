@@ -12,9 +12,9 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right|bottom"
-        android:layout_margin="@dimen/fab_margin"
-        android:layout_marginTop="20dp"
+        android:layout_gravity="right|top"
+        android:layout_marginTop="70dp"
+        android:layout_marginRight="30dp"
         android:src="@android:drawable/ic_dialog_email"/>
 
     <android.support.v7.widget.RecyclerView
@@ -23,7 +23,7 @@
        android:layout_marginTop="56dp"
         android:scrollbars="horizontal"
         android:id="@+id/show_blog_Post_recyclerView"
-        android:background="@color/grayColor"
+        android:background="@drawable/login_page_backgroud_color"
         />
     <ProgressBar
         android:layout_width="wrap_content"

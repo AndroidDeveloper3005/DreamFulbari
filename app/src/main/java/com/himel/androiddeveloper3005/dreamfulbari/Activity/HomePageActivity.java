@@ -108,11 +108,11 @@ public class HomePageActivity extends BaseActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-                     uno=snapshot.child("uno").getValue().toString();
-                     ambulance=snapshot.child("ambulance").getValue().toString();
-                     chairman=snapshot.child("chairman").getValue().toString();
-                     police=snapshot.child("police").getValue().toString();
-                     fireservice=snapshot.child("fireservice").getValue().toString();
+                     uno=snapshot.child(Constans.UNO).getValue().toString();
+                     ambulance=snapshot.child(Constans.AMBULANCE).getValue().toString();
+                     chairman=snapshot.child(Constans.CHAIRMAN).getValue().toString();
+                     police=snapshot.child(Constans.POLICE).getValue().toString();
+                     fireservice=snapshot.child(Constans.FIRESERVICE).getValue().toString();
 
                     HelpLine mHelpLine = new HelpLine(ambulance,chairman,fireservice,uno,police);
                     helpLines.add(mHelpLine);
@@ -237,7 +237,7 @@ public class HomePageActivity extends BaseActivity
                         Intent callIntent = new Intent(Intent.ACTION_CALL);
                         callIntent.setData(Uri.parse("tel:"+ambulance));
                         if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions((Activity) getApplicationContext(), new String[]{Manifest.permission.CALL_PHONE}, Constans.REQUEST_PHONE_CALL);
+                            ActivityCompat.requestPermissions((Activity) HomePageActivity.this, new String[]{Manifest.permission.CALL_PHONE}, Constans.REQUEST_PHONE_CALL);
                             return;
                         }
                         else {
@@ -251,7 +251,7 @@ public class HomePageActivity extends BaseActivity
                         Intent callIntent = new Intent(Intent.ACTION_CALL);
                         callIntent.setData(Uri.parse("tel:"+chairman));
                         if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions((Activity) getApplicationContext(), new String[]{Manifest.permission.CALL_PHONE}, Constans.REQUEST_PHONE_CALL);
+                            ActivityCompat.requestPermissions((Activity) HomePageActivity.this, new String[]{Manifest.permission.CALL_PHONE}, Constans.REQUEST_PHONE_CALL);
                             return;
                         }
                         else {
@@ -265,7 +265,7 @@ public class HomePageActivity extends BaseActivity
                         Intent callIntent = new Intent(Intent.ACTION_CALL);
                         callIntent.setData(Uri.parse("tel:"+fireservice));
                         if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions((Activity) getApplicationContext(), new String[]{Manifest.permission.CALL_PHONE}, Constans.REQUEST_PHONE_CALL);
+                            ActivityCompat.requestPermissions((Activity) HomePageActivity.this, new String[]{Manifest.permission.CALL_PHONE}, Constans.REQUEST_PHONE_CALL);
                             return;
                         }
                         else {
@@ -279,7 +279,7 @@ public class HomePageActivity extends BaseActivity
                         Intent callIntent = new Intent(Intent.ACTION_CALL);
                         callIntent.setData(Uri.parse("tel:"+police));
                         if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions((Activity) getApplicationContext(), new String[]{Manifest.permission.CALL_PHONE}, Constans.REQUEST_PHONE_CALL);
+                            ActivityCompat.requestPermissions((Activity) HomePageActivity.this, new String[]{Manifest.permission.CALL_PHONE}, Constans.REQUEST_PHONE_CALL);
                             return;
                         }
                         else {
