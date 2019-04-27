@@ -48,7 +48,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     private EditText postTitle,postDescription;
     private Button postSubmitBtn;
     private StorageReference mStorageReference;
-    private DatabaseReference mDatabaseRef,mDatabaseUserRef;
+    private DatabaseReference mDatabaseRef,mDatabaseUserRef,mDatabaseRefPostCount;
     private LinearLayout linearLayout;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
@@ -215,6 +215,10 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
                   final  DatabaseReference newPost = mDatabaseRef.child(postRandomKey);
 
+                  //store user how many  post
+                  final  DatabaseReference post_count = mDatabaseRefPostCount.child(mAuth.getCurrentUser().getUid());
+                  post_count.child(postRandomKey).setValue("0");
+
 
                     mDatabaseReferenceUser.addValueEventListener(new ValueEventListener() {
                         @Override
@@ -291,6 +295,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         mStorageReference = FirebaseStorage.getInstance().getReference();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference().child(Constans.POST_DATABSE_PATH);
         mDatabaseUserRef = FirebaseDatabase.getInstance().getReference();
+        mDatabaseRefPostCount = FirebaseDatabase.getInstance().getReference().child(Constans.USER_POST_COUNT_PATH);
 
     }
 

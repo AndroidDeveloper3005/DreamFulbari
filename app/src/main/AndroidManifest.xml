@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.himel.androiddeveloper3005.dreamfulbari">
 
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -24,8 +26,7 @@
         android:normalScreens="true"
         android:resizeable="true"
         android:smallScreens="true"
-        android:xlargeScreens="true"
-        />
+        android:xlargeScreens="true" />
 
     <application
         android:allowBackup="true"
@@ -47,6 +48,7 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
+
         <!-- optional (needed if default theme has no action bar) -->
 
         <activity android:name=".Activity.PostActivity" />
@@ -74,7 +76,8 @@
         <activity android:name=".Activity.BloodActivity" />
         <activity android:name=".Activity.DonateBloodActivity" />
         <activity android:name=".Activity.HistoricalActivity" />
-        <activity android:name=".Activity.ProfileActivity"></activity>
+        <activity android:name=".Activity.MyProfileActivity" />
+        <activity android:name=".Activity.UserProfileActivity"></activity>
     </application>
 
 </manifest>

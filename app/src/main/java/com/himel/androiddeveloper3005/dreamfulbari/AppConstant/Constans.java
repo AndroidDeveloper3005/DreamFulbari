@@ -11,6 +11,9 @@ public class Constans {
     public static final String USER_IMAGE_STOREAGE_PATH ="Profile_Images";
     public static final String POST_DATABSE_PATH ="Blog";
     public static final String USER_DATABSE_PATH ="Users";
+    public static final String USER_POST_COUNT_PATH ="PostCounter";
+    public static final String USER_VISITORS ="Visitors";
+
 
     public static final String HELPLINE_DATABSE_PATH ="Emergency";
     public static final String AMBULANCE ="Ambulance";

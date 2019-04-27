@@ -17,7 +17,7 @@
 
     <LinearLayout
         android:weightSum="2"
-        android:id="@+id/layout"
+        android:id="@+id/layout_user"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
@@ -50,7 +50,7 @@
         android:id="@+id/status_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/layout"
+        android:layout_below="@+id/layout_user"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="5dp"

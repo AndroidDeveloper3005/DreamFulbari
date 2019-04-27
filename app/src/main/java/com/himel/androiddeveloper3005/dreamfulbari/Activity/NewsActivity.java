@@ -8,13 +8,15 @@ import android.support.design.widget.Snackbar;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,12 +34,14 @@ import com.himel.androiddeveloper3005.dreamfulbari.Util.ToolBarAndStatusBar;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class NewsActivity extends ToolBarAndStatusBar {
     private android.support.v7.widget.Toolbar toolbar;
     private FloatingActionButton fab;
     private RecyclerView blogListShow,commentListShow;
     private FirebaseDatabase database;
-    private DatabaseReference mDatabaseRef;
+    private DatabaseReference mDatabaseRef,mDatabase;
     private BlogPost post;
     private ProgressBar bar;
     private FirebaseAuth mAuth;
@@ -49,6 +53,7 @@ public class NewsActivity extends ToolBarAndStatusBar {
     private DatabaseReference mDatabaseComment;
     private Handler mHandler;
     private ArrayList<Comment>commentArrayList;
+    private String uid,dateTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,7 @@ public class NewsActivity extends ToolBarAndStatusBar {
         initFireBaseAuth();
         inittoolBar();
         setToolbarTitle("News");
+
         this.mHandler = new Handler();
 
         this.mHandler.postDelayed(m_Runnable,500);
@@ -156,6 +162,7 @@ public class NewsActivity extends ToolBarAndStatusBar {
         mDatabaseUsers.keepSynced(true);
         mDatabaseLikes = FirebaseDatabase.getInstance().getReference().child(Constans.LIKES);
         mDatabaseComment = FirebaseDatabase.getInstance().getReference().child(Constans.COMMENT);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabaseLikes.keepSynced(true);
         mDatabaseComment.keepSynced(true);
 
@@ -177,8 +184,8 @@ public class NewsActivity extends ToolBarAndStatusBar {
             @Override
             protected void populateViewHolder(final BlogViewHolder viewHolder, BlogPost model, int position) {
 
-                final String post_key = getRef(position).getKey().toString();
-                String dateTime =/*" has been posted on " +*/ (model.getDate() + " "+ model.getTime()).toString() ;
+                final String post_key  = getRef(position).getKey().toString();
+                dateTime = (model.getDate() + " "+ model.getTime()).toString() ;
 
                 viewHolder.setTitle(model.getTitle());
                 viewHolder.set_Description(model.getDescription());
@@ -188,13 +195,34 @@ public class NewsActivity extends ToolBarAndStatusBar {
                 viewHolder.setDateTime(dateTime);
                 viewHolder.setLkeButton(post_key);
                 viewHolder.countLike(post_key);
-
-                /*viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                //click user image and Name to see user deatils
+                viewHolder.mUserLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(NewsActivity.this, "Click Post  "+post_key, Toast.LENGTH_SHORT).show();
+                        Intent mIntent = new Intent(NewsActivity.this,UserProfileActivity.class);
+                        mIntent.putExtra("clicked_post_key",post_key);
+                        startActivity(mIntent);
+/*
+
+
+
+                        mDatabaseRef.child(post_key).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                uid = (String) dataSnapshot.child(Constans.UID).getValue();
+                                mDatabase.child(Constans.USER_VISITORS).child(uid).child(mAuth.getCurrentUser().getUid()
+                                        +" "+dateTime).setValue("0");
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });*/
+
                     }
-                });*/
+                });
+
 
                 viewHolder.mLike.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -260,17 +288,22 @@ public class NewsActivity extends ToolBarAndStatusBar {
 
             }
         };
-        blogListShow.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.VERTICAL, 10));
+        blogListShow.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.VERTICAL, 5));
 
         blogListShow.setAdapter(fireBaseRecyclerAdapter);
 
 
     }
 
+
+
+
     public static class BlogViewHolder extends RecyclerView.ViewHolder{
         View mView;
+        LinearLayout mUserLayout;
+        CircleImageView mUserImage;
         ImageButton mLike,mComment;
-        TextView like_count,date;
+        TextView like_count,date,username;
         DatabaseReference mDatabaseLike,mDatabaseComment;
         DatabaseReference mDatabase;
         DatabaseReference mDatabaseLikesCounts;
@@ -279,7 +312,10 @@ public class NewsActivity extends ToolBarAndStatusBar {
         public BlogViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
+            mUserLayout = mView.findViewById(R.id.user_layout);
             mLike =mView.findViewById(R.id.like_button);
+            mUserImage =mView.findViewById(R.id.user_image_view);
+            username =mView.findViewById(R.id.username_textView);
             mComment =mView.findViewById(R.id.comment_button);
             like_count = mView.findViewById(R.id.like_count);
             date = mView.findViewById(R.id.date_textView);
