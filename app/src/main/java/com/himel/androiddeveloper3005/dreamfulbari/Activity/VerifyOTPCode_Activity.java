@@ -5,11 +5,12 @@ import android.os.Bundle;
 
 import com.himel.androiddeveloper3005.dreamfulbari.R;
 
-public class PhoneAuthActivity extends AppCompatActivity {
+public class VerifyOTPCode_Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_phone_auth);
+        setContentView(R.layout.activity_verify_otpcode_);
+
     }
 }
