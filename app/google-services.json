@@ -1,52 +1,45 @@
 {
   "project_info": {
-    "project_number": "461378307146",
-    "firebase_url": "https://dreamfulbari.firebaseio.com",
-    "project_id": "dreamfulbari",
-    "storage_bucket": "dreamfulbari.appspot.com"
+    "project_number": "51157886044",
+    "firebase_url": "https://digitalphulbari.firebaseio.com",
+    "project_id": "digitalphulbari",
+    "storage_bucket": "digitalphulbari.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:461378307146:android:2ae1c4ab201d3896",
+        "mobilesdk_app_id": "1:51157886044:android:2ae1c4ab201d3896",
         "android_client_info": {
           "package_name": "com.himel.androiddeveloper3005.dreamfulbari"
         }
       },
       "oauth_client": [
         {
-          "client_id": "461378307146-jri51c26viurjtnurq8c5aud1co05nrs.apps.googleusercontent.com",
+          "client_id": "51157886044-t3htovt05gampq5vu1d55m7r3fcm186o.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.himel.androiddeveloper3005.dreamfulbari",
-            "certificate_hash": "44b0efc0043ecf343c8b4556c0bb89e021bf248e"
+            "certificate_hash": "b8bd3455d887652bf8278e4f5a7849316b77000f"
           }
         },
         {
-          "client_id": "461378307146-trjugvi58uf91n6fmt191of4c18e14s3.apps.googleusercontent.com",
+          "client_id": "51157886044-k6oim5k7srn8jpt1mer6k03sg29rlucf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCRutj1ki-Fx4UoYi3swbUzJNFFc54lRAA"
+          "current_key": "AIzaSyDoXO6kEwJa1HJOZzTj8JLSBJVl3ncQb64"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "461378307146-trjugvi58uf91n6fmt191of4c18e14s3.apps.googleusercontent.com",
+              "client_id": "51157886044-k6oim5k7srn8jpt1mer6k03sg29rlucf.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

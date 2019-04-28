@@ -10,9 +10,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- To auto-complete the details_student text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- To auto-complete the details_student text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -37,6 +35,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Activity.PhoneAuthActivity"></activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_map_Api_key" />
@@ -47,10 +47,7 @@
         <activity android:name=".Activity.NewsActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
-
-        <!-- optional (needed if default theme has no action bar) -->
-
+            android:theme="@style/Base.Theme.AppCompat" /> <!-- optional (needed if default theme has no action bar) -->
         <activity android:name=".Activity.PostActivity" />
         <activity android:name=".Activity.UserAccountSetupActivity" />
         <activity android:name=".Activity.RegistrationActivity" />
@@ -77,7 +74,7 @@
         <activity android:name=".Activity.DonateBloodActivity" />
         <activity android:name=".Activity.HistoricalActivity" />
         <activity android:name=".Activity.MyProfileActivity" />
-        <activity android:name=".Activity.UserProfileActivity"></activity>
+        <activity android:name=".Activity.UserProfileActivity" />
     </application>
 
 </manifest>

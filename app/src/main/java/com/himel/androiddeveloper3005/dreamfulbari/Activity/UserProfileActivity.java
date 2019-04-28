@@ -144,9 +144,5 @@ public class UserProfileActivity extends BaseActivity {
         //mDetails = findViewById(R.id.details);
 
 
-
-
-
-
     }
 }
