@@ -24,6 +24,7 @@
     <color name="black">#000000</color>
     <color name="grayColor">#c2c2c2</color>
     <color name="page_bg">#F7F5F6</color>
+    <color name="phone_auth">#0189BF</color>
     <color name="page_bg_dim">#FAFAFA</color>
     <color name="logBack">#79a8f2</color>
     <color name="profilebackColor">#2962FF</color>

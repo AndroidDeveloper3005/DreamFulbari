@@ -11,6 +11,8 @@ public class VerifyOTPCode_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify_otpcode_);
+        String mPhoneNumber = getIntent().getStringExtra("phoneNumber");
+
 
     }
 }

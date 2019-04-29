@@ -86,7 +86,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             welcomeNote.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    ActivityUtils.getInstance().invokeActivity(mActivity, LoginActivity.class, true);
+                    ActivityUtils.getInstance().invokeActivity(mActivity, PhoneAuthActivity.class, true);
                 }
             }, SPLASH_DURATION);
 

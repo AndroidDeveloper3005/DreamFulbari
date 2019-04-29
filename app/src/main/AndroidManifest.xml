@@ -35,8 +35,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activity.VerifyOTPCode_Activity"></activity>
-        <activity android:name=".Activity.PhoneAuthActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -55,13 +53,27 @@
         <activity android:name=".Activity.LoginActivity" />
         <activity android:name=".Activity.ResetPasswordActivity" />
         <activity android:name=".Activity.CommentActivity" />
+
         <activity android:name=".Activity.SplashScreenActivity">
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
+        <activity android:name=".Activity.VerifyOTPCode_Activity">
+
+
+        </activity>
+        <activity android:name=".Activity.PhoneAuthActivity" >
+
+        </activity>
+
+
         <activity
             android:name=".Activity.HomePageActivity"
             android:theme="@style/AppTheme" />
