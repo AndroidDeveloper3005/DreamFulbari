@@ -75,7 +75,7 @@ public class HomePageActivity extends BaseActivity
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
                 if (mAuth.getCurrentUser() == null) {
-                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    startActivity(new Intent(getApplicationContext(), PhoneAuthActivity.class));
                     finish();
                 }
 
@@ -410,7 +410,8 @@ public class HomePageActivity extends BaseActivity
         }else if (id == R.id.nav_logout) {
             logOut();
 
-        } else if (id == R.id.nav_about_us) {
+        }
+        else if (id == R.id.nav_about_us) {
 
         }
 

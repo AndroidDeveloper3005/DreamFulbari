@@ -22,8 +22,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -42,7 +45,7 @@ import id.zelory.compressor.Compressor;
 
 public class UserAccountSetupActivity extends BaseActivity implements View.OnClickListener {
     private CircleImageView user_setUp_imageView;
-    private EditText user_name,user_address,user_phone,userCurrentLoc,organization,institute;
+    private EditText user_name,user_address, user_email,userCurrentLoc,organization,institute;
     private Spinner user_professionSpinner,user_bloodgroup_spinner,gender_spinner,bloodDoner_spinner;
     private Button setup_button;
     public static final int GALLERY_REQUEST = 1;
@@ -58,11 +61,15 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
     private Bitmap thumb_bitmap,bitmap;
     private File thump_filepath;
     private Uri mImageUri,resultUri;
+    private boolean accountCreated = false;
+    private String currentUserID;
+    private DatabaseReference mDatabaseUsers;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hasAccount();
         setContentView(R.layout.activity_setup);
         initView();
         getToolbar();
@@ -101,6 +108,34 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
 
     }
 
+
+
+    private boolean hasAccount() {
+        mAuth = FirebaseAuth.getInstance();
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child(Constans.USER_DATABSE_PATH);
+        currentUserID = mAuth.getCurrentUser().getUid().toString();
+
+        mDatabaseUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.hasChild(currentUserID)){
+                    accountCreated = true;
+                    Intent intent = new Intent(getApplicationContext(),HomePageActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    accountCreated = false;
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+        return accountCreated;
+    }
+
+
     private void spinnerSetAdapter() {
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapterProfession = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, professionList);
@@ -138,7 +173,7 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
         userCurrentLoc =findViewById(R.id.userCurrent_location_editText);
         //organization = findViewById(R.id.organization_name_editText);
         institute = findViewById(R.id.institute_name_editText);
-        user_phone = findViewById(R.id.userPhone_editText);
+        user_email = findViewById(R.id.useremail_editText);
         user_professionSpinner = findViewById(R.id.userProfession_spinner);
         user_bloodgroup_spinner = findViewById(R.id.userBloodGroup_spinner);
         gender_spinner = findViewById(R.id.userGender_spinner);
@@ -211,6 +246,8 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
         mStorageReference = FirebaseStorage.getInstance().getReference();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference().child(Constans.USER_DATABSE_PATH);
         mAuth = FirebaseAuth.getInstance();
+
+
     }
 
     @Override
@@ -300,20 +337,17 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
     }
 
 
-
-
-
     private void startsetupaccount() {
         final   String name = user_name.getText().toString().trim();
         final   String address = user_address.getText().toString().trim();
         final   String curentLocation = userCurrentLoc.getText().toString().trim();
         final   String instituteName = institute.getText().toString().trim();
-        final   String phone = user_phone.getText().toString().trim();
+        final   String email = user_email.getText().toString().trim();
         final   String profession = professionItemSelected;
         final   String bloodgroup = bloodgroupItemSelected;
         final   String gender = genderitemSelected;
         final   String user_id = mAuth.getCurrentUser().getUid().toString().trim();
-        final   String email =   mAuth.getCurrentUser().getEmail().toString().trim();
+        final   String phone =   mAuth.getCurrentUser().getPhoneNumber().toString().trim();
         final   String wantToBllodDonate =   wantToDoneritemSelected;
 
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(wantToBllodDonate) &&  !TextUtils.isEmpty(instituteName)

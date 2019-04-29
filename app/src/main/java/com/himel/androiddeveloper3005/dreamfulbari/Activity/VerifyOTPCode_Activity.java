@@ -38,7 +38,7 @@ public class VerifyOTPCode_Activity extends AppCompatActivity {
         sendVerificationCode(mPhoneNumber);
 
         mAuth = FirebaseAuth.getInstance();
-        mCode = findViewById(R.id.edittext_phone);
+        mCode = findViewById(R.id.edittext_code);
         mSignIn = findViewById(R.id.sign_in_btn);
         mProgressBar = findViewById(R.id.progressBar);
 
@@ -76,7 +76,7 @@ public class VerifyOTPCode_Activity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            Intent intent = new Intent(getApplicationContext(),HomePageActivity.class);
+                            Intent intent = new Intent(getApplicationContext(),UserAccountSetupActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
 
