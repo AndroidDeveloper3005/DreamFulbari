@@ -41,17 +41,17 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginLeft="24dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="136dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
             android:gravity="center"
-            android:text="Verify Mobile"
+            android:text="Wait for the code"
             android:textColor="@color/white"
             android:textSize="@dimen/layout_margin_20dp"
-            ads:layout_constraintEnd_toEndOf="parent"
-            ads:layout_constraintHorizontal_bias="0.0"
-            ads:layout_constraintStart_toStartOf="parent"
-            ads:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/text_fo"
@@ -63,38 +63,38 @@
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
             android:gravity="center"
-            android:text="Please enter your mobile number"
+            android:text="I send you a code.It will be detected automatically but if it is not detected you can put it bellow manually as well "
             android:textColor="@color/white"
             android:textSize="@dimen/layout_height_width_15dp"
-            ads:layout_constraintEnd_toEndOf="parent"
-            ads:layout_constraintStart_toStartOf="parent"
-            ads:layout_constraintTop_toBottomOf="@+id/text_vp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_vp" />
 
 
     </android.support.constraint.ConstraintLayout>
 
-    <Button
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <Button xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/user_image_view"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
-        android:layout_marginTop="148dp"
+        android:layout_marginTop="252dp"
         android:layout_marginEnd="4dp"
         android:layout_marginRight="4dp"
         android:background="@drawable/round"
-        android:gravity="center"
         android:drawableStart="@drawable/ic_smartphone"
         android:drawablePadding="5dp"
+        android:gravity="center"
         android:paddingLeft="25dp"
         android:paddingRight="30dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/image" />
 
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="256dp"
@@ -112,46 +112,67 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="@+id/layout"
+            app:layout_constraintTop_toBottomOf="@+id/layout" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/edittext_code"
+            android:layout_width="@dimen/layout_height_width_200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_20dp"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="@+id/info_text"
-            app:layout_constraintTop_toBottomOf="@+id/info_text">
-
-            <Spinner
-                android:id="@+id/spinnerCountries"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="0.3" />
-
-            <EditText
-                android:id="@+id/edittext_phone"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/bg_white_rounded"
-                android:digits="0123456789"
-                android:hint="Enter your number" />
-        </LinearLayout>
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/bg_white_rounded"
+            android:digits="0123456789"
+            android:hint="Enter code"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/info_text" />
 
         <Button
-            android:id="@+id/next_btn"
+            android:id="@+id/sign_in_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/layout_margin_20dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
             android:background="@drawable/bg_white_rounded"
-            android:text="Continue"
-            android:textColor="@color/button_text_color" />
+            android:text="Sign In"
+            android:textSize="@dimen/layout_margin_20dp"
+            android:textAllCaps="false"
+            android:textColor="@color/button_text_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edittext_code" />
 
-    </LinearLayout>
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="28dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sign_in_btn"
+            />
+
+    </android.support.constraint.ConstraintLayout>
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
