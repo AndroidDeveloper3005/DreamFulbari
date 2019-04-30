@@ -69,8 +69,8 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        hasAccount();
-        setContentView(R.layout.activity_setup);
+        //hasAccount();
+
         initView();
         getToolbar();
         enableBackButton();
@@ -107,7 +107,6 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
 
 
     }
-
 
 
     private boolean hasAccount() {
@@ -167,6 +166,7 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
     }
 
     private void initView(){
+        setContentView(R.layout.activity_setup);
         user_setUp_imageView = findViewById(R.id.user_profile_imageView);
         user_name = findViewById(R.id.userName_editText);
         user_address = findViewById(R.id.userAddress_editText);

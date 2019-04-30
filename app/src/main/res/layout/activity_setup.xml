@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.RegistrationActivity"
-    android:orientation="vertical"
+    android:background="@color/white"
     >
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbarImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolBar"
@@ -21,245 +25,449 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
+
+
     <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/login_page_backgroud_color"
-        >
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbarImage">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@drawable/login_page_backgroud_color"
-            android:gravity="center"
-            android:orientation="vertical"
-            >
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appbarImage">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/user_profile_imageView"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="@dimen/layout_height_weight_5dp"
-                android:src="@drawable/facebook_avatar" />
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <android.support.design.widget.TextInputLayout
-                android:theme="@style/TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/userName_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter Your Name"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@android:color/white" />
-
-            </android.support.design.widget.TextInputLayout>
-
-
-
-            <android.support.design.widget.TextInputLayout
-                android:theme="@style/TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/userAddress_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter Your Parmanent Address"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@android:color/white" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:theme="@style/TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/userCurrent_location_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter Your Present Address"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@android:color/white" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:theme="@style/TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/institute_name_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter Your Institute Name"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@android:color/white" />
-
-            </android.support.design.widget.TextInputLayout>
-
-
-            <android.support.design.widget.TextInputLayout
-                android:theme="@style/TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/useremail_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter Your Phone Number"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@android:color/white" />
-
-            </android.support.design.widget.TextInputLayout>
-
-
-            <LinearLayout
-                android:layout_margin="5dp"
-                android:layout_marginTop="10dp"
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/imageCons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_weight="0.6"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Profession  "
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    />
-                <Spinner
-                    android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/user_profile_imageView"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_gravity="center"
-                    android:id="@+id/userProfession_spinner"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"/>
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/facebook_avatar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageCons" />
 
-            </LinearLayout>
+            </android.support.constraint.ConstraintLayout>
 
 
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/one"
+                android:layout_width="match_parent"
+                android:layout_height="89dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageCons">
 
-            <LinearLayout
-                android:layout_margin="5dp"
-                android:layout_marginTop="10dp"
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:theme="@style/TextInputLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/userName_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter Your Name"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@android:color/white" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/two"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_weight="2.1"
-                    android:layout_width="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/one">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Blood Donar Or Not "
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    />
-                <Spinner
-                    android:layout_weight="1.5"
-                    android:layout_gravity="center"
-                    android:id="@+id/wantto_donet_blood_spinner"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"/>
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:theme="@style/TextInputLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            </LinearLayout>
+                    <EditText
+                        android:id="@+id/userAddress_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter Your Parmanent Address"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@android:color/white" />
 
+                </android.support.design.widget.TextInputLayout>
 
-            <LinearLayout
-                android:layout_margin="5dp"
-                android:layout_marginTop="10dp"
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/three"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_weight="0.6"
-                    android:layout_width="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/two">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Blood Group  "
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    />
-                <Spinner
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:id="@+id/userBloodGroup_spinner"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"/>
+                    android:layout_marginTop="16dp"
+                    android:theme="@style/TextInputLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            </LinearLayout>
+                    <EditText
+                        android:id="@+id/userCurrent_location_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter Your Present Address"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@android:color/white" />
 
+                </android.support.design.widget.TextInputLayout>
 
+            </android.support.constraint.ConstraintLayout>
 
-            <LinearLayout
-                android:layout_margin="5dp"
-                android:layout_marginTop="10dp"
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/four"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_weight="0.6"
-                    android:layout_width="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/three">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="53dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:theme="@style/TextInputLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/four">
+
+                    <EditText
+                        android:id="@+id/institute_name_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter Your Institute Name"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@android:color/white" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/five"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/four">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Gender   "
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    />
-                <Spinner
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:id="@+id/userGender_spinner"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"/>
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:theme="@style/TextInputLayout"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            </LinearLayout>
+                    <EditText
+                        android:id="@+id/useremail_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter your email"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@android:color/white" />
 
+                </android.support.design.widget.TextInputLayout>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/six"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/five"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/six">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.6"
+                        android:text="Profession  "
+                        android:textColor="#535353"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/userProfession_spinner"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/seven"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/six"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/seven">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2.1"
+                        android:text="Blood Donar Or Not "
+                        android:textColor="#535353"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/wantto_donet_blood_spinner"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.5" />
+
+                </LinearLayout>
+
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                android:id="@+id/eight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/seven">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/eight">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.6"
+                        android:text="Blood Group  "
+                        android:textColor="#535353"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/userBloodGroup_spinner"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+            </android.support.constraint.ConstraintLayout>
+
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                android:id="@+id/nine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/eight">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/nine">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.6"
+                        android:text="Gender   "
+                        android:textColor="#535353"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/userGender_spinner"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+
+            </android.support.constraint.ConstraintLayout>
 
 
             <Button
-                android:layout_marginBottom="@dimen/layout_margin_10dp"
                 android:id="@+id/userSetup_button"
                 style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="@dimen/layout_margin_10dp"
                 android:background="@drawable/bg_white_rounded"
-                android:text="Done"
+                android:text="Save"
                 android:textColor="@color/button_text_color"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nine" />
 
-        </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userSetup_button" />
 
 
+        </android.support.constraint.ConstraintLayout>
 
     </ScrollView>
 
 
     <ProgressBar
+        android:visibility="gone"
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"
-        />
+        android:layout_marginTop="312dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/appbarImage"
+        app:layout_constraintTop_toBottomOf="@+id/appbarImage" />
 
-</LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
