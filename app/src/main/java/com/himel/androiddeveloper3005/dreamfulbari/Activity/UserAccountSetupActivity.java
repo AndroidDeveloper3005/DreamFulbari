@@ -64,6 +64,7 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
     private boolean accountCreated = false;
     private String currentUserID;
     private DatabaseReference mDatabaseUsers;
+    private Button clickImage;
 
 
     @Override
@@ -106,6 +107,39 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
         spinnerSetAdapter();
 
 
+
+
+    }
+
+    private void emptyEnterError() {
+
+        final   String name = user_name.getText().toString().trim();
+        final   String address = user_address.getText().toString().trim();
+        final   String curentLocation = userCurrentLoc.getText().toString().trim();
+        final   String instituteName = institute.getText().toString().trim();
+        final   String email = user_email.getText().toString().trim();
+       //condition
+        if (name.isEmpty()){
+            user_name.setError("Username is required");
+            user_name.requestFocus();
+            return;
+        }else if (address.isEmpty()){
+            user_address.setError("Valid address is required");
+            user_address.requestFocus();
+            return;
+        }else if (curentLocation.isEmpty()){
+            userCurrentLoc.setError("Valid address is required");
+            userCurrentLoc.requestFocus();
+            return;
+        }else if (instituteName.isEmpty()){
+            institute.setError("Institute name is required");
+            institute.requestFocus();
+            return;
+        }else if (email.isEmpty()){
+            user_email.setError("Valid email is required");
+            user_email.requestFocus();
+            return;
+        }
     }
 
 
@@ -179,7 +213,9 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
         gender_spinner = findViewById(R.id.userGender_spinner);
         bloodDoner_spinner = findViewById(R.id.wantto_donet_blood_spinner);
         setup_button = findViewById(R.id.userSetup_button);
-        user_setUp_imageView.setOnClickListener(this);
+        clickImage = findViewById(R.id.user_image_view);
+        clickImage.setOnClickListener(this);
+
         setup_button.setOnClickListener(this);
         dialog = new ProgressDialog(this);
         dialog.setMessage("Loading..");
@@ -253,7 +289,7 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
     @Override
     public void onClick(View v) {
 
-        if (v == user_setUp_imageView){
+        if (v == clickImage){
             Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
             galleryIntent.setType("image/*");
 
@@ -268,28 +304,13 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
         }
 
         else if (v == setup_button){
+            emptyEnterError();
             dialog.show();
             startsetupaccount();
         }
 
     }
 
-
-/*    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        mImageUri = data.getData();
-
-        try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mImageUri);
-            // Log.d(TAG, String.valueOf(bitmap));
-
-
-            user_setUp_imageView.setImageBitmap(bitmap);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
