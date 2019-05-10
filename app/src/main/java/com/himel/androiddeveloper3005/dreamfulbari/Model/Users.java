@@ -10,6 +10,9 @@ public class Users implements Serializable {
 
     private String name, image, phone,bloodgroup,donner_status,location;
 
+    public Users() {
+    }
+
     public Users(String name, String image, String phone, String bloodgroup, String donner_status, String location) {
         this.name = name;
         this.image = image;

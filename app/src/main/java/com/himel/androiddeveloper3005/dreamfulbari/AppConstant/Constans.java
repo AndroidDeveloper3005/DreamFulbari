@@ -13,6 +13,7 @@ public class Constans {
     public static final String USER_DATABSE_PATH ="Users";
     public static final String USER_POST_COUNT_PATH ="PostCounter";
     public static final String USER_VISITORS ="Visitors";
+    public static final String ACCESS_TOKEN ="pk.eyJ1IjoiaGltZWwiLCJhIjoiY2p2N3BrdDZvMDQ4cTN5cnhsbGw0YTczayJ9.Req2cxtTkhyG-S4262gqrg";
 
 
     public static final String HELPLINE_DATABSE_PATH ="Emergency";

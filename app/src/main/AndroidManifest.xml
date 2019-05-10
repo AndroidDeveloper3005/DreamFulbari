@@ -35,6 +35,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Activity.ChatActivity">
+
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+
+        </activity>
+        <activity android:name=".Activity.MapBoxActivity">
+
+        </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -48,33 +62,14 @@
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" /> <!-- optional (needed if default theme has no action bar) -->
         <activity android:name=".Activity.PostActivity" />
-        <activity android:name=".Activity.UserAccountSetupActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".Activity.UserAccountSetupActivity" />
         <activity android:name=".Activity.RegistrationActivity" />
         <activity android:name=".Activity.LoginActivity" />
         <activity android:name=".Activity.ResetPasswordActivity" />
         <activity android:name=".Activity.CommentActivity" />
-
-        <activity android:name=".Activity.SplashScreenActivity">
-
-
-
-        </activity>
-
-        <activity android:name=".Activity.VerifyOTPCode_Activity">
-
-
-        </activity>
-        <activity android:name=".Activity.PhoneAuthActivity" >
-
-        </activity>
-
-
+        <activity android:name=".Activity.SplashScreenActivity"></activity>
+        <activity android:name=".Activity.VerifyOTPCode_Activity" />
+        <activity android:name=".Activity.PhoneAuthActivity" />
         <activity
             android:name=".Activity.HomePageActivity"
             android:theme="@style/AppTheme" />

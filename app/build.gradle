@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.himel.androiddeveloper3005.dreamfulbari"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -22,11 +22,23 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+
+    repositories {
+        mavenCentral()
+        maven { url 'https://mapbox.bintray.com/mapbox' }
+    }
+
+
     packagingOptions {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE-FIREBASE.txt'
         exclude 'META-INF/NOTICE'
 
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -75,5 +87,11 @@ dependencies {
     implementation 'com.github.arimorty:floatingsearchview:2.1.1'
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
     implementation 'com.github.markushi:circlebutton:1.1'
+
+    //mapBoxSDK
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:6.0.1'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-locationlayer:0.5.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-navigation:0.13.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.13.0'
 }
 apply plugin: 'com.google.gms.google-services'

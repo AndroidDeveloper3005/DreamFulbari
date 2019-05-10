@@ -111,36 +111,6 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
 
     }
 
-    private void emptyEnterError() {
-
-        final   String name = user_name.getText().toString().trim();
-        final   String address = user_address.getText().toString().trim();
-        final   String curentLocation = userCurrentLoc.getText().toString().trim();
-        final   String instituteName = institute.getText().toString().trim();
-        final   String email = user_email.getText().toString().trim();
-       //condition
-        if (name.isEmpty()){
-            user_name.setError("Username is required");
-            user_name.requestFocus();
-            return;
-        }else if (address.isEmpty()){
-            user_address.setError("Valid address is required");
-            user_address.requestFocus();
-            return;
-        }else if (curentLocation.isEmpty()){
-            userCurrentLoc.setError("Valid address is required");
-            userCurrentLoc.requestFocus();
-            return;
-        }else if (instituteName.isEmpty()){
-            institute.setError("Institute name is required");
-            institute.requestFocus();
-            return;
-        }else if (email.isEmpty()){
-            user_email.setError("Valid email is required");
-            user_email.requestFocus();
-            return;
-        }
-    }
 
 
     private boolean hasAccount() {
@@ -304,8 +274,6 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
         }
 
         else if (v == setup_button){
-            emptyEnterError();
-            dialog.show();
             startsetupaccount();
         }
 
@@ -373,7 +341,9 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
 
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(wantToBllodDonate) &&  !TextUtils.isEmpty(instituteName)
                 && !TextUtils.isEmpty(address)&& !TextUtils.isEmpty(curentLocation)
-                && !TextUtils.isEmpty(phone) && !TextUtils.isEmpty(profession) && !TextUtils.isEmpty(bloodgroup)&& !TextUtils.isEmpty(gender) && mImageUri != null){
+                && !TextUtils.isEmpty(phone) && !TextUtils.isEmpty(profession)
+                && !TextUtils.isEmpty(bloodgroup)&& !TextUtils.isEmpty(gender) && mImageUri != null){
+            dialog.show();
 
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             thumb_bitmap.compress(Bitmap.CompressFormat.JPEG,60,byteArrayOutputStream);
@@ -403,12 +373,11 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
                     startActivity(goHome);
                     finish();
 
-
                 }
             });
 
         }else {
-            Toast.makeText(this, "You need to fill all field.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You need to fill all field.", Toast.LENGTH_LONG).show();
 
         }
     }

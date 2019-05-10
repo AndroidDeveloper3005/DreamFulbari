@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">DreamFulbari</string>
+    <string name="access_token">pk.eyJ1IjoiaGltZWwiLCJhIjoiY2p2N25tY2txMDduMjRlcXlyNWg2NmxsZSJ9.5geXiOQrHSP7YsS0TqT5lA</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="empty_result">No data!</string>
     <string name="title_activity_drawer">DrawerActivity</string>
@@ -90,5 +91,6 @@
     <string name="splashTitle">Degital Fulbari</string>
     <string name="sms_send">SMS SEND</string>
     <string name="enter_your_message">Enter Your Message</string>
+    <string name="start_navigating">Start Navigating</string>
 
 </resources>

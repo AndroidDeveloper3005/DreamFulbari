@@ -403,9 +403,11 @@ public class HomePageActivity extends BaseActivity
             startActivity(new Intent(this,MyProfileActivity.class));
 
         } else if (id == R.id.nav_map) {
-            if (isServiceOk()){
+            startActivity(new Intent(this,MapBoxActivity.class));
+
+            /*if (isServiceOk()){
                 startActivity(new Intent(this,MapActivity.class));
-            }
+            }*/
 
         }else if (id == R.id.nav_logout) {
             logOut();
