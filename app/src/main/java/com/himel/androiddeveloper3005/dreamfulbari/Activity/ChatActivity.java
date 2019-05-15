@@ -1,7 +1,11 @@
 package com.himel.androiddeveloper3005.dreamfulbari.Activity;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,13 +20,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.himel.androiddeveloper3005.dreamfulbari.Adapter.ViewPagerAdapter;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.Fragnent.ChatsFragment;
 import com.himel.androiddeveloper3005.dreamfulbari.Fragnent.UsersFragment;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.User;
-import com.himel.androiddeveloper3005.dreamfulbari.Model.Users;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -90,7 +94,43 @@ public class ChatActivity extends AppCompatActivity {
         mTabLayout.setupWithViewPager(mViewPager);
 
 
-
-
     }
+
+
+    public class ViewPagerAdapter extends FragmentPagerAdapter {
+        private ArrayList<Fragment> mFragments;
+        private ArrayList<String>titles;
+
+        public ViewPagerAdapter(FragmentManager fm) {
+            super(fm);
+            this.mFragments = new ArrayList<>();
+            this.titles = new ArrayList<>();
+
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragments.size();
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles.get(position);
+        }
+
+        public void addFragment(Fragment fragment, String title){
+            mFragments.add(fragment);
+            titles.add(title);
+
+            //
+
+        }
+    }
+
 }

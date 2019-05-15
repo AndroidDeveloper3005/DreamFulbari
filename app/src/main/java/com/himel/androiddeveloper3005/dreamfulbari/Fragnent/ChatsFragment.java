@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,12 +28,9 @@ import java.util.ArrayList;
 
 public class ChatsFragment extends Fragment {
     private RecyclerView mRecyclerView;
-    private UsersAdapter mAdapter;
     private ArrayList<User> mUsers;
     private DatabaseReference mDatabaseRef;
     private FirebaseUser mAuth;
-    private ProgressBar progressBar;
-
 
     public ChatsFragment() {
     }
@@ -43,58 +39,8 @@ public class ChatsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.fragment_chats, container, false);
-        progressBar = view.findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.VISIBLE);
-
-        mUsers = new ArrayList<>();
-        readUsers();
-
-        mRecyclerView = view.findViewById(R.id.chats_recyclerview);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-
         return view;
     }
 
-
-    private void readUsers() {
-        mAuth = FirebaseAuth.getInstance().getCurrentUser();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference(Constans.USER_DATABSE_PATH);
-        mDatabaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mUsers.clear();
-                for (DataSnapshot snapshot:dataSnapshot.getChildren()) {
-                    String userID = snapshot.child(Constans.UID).getValue().toString();
-                    String userName = snapshot.child(Constans.USER_NAME).getValue().toString();
-                    String phone = snapshot.child(Constans.USER_PHONE).getValue().toString();
-                    String userImage = snapshot.child(Constans.USER_IMAGE).getValue().toString();
-                    String bloodGroup =snapshot.child(Constans.BLOODGROUP).getValue().toString();
-                    String confirmDonerStatus = snapshot.child(Constans.BLOODDONER).getValue().toString();
-                    String location =snapshot.child(Constans.CURRENT_LOCATION).getValue().toString();
-                    User user = new User(userID,userName,phone,userImage,bloodGroup,confirmDonerStatus,location);
-                    Toast.makeText(getContext(),"Data  "+ user.getName(),Toast.LENGTH_LONG).show();
-                    assert user !=null;
-                    assert mAuth !=null;
-                    if (!user.getId().equals(mAuth.getUid())){
-                        mUsers.add(user);
-                    }
-                }
-
-                mAdapter = new UsersAdapter(getActivity(),mUsers);
-                mRecyclerView.setAdapter(mAdapter);
-                progressBar.setVisibility(View.INVISIBLE);
-                mAdapter.notifyDataSetChanged();
-
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-    }
 
 }

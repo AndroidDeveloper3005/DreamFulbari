@@ -76,16 +76,15 @@ public class UsersFragment extends Fragment {
                     String confirmDonerStatus = snapshot.child(Constans.BLOODDONER).getValue().toString();
                     String location =snapshot.child(Constans.CURRENT_LOCATION).getValue().toString();
                     User user = new User(userID,userName,phone,userImage,bloodGroup,confirmDonerStatus,location);
-                    Toast.makeText(getContext(),"Data  "+ user.getName(),Toast.LENGTH_LONG).show();
-/*                    assert user !=null;
-                    assert mAuth !=null;*/
+
+                    assert user !=null;
+                    assert mAuth !=null;
                     if (!user.getId().equals(mAuth.getUid())){
                         mUsers.add(user);
                     }
                 }
 
                 //set adapter
-
                 mAdapter = new UsersAdapter(getActivity(),mUsers);
                 mRecyclerView.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
