@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.himel.androiddeveloper3005.dreamfulbari.Adapter.UsersAdapter;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
+import com.himel.androiddeveloper3005.dreamfulbari.Model.User;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.Users;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
 
@@ -32,7 +34,7 @@ public class UsersFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private UsersAdapter mAdapter;
-    private List<Users>mUsers;
+    private ArrayList<User>mUsers;
     private DatabaseReference mDatabaseRef;
     private FirebaseUser mAuth;
 
@@ -48,26 +50,46 @@ public class UsersFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =inflater.inflate(R.layout.fragment_users, container, false);
 
-        mRecyclerView = view.findViewById(R.id.users_recyclerview);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
         mUsers = new ArrayList<>();
         readUsers();
+
+        mRecyclerView = view.findViewById(R.id.users_chat_recyclerview);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
 
         return view;
     }
 
     private void readUsers() {
         mAuth = FirebaseAuth.getInstance().getCurrentUser();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference(Constans.USER_DATABSE_PATH).child(mAuth.getUid());
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference(Constans.USER_DATABSE_PATH);
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                mUsers.clear();
+                for (DataSnapshot snapshot:dataSnapshot.getChildren()) {
+                    String userID = snapshot.child(Constans.UID).getValue().toString();
+                    String userName = snapshot.child(Constans.USER_NAME).getValue().toString();
+                    String phone = snapshot.child(Constans.USER_PHONE).getValue().toString();
+                    String userImage = snapshot.child(Constans.USER_IMAGE).getValue().toString();
+                    String bloodGroup =snapshot.child(Constans.BLOODGROUP).getValue().toString();
+                    String confirmDonerStatus = snapshot.child(Constans.BLOODDONER).getValue().toString();
+                    String location =snapshot.child(Constans.CURRENT_LOCATION).getValue().toString();
+                    User user = new User(userID,userName,phone,userImage,bloodGroup,confirmDonerStatus,location);
+                    Toast.makeText(getContext(),"Data  "+ user.getName(),Toast.LENGTH_LONG).show();
+/*                    assert user !=null;
+                    assert mAuth !=null;*/
+                    if (!user.getId().equals(mAuth.getUid())){
+                        mUsers.add(user);
+                    }
+                }
 
-                String name = dataSnapshot.child(Constans.USER_NAME).getValue().toString().trim();
-                String image = dataSnapshot.child(Constans.USER_IMAGE).getValue().toString().trim();
-                //Users users = new Users();
+                //set adapter
+
+                mAdapter = new UsersAdapter(getActivity(),mUsers);
+                mRecyclerView.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();
+
 
             }
 

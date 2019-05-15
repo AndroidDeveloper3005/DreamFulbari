@@ -20,6 +20,7 @@ import com.himel.androiddeveloper3005.dreamfulbari.Adapter.ViewPagerAdapter;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.Fragnent.ChatsFragment;
 import com.himel.androiddeveloper3005.dreamfulbari.Fragnent.UsersFragment;
+import com.himel.androiddeveloper3005.dreamfulbari.Model.User;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.Users;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
 
@@ -48,13 +49,15 @@ public class ChatActivity extends AppCompatActivity {
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
+/*
                 String name = dataSnapshot.child(Constans.USER_NAME).getValue().toString().trim();
-                String image = dataSnapshot.child(Constans.USER_IMAGE).getValue().toString().trim();
-                //Users users = new Users();
+                String image = dataSnapshot.child(Constans.USER_IMAGE).getValue().toString().trim();*/
 
-                mUserName.setText(name);
-                Glide.with(mContext).load(image)
+
+                User user = dataSnapshot.getValue(User.class);
+
+                mUserName.setText(user.getName());
+                Glide.with(mContext).load(user.getImage())
                         .into(mUserImage);
 
             }
@@ -81,10 +84,8 @@ public class ChatActivity extends AppCompatActivity {
         mTabLayout = findViewById(R.id.tablayout);
         mViewPager = findViewById(R.id.viewPager);
         ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-
         mViewPagerAdapter.addFragment(new ChatsFragment(),"Chats");
         mViewPagerAdapter.addFragment(new UsersFragment(),"Users");
-
         mViewPager.setAdapter(mViewPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 

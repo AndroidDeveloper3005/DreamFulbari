@@ -357,6 +357,7 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                     String downloadUri = taskSnapshot.getDownloadUrl().toString();
+                    mDatabaseRef.child(user_id).child(Constans.UID).setValue(user_id);
                     mDatabaseRef.child(user_id).child(Constans.USER_NAME).setValue(name);
                     mDatabaseRef.child(user_id).child(Constans.USER_ADDRESS).setValue(address);
                     mDatabaseRef.child(user_id).child(Constans.CURRENT_LOCATION).setValue(curentLocation);
