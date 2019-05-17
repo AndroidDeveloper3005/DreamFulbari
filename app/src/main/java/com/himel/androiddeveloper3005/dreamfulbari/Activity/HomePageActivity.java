@@ -400,15 +400,17 @@ public class HomePageActivity extends BaseActivity
         if (id == R.id.nav_home) {
             // Handle the camera action
         }  else if (id == R.id.nav_me) {
-            startActivity(new Intent(this,MyProfileActivity.class));
+            startActivity(new Intent(this,MeActivity.class));
 
         } else if (id == R.id.nav_map) {
             startActivity(new Intent(this,MapBoxActivity.class));
 
-            /*if (isServiceOk()){
+            /*if (isServiceOk()){nav_chats
                 startActivity(new Intent(this,MapActivity.class));
             }*/
 
+        }else if (id == R.id.nav_chats) {
+            startActivity(new Intent(this,MessengerActivity.class));
         }else if (id == R.id.nav_logout) {
             logOut();
 

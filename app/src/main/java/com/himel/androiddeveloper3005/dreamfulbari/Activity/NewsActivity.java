@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -121,7 +120,6 @@ public class NewsActivity extends ToolBarAndStatusBar {
     protected void onStart() {
         super.onStart();
         //mAuth.addAuthStateListener(mAuthStateListener);
-
         showData();
 
     }
@@ -199,8 +197,8 @@ public class NewsActivity extends ToolBarAndStatusBar {
                 viewHolder.mUserLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent mIntent = new Intent(NewsActivity.this,UserProfileActivity.class);
-                        mIntent.putExtra("clicked_post_key",post_key);
+                        Intent mIntent = new Intent(NewsActivity.this, NewsUserProfileActivity.class);
+                        mIntent.putExtra("UID",post_key);
                         startActivity(mIntent);
 /*
 

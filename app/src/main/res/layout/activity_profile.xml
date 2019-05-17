@@ -5,7 +5,7 @@
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.MyProfileActivity"
+    tools:context=".Activity.MessengerUserProfileActivity"
     tools:layout_editor_absoluteY="25dp">
 
     <android.support.design.widget.AppBarLayout
@@ -102,7 +102,7 @@
                 android:layout_marginLeft="@dimen/layout_margin_10dp"
                 android:layout_marginRight="@dimen/layout_margin_10dp"
                 android:gravity="center"
-                android:text="5"
+                android:text="*"
                 android:textColor="#0BCAE4" />
 
         </LinearLayout>
@@ -135,7 +135,7 @@
                 android:layout_marginLeft="@dimen/layout_margin_10dp"
                 android:layout_marginRight="@dimen/layout_margin_10dp"
                 android:gravity="center"
-                android:text="5"
+                android:text="*"
                 android:textColor="#0BCAE4" />
 
         </LinearLayout>

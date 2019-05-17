@@ -3,10 +3,9 @@ package com.himel.androiddeveloper3005.dreamfulbari.Model;
 import java.io.Serializable;
 
 public class User  implements Serializable {
-    private String id,name, image,phone,bloodgroup,donner_status,location;
+    private String id,name, image,phone,bloodgroup,donner_status,location,status;
 
-
-    public User(String id, String name, String image, String phone, String bloodgroup, String donner_status, String location) {
+    public User(String id, String name, String image, String phone, String bloodgroup, String donner_status, String location, String status) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -14,6 +13,21 @@ public class User  implements Serializable {
         this.bloodgroup = bloodgroup;
         this.donner_status = donner_status;
         this.location = location;
+        this.status = status;
+    }
+
+    public User(String name, String image, String status) {
+        this.name = name;
+        this.image = image;
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public User() {

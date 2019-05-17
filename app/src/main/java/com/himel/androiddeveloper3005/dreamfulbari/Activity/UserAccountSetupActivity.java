@@ -368,6 +368,7 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
                     mDatabaseRef.child(user_id).child(Constans.BLOODDONER).setValue(wantToBllodDonate);
                     mDatabaseRef.child(user_id).child(Constans.GENDER).setValue(gender);
                     mDatabaseRef.child(user_id).child(Constans.EMAIL).setValue(email);
+                    mDatabaseRef.child(user_id).child(Constans.STATUS).setValue("Hi there,I am using this app...");
                     mDatabaseRef.child(user_id).child(Constans.USER_IMAGE).setValue(downloadUri);
                     dialog.dismiss();
                     Intent goHome = new Intent(getApplicationContext(),LoginActivity.class);

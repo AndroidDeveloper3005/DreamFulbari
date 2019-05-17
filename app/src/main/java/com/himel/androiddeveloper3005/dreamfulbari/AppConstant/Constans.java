@@ -47,6 +47,7 @@ public class Constans {
     public static final String COMMENT="comments";
     public static ArrayList<String>loadAllDataList;
     public static final ArrayList<Users> USER_LIST = new ArrayList<>();
+    public static final String STATUS="status";
 
 
 

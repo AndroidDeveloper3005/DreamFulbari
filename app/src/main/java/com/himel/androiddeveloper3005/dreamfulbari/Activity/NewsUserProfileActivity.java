@@ -30,8 +30,8 @@ import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class UserProfileActivity extends BaseActivity {
-    private DatabaseReference mDatabase;
+public class NewsUserProfileActivity extends BaseActivity {
+    private DatabaseReference mDatabase,mDatabaseVisitorRef,mDatabasePostCountRef;
     private FirebaseAuth mAuth;
     private String post_key, uid, dateTime;
     private ImageView mUserImage;
@@ -55,7 +55,7 @@ public class UserProfileActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         //get Data from Intent
-        post_key = getIntent().getStringExtra("clicked_post_key");
+        post_key = getIntent().getStringExtra("UID");
 
         initView();
         initFirebase();
@@ -76,17 +76,11 @@ public class UserProfileActivity extends BaseActivity {
         saveTime = curentTime.format(get_Time.getTime());
 
         dateTime = saveDate + saveTime;
-
-        final DatabaseReference visitor = mDatabase.child(Constans.USER_VISITORS);
         final DatabaseReference post_path = mDatabase.child(Constans.POST_DATABSE_PATH);
         post_path.child(post_key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 uid = (String) dataSnapshot.child(Constans.UID).getValue();
-                visitor.child(uid).child(mAuth.getCurrentUser().getUid())
-                        .child(mAuth.getCurrentUser().getUid()
-                                + " " + dateTime).setValue("0");
-
                 //get User Data
                 final DatabaseReference user_data = mDatabase.child(Constans.USER_DATABSE_PATH).child(uid);
                 user_data.addValueEventListener(new ValueEventListener() {
@@ -103,7 +97,7 @@ public class UserProfileActivity extends BaseActivity {
                         mName.setText(name);
                         mEmail.setText(email);
                         mPhone.setText(phone_number);
-                        mDetails.setText(details);
+                       // mDetails.setText(details);
                         Glide.with(mContext).load(image)
                                 .into(mCircleImageView);
 
@@ -125,11 +119,15 @@ public class UserProfileActivity extends BaseActivity {
 
             }
         });
+
+
     }
 
     private void initFirebase() {
         mDatabase = FirebaseDatabase.getInstance().getReference();//.child(Constans.USER_VISITORS);
         mAuth = FirebaseAuth.getInstance();
+        mDatabaseVisitorRef = FirebaseDatabase.getInstance().getReference().child("Visitors");
+        mDatabasePostCountRef = FirebaseDatabase.getInstance().getReference().child(Constans.USER_POST_COUNT_PATH);
 
     }
 

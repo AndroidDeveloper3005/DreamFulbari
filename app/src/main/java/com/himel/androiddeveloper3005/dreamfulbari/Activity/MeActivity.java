@@ -1,6 +1,7 @@
 package com.himel.androiddeveloper3005.dreamfulbari.Activity;
 
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -21,10 +22,11 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MyProfileActivity extends BaseActivity {
+public class MeActivity extends BaseActivity {
+
     private DatabaseReference mDatabaseRef,mDatabaseVisitorRef,mDatabasePostCountRef;
     private FirebaseAuth mAuth;
-    private ArrayList<Users>mUsers;
+    private ArrayList<Users> mUsers;
     private ImageView mUserImage;
     private CircleImageView mCircleImageView;
     private TextView mName,mEmail,mPhone,mVisitorCount,mPosts;
@@ -44,7 +46,7 @@ public class MyProfileActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_me);
         initView();
         initVariable();
         initFirebase();
