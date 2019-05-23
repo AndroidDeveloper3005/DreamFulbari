@@ -95,7 +95,6 @@ public class UsersActivity extends AppCompatActivity {
 
     }
 
-
     private void intitView() {
         //toolBar
         mToolbar = findViewById(R.id.toolBar);

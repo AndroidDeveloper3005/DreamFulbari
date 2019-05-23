@@ -34,11 +34,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activity.MeActivity"></activity>
-        <activity
-            android:name=".Activity.UsersActivity"
-            android:parentActivityName=".Activity.MessengerActivity" />
+        tools:ignore="GoogleAppIndexingWarning"
+        android:name=".Offline.DreamPhulbari"
+        >
+
+        <service android:name=".MessageService.MyMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+
+        </service>
+
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -82,8 +90,18 @@
         <activity android:name=".Activity.BloodActivity" />
         <activity android:name=".Activity.DonateBloodActivity" />
         <activity android:name=".Activity.HistoricalActivity" />
-        <activity android:name=".Activity.MessengerUserProfileActivity" />
+        <activity android:name=".Activity.MessengerUserProfileActivity" >
+            <intent-filter>
+                <action android:name="com.himel.androiddeveloper3005.dreamfulbari_TARGET_NOTIFICATION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".Activity.NewsUserProfileActivity" />
+
+        <activity android:name=".Activity.MeActivity"></activity>
+        <activity
+            android:name=".Activity.UsersActivity"
+            android:parentActivityName=".Activity.MessengerActivity" />
     </application>
 
 </manifest>

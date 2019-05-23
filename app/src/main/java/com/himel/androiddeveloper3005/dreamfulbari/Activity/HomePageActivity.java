@@ -69,13 +69,13 @@ public class HomePageActivity extends BaseActivity
         onClickMethod();
         getHelpLineData();
 
-
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
                 if (mAuth.getCurrentUser() == null) {
                     startActivity(new Intent(getApplicationContext(), PhoneAuthActivity.class));
+                    //startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                     finish();
                 }
 

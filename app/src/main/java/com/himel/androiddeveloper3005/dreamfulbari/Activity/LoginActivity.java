@@ -19,6 +19,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
@@ -29,6 +33,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private Button registrationButton, loginButton, resetButton;
     private Toolbar mToolbar;
     private CoordinatorLayout mCoordinatorLayout;
+    private DatabaseReference mDatabaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +98,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
-
+                        //get token
+                        String deviceTokenId = FirebaseInstanceId.getInstance().getToken();
+                        mDatabaseReference.child(mAuth.getUid()).child("device_token").setValue(deviceTokenId);
                         Intent intent = new Intent(LoginActivity.this, HomePageActivity.class);
                         bar.setVisibility(View.GONE);
                         startActivity(intent);
@@ -145,6 +152,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     public void initFireBaseAuth(){
         mAuth = FirebaseAuth.getInstance();
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child(Constans.USER_DATABSE_PATH);
 
 
     }

@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -336,8 +337,11 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
         final   String bloodgroup = bloodgroupItemSelected;
         final   String gender = genderitemSelected;
         final   String user_id = mAuth.getCurrentUser().getUid().toString().trim();
-        final   String phone =   mAuth.getCurrentUser().getPhoneNumber().toString().trim();
+        final   String phone =   "01797720353";
+        //final   String phone =   mAuth.getCurrentUser().getPhoneNumber().toString().trim();
         final   String wantToBllodDonate =   wantToDoneritemSelected;
+        //get token
+        String deviceTokenId = FirebaseInstanceId.getInstance().getToken();
 
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(wantToBllodDonate) &&  !TextUtils.isEmpty(instituteName)
                 && !TextUtils.isEmpty(address)&& !TextUtils.isEmpty(curentLocation)
@@ -370,6 +374,7 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
                     mDatabaseRef.child(user_id).child(Constans.EMAIL).setValue(email);
                     mDatabaseRef.child(user_id).child(Constans.STATUS).setValue("Hi there,I am using this app...");
                     mDatabaseRef.child(user_id).child(Constans.USER_IMAGE).setValue(downloadUri);
+                    mDatabaseRef.child(user_id).child("device_token").setValue(deviceTokenId);
                     dialog.dismiss();
                     Intent goHome = new Intent(getApplicationContext(),LoginActivity.class);
                     startActivity(goHome);
