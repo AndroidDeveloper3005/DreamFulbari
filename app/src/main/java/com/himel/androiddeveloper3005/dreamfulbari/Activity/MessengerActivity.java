@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.ViewPagerAdapter;
@@ -31,6 +32,7 @@ public class MessengerActivity extends AppCompatActivity {
     private Context mContext;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
+    private DatabaseReference mUserRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,33 @@ public class MessengerActivity extends AppCompatActivity {
         fireBase();
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth;
+        if(currentUser == null){
+
+        } else {
+
+            mUserRef.child("online").setValue("true");
+
+        }
+    }
+
+
+    @Override
+
+    protected void onStop() {
+
+        super.onStop();
+        FirebaseUser currentUser = mAuth;
+        if(currentUser != null) {
+            mUserRef.child("online").setValue(ServerValue.TIMESTAMP);
+
+        }
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -58,8 +87,6 @@ public class MessengerActivity extends AppCompatActivity {
             Intent usersintent = new Intent(getApplicationContext(),UsersActivity.class);
             usersintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(usersintent);
-            Toast.makeText(getApplicationContext(), "All User", Toast.LENGTH_SHORT).show();
-
 
         }else if (item.getItemId() == R.id.account_setting){
 
@@ -76,6 +103,10 @@ public class MessengerActivity extends AppCompatActivity {
     private void fireBase() {
         mAuth = FirebaseAuth.getInstance().getCurrentUser();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference(Constans.USER_DATABSE_PATH).child(mAuth.getUid());
+        if (mAuth != null) {
+            mUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getUid());
+
+        }
     }
 
     private void intiView() {

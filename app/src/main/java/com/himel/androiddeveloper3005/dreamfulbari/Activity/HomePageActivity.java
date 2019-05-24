@@ -31,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.HelpLine;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
@@ -56,6 +57,7 @@ public class HomePageActivity extends BaseActivity
     private boolean accountCreated = false;
     private ArrayList<HelpLine>helpLines;
     private String uno,ambulance,chairman,police,fireservice;
+    private DatabaseReference mDatabaseReference;
 
 
     @Override
@@ -69,13 +71,17 @@ public class HomePageActivity extends BaseActivity
         onClickMethod();
         getHelpLineData();
 
+        //get token
+        String deviceTokenId = FirebaseInstanceId.getInstance().getToken();
+        mDatabaseReference.child(mAuth.getCurrentUser().getUid()).child("device_token").setValue(deviceTokenId);
+
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
                 if (mAuth.getCurrentUser() == null) {
-                    startActivity(new Intent(getApplicationContext(), PhoneAuthActivity.class));
-                    //startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    //startActivity(new Intent(getApplicationContext(), PhoneAuthActivity.class));
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                     finish();
                 }
 
@@ -337,14 +343,6 @@ public class HomePageActivity extends BaseActivity
     @Override
     public void onBackPressed() {
 
-/*        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }*/
-
-
         final android.support.v7.app.AlertDialog.Builder alertDialogBuilder =
                 new android.support.v7.app.AlertDialog.Builder(this);
 
@@ -371,25 +369,6 @@ public class HomePageActivity extends BaseActivity
 
 
     }
-
-/*    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_manu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.Account_Setup){
-            Intent accountIntent = new Intent(getApplicationContext(),UserAccountSetupActivity.class);
-            accountIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(accountIntent);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -429,12 +408,11 @@ public class HomePageActivity extends BaseActivity
     public void initFireBaseAuth(){
         mAuth = FirebaseAuth.getInstance();
         mDatabaseRefhelp = FirebaseDatabase.getInstance().getReference(Constans.HELPLINE_DATABSE_PATH);
-
-/*        currentUserID = mAuth.getCurrentUser().getUid().toString();
-        currentEmail = mAuth.getCurrentUser().getEmail().toString();*/
         mDatabaseRef =FirebaseDatabase.getInstance().getReference().child(Constans.POST_DATABSE_PATH);
         mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child(Constans.USER_DATABSE_PATH);
         mDatabaseUserRef = FirebaseDatabase.getInstance().getReference();
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child(Constans.USER_DATABSE_PATH);
+        mDatabaseReference.child(mAuth.getCurrentUser().getUid()).child("device_token").setValue(null);
         mDatabaseRef.keepSynced(true);
         mDatabaseUsers.keepSynced(true);
 
@@ -444,12 +422,6 @@ public class HomePageActivity extends BaseActivity
     private void logOut() {
         mAuth.signOut();
     }
-
-
-
-
-
-
 
 
 }

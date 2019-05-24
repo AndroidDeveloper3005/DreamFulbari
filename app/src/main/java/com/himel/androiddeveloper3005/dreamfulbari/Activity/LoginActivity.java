@@ -100,7 +100,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     if (task.isSuccessful()){
                         //get token
                         String deviceTokenId = FirebaseInstanceId.getInstance().getToken();
-                        mDatabaseReference.child(mAuth.getUid()).child("device_token").setValue(deviceTokenId);
+                        mDatabaseReference.child(mAuth.getCurrentUser().getUid()).child("device_token").setValue(deviceTokenId);
                         Intent intent = new Intent(LoginActivity.this, HomePageActivity.class);
                         bar.setVisibility(View.GONE);
                         startActivity(intent);

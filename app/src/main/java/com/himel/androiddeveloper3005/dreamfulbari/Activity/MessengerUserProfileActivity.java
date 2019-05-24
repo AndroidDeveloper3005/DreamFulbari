@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.Users;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
@@ -43,6 +44,19 @@ public class MessengerUserProfileActivity extends BaseActivity {
     private DatabaseReference mRootRef;
     private FirebaseUser mCurrent_user;
     private String mCurrent_state;
+    private DatabaseReference mDatabaseReference;
+    private FirebaseAuth mAuth;
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +64,7 @@ public class MessengerUserProfileActivity extends BaseActivity {
         getToolbar();
         enableBackButton();
         setToolbarTitle("Profile");
+
 
         final String user_id = getIntent().getStringExtra("UID");
         mRootRef = FirebaseDatabase.getInstance().getReference();
