@@ -124,8 +124,6 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
                    } else {
                        bar.setVisibility(View.GONE);
-
-
                        Toast.makeText(RegistrationActivity.this, "Authentication failed.",
                                Toast.LENGTH_SHORT).show();
 

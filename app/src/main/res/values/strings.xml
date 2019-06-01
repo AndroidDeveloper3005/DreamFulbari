@@ -1,4 +1,7 @@
 <resources>
+
+
+
     <string name="app_name">DreamFulbari</string>
     <string name="access_token">pk.eyJ1IjoiaGltZWwiLCJhIjoiY2p2N25tY2txMDduMjRlcXlyNWg2NmxsZSJ9.5geXiOQrHSP7YsS0TqT5lA</string>
     <string name="title_activity_main2">Main2Activity</string>
@@ -12,6 +15,15 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">Sign in</string>
     <string name="map_fragmentt">mapFragment</string>
+
+
+    <!-- TODO - add your ad unit Ids -->
+    <!-- AdMob ad unit IDs -->
+    <string name="admob_app_id">ca-app-pub-3606940606832399~2525526848</string>
+    <string name="banner_home_footer">ca-app-pub-3606940606832399/3208053126</string>
+    <string name="interstitial_full_screen">ca-app-pub-3606940606832399/4707114857</string>
+    <string name="rewarded_video">ca-app-pub-3606940606832399/7314108656</string>
+
 
 
     <!--- Addmob   !-->
