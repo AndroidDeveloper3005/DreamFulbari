@@ -86,6 +86,7 @@ dependencies {
     implementation 'com.github.arimorty:floatingsearchview:2.1.1'
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
     implementation 'com.github.markushi:circlebutton:1.1'
+    implementation 'com.skyline.widget:round-corner-layout:1.0.1'
     
 
     //mapBoxSDK

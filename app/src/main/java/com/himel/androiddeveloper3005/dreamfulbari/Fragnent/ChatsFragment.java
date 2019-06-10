@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.himel.androiddeveloper3005.dreamfulbari.Activity.ChatActivity;
+import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.Conv;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
 import com.squareup.picasso.Callback;
@@ -112,7 +113,14 @@ public class ChatsFragment extends Fragment {
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                         String data = dataSnapshot.child("message").getValue().toString();
-                        convViewHolder.setMessage(data, conv.isSeen());
+                        String type = dataSnapshot.child("type").getValue().toString();
+                        if (type.equals("image")) {
+                            convViewHolder.setMessage( " send a photo", conv.isSeen());
+                        }else {
+                            convViewHolder.setMessage(data, conv.isSeen());
+
+                        }
+
 
                     }
 
