@@ -1,11 +1,13 @@
 package com.himel.androiddeveloper3005.dreamfulbari.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -21,9 +23,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -87,6 +91,12 @@ public class ChatActivity extends AppCompatActivity {
     private ActionBar actionBar ;
     private Context mContext;
     private Bitmap compress_image;
+    public static final int GALLERY_REQUEST = 1;
+    private Bitmap thumb_bitmap,bitmap;
+    private File thump_filepath;
+    private Uri mImageUri,resultUri;
+    private ProgressDialog mProgressDialog;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,14 +151,26 @@ public class ChatActivity extends AppCompatActivity {
         mLinearLayout = new LinearLayoutManager(this);
         mMessagesList.setHasFixedSize(true);
         mMessagesList.setLayoutManager(mLinearLayout);
-        //set adapter
+        //progress Dialog
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setTitle("Loading Message Data");
+        mProgressDialog.setMessage("Please wait while we load the message data.");
+        mProgressDialog.setCanceledOnTouchOutside(false);
+        mProgressDialog.show();
+
+      //set adapter
+
         mMessagesList.setAdapter(mAdapter);
+
+
 
 
         //------- IMAGE STORAGE ---------
 
         mImageStorage = FirebaseStorage.getInstance().getReference();
         mRootRef.child("Chat").child(mCurrentUserId).child(mChatUser).child("seen").setValue(true);
+
+
 
         loadMessages();
 
@@ -284,56 +306,51 @@ public class ChatActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GALLERY_PICK && resultCode == RESULT_OK) {
 
-            Uri imageUri = data.getData();
-            CropImage.activity(imageUri)
+        if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK && data != null) {
+
+            mImageUri = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mImageUri);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            CropImage.activity(mImageUri)
                     .start(this);
-
         }
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
-
-            if (requestCode == RESULT_OK) {
-
-                Uri resultUri = result.getUri();
-                File thump_filePath = new File(resultUri.getPath());
-
+            if (resultCode == RESULT_OK) {
+                resultUri = result.getUri();
+                thump_filepath = new File(resultUri.getPath());
                 try {
-                    compress_image = new Compressor(this)
-                            .setMaxWidth(640)
-                            .setMaxHeight(480)
-                            .setQuality(75)
-                            .compressToBitmap(thump_filePath);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    //bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mImageUri);
 
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                compress_image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                final byte[] thumb_byte = baos.toByteArray();
+                    thumb_bitmap = new Compressor(this).compressToBitmap(thump_filepath);
 
-                final String current_user_ref = "messages/" + mCurrentUserId + "/" + mChatUser;
-                final String chat_user_ref = "messages/" + mChatUser + "/" + mCurrentUserId;
 
-                DatabaseReference user_message_push = mRootRef.child("messages").child(mCurrentUserId).child(mChatUser).push();
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    thumb_bitmap.compress(Bitmap.CompressFormat.JPEG,40,byteArrayOutputStream);
+                    final byte[] thumb_byte = byteArrayOutputStream.toByteArray();
 
-                final String push_id = user_message_push.getKey();
 
-                //StorageReference filepath = mImageStorage.child("message_images").child(push_id + ".jpg");
-                final StorageReference thumb_filepath = mImageStorage.child("message_images").child(push_id + ".jpg");
-                UploadTask uploadTask = thumb_filepath.putBytes(thumb_byte);
 
-                uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task_thump) {
-                        if (task_thump.isSuccessful()){
+                    final String current_user_ref = "messages/" + mCurrentUserId + "/" + mChatUser;
+                    final String chat_user_ref = "messages/" + mChatUser + "/" + mCurrentUserId;
 
-                            String thump_downloadURI = task_thump.getResult().getDownloadUrl().toString();
+                    DatabaseReference user_message_push = mRootRef.child("messages").child(mCurrentUserId).child(mChatUser).push();
+                    final String push_id = user_message_push.getKey();
+                    StorageReference filepath = mImageStorage.child("message_images").child( push_id + ".jpg");
+                    UploadTask uploadTask = filepath.putBytes(thumb_byte);
 
+                    uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            String downloadUri = taskSnapshot.getDownloadUrl().toString();
                             Map messageMap = new HashMap();
-                            messageMap.put("message", thump_downloadURI);
+                            messageMap.put("message", downloadUri);
                             messageMap.put("seen", false);
                             messageMap.put("type", "image");
                             messageMap.put("time", ServerValue.TIMESTAMP);
@@ -346,9 +363,7 @@ public class ChatActivity extends AppCompatActivity {
                             mChatMessageView.setText("");
 
                             mRootRef.updateChildren(messageUserMap, new DatabaseReference.CompletionListener() {
-
                                 @Override
-
                                 public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
                                     if (databaseError != null) {
@@ -356,16 +371,26 @@ public class ChatActivity extends AppCompatActivity {
                                     }
 
                                 }
-
                             });
 
                         }
+                    });
 
-                    }
-                });
+
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
             }
+            else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
         }
+
+
+
     }
 
 
@@ -396,6 +421,7 @@ public class ChatActivity extends AppCompatActivity {
                 mAdapter.notifyDataSetChanged();
                 mMessagesList.scrollToPosition(messagesList.size() - 1);
                 mRefreshLayout.setRefreshing(false);
+                mProgressDialog.dismiss();
 
 
             }

@@ -21,7 +21,7 @@ public class Constans {
     public static final String FIRESERVICE ="FireService";
     public static final String POLICE ="Police";
     public static final String CHAIRMAN ="Chairman";
-    public static final String UNO ="UNO";
+    public static final String UNO ="Uno";
 
 
     public static final String BLOOD_DONER_DATABSE_PATH ="BloodDoner";

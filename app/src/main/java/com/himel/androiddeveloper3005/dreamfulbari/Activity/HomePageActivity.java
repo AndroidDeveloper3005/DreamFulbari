@@ -20,6 +20,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,7 +54,7 @@ public class HomePageActivity extends BaseActivity
     private TextView user_name, user_address;
     private String currentUserID,currentEmail;
     private View navView;
-    private Button history, news,student, employer,bloodgroup, helpline;
+    private LinearLayout messenger, news,student, employer,bloodgroup, helpline;
     private boolean accountCreated = false;
     private ArrayList<HelpLine>helpLines;
     private String uno,ambulance,chairman,police,fireservice;
@@ -69,7 +70,26 @@ public class HomePageActivity extends BaseActivity
         initFireBaseAuth();
         initView();
         onClickMethod();
-        getHelpLineData();
+        mDatabaseRefhelp.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                uno = dataSnapshot.child("Uno").getValue().toString();
+                ambulance = dataSnapshot.child("Ambulance").getValue().toString();
+                chairman=dataSnapshot.child(Constans.CHAIRMAN).getValue().toString();
+                police=dataSnapshot.child(Constans.POLICE).getValue().toString();
+                fireservice=dataSnapshot.child(Constans.FIRESERVICE).getValue().toString();
+
+                HelpLine mHelpLine = new HelpLine(ambulance,chairman,fireservice,uno,police);
+                helpLines.add(mHelpLine);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         //get token
         String deviceTokenId = FirebaseInstanceId.getInstance().getToken();
@@ -104,30 +124,7 @@ public class HomePageActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void getHelpLineData() {
-        mDatabaseRefhelp.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-                     uno=snapshot.child(Constans.UNO).getValue().toString();
-                     ambulance=snapshot.child(Constans.AMBULANCE).getValue().toString();
-                     chairman=snapshot.child(Constans.CHAIRMAN).getValue().toString();
-                     police=snapshot.child(Constans.POLICE).getValue().toString();
-                     fireservice=snapshot.child(Constans.FIRESERVICE).getValue().toString();
-
-                    HelpLine mHelpLine = new HelpLine(ambulance,chairman,fireservice,uno,police);
-                    helpLines.add(mHelpLine);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 
     public boolean isServiceOk(){
         Log.d(TAG,"isServiceOK : checking google service version");
@@ -149,12 +146,12 @@ public class HomePageActivity extends BaseActivity
     }
 
     private void initView() {
-        history = findViewById(R.id.history_button);
-        news = findViewById(R.id.news_button);
-        student = findViewById(R.id.student_button);
-        employer = findViewById(R.id.employer_button);
-        bloodgroup = findViewById(R.id.bloodgroup_button);
-        helpline = findViewById(R.id.helpline_button);
+        messenger = findViewById(R.id.messenger_layout);
+        news = findViewById(R.id.news_layout);
+        student = findViewById(R.id.student_layout);
+        employer = findViewById(R.id.employer_layout);
+        bloodgroup = findViewById(R.id.bloodgroup_layout);
+        helpline = findViewById(R.id.helpline_layout);
         helpLines = new ArrayList<>();
 
     }
@@ -182,10 +179,10 @@ public class HomePageActivity extends BaseActivity
     }
 
     private void onClickMethod(){
-        history.setOnClickListener(new View.OnClickListener() {
+        messenger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HomePageActivity.this, "History", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(),MessengerActivity.class));
 
             }
         });
@@ -381,16 +378,14 @@ public class HomePageActivity extends BaseActivity
         }  else if (id == R.id.nav_me) {
             startActivity(new Intent(this,MeActivity.class));
 
-        } else if (id == R.id.nav_map) {
+        }/* else if (id == R.id.nav_map) {
             startActivity(new Intent(this,MapBoxActivity.class));
 
-            /*if (isServiceOk()){nav_chats
+            *//*if (isServiceOk()){nav_chats
                 startActivity(new Intent(this,MapActivity.class));
-            }*/
+            }*//*
 
-        }else if (id == R.id.nav_chats) {
-            startActivity(new Intent(this,MessengerActivity.class));
-        }else if (id == R.id.nav_logout) {
+        }*/else if (id == R.id.nav_logout) {
             logOut();
 
         }

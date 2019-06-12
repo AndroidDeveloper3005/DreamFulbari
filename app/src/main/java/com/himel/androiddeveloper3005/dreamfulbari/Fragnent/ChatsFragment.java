@@ -1,4 +1,5 @@
 package com.himel.androiddeveloper3005.dreamfulbari.Fragnent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -47,8 +48,10 @@ public class ChatsFragment extends Fragment {
     private FirebaseAuth mAuth;
 
     private String mCurrent_user_id;
+    private String messagereceiverKey;
 
     private View mMainView;
+    private ProgressDialog mProgressDialog;
 
 
     public ChatsFragment() {
@@ -78,6 +81,14 @@ public class ChatsFragment extends Fragment {
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
 
+
+        //progress Dialog
+        mProgressDialog = new ProgressDialog(getContext());
+        mProgressDialog.setTitle("Loading Data");
+        mProgressDialog.setMessage("Please wait while we load the data.");
+        mProgressDialog.setCanceledOnTouchOutside(false);
+        mProgressDialog.show();
+
         mConvList.setHasFixedSize(true);
         mConvList.setLayoutManager(linearLayoutManager);
 
@@ -106,6 +117,21 @@ public class ChatsFragment extends Fragment {
 
                 final String list_user_id = getRef(i).getKey();
 
+                mMessageDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                         messagereceiverKey =dataSnapshot.getChildren().toString();
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                //String messagereceiverKey = mMessageDatabase.
+
+
                 Query lastMessageQuery = mMessageDatabase.child(list_user_id).limitToLast(1);
 
                 lastMessageQuery.addChildEventListener(new ChildEventListener() {
@@ -114,14 +140,17 @@ public class ChatsFragment extends Fragment {
 
                         String data = dataSnapshot.child("message").getValue().toString();
                         String type = dataSnapshot.child("type").getValue().toString();
+
                         if (type.equals("image")) {
-                            convViewHolder.setMessage( " send a photo", conv.isSeen());
+                            convViewHolder.setMessage( "  A photo", conv.isSeen());
+                            mProgressDialog.dismiss();
+
                         }else {
                             convViewHolder.setMessage(data, conv.isSeen());
+                            mProgressDialog.dismiss();
 
                         }
-
-
+                        
                     }
 
                     @Override

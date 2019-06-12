@@ -118,13 +118,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         });
 
         if(message_type.equals("text")) {
+            viewHolder.show_message.setVisibility(View.VISIBLE);
             viewHolder.show_message.setText(c.getMessage());
             //viewHolder.messageImage.setVisibility(View.INVISIBLE);
 
 
         } else {
             viewHolder.messageImage.setVisibility(View.VISIBLE);
-            viewHolder.show_message.setVisibility(View.INVISIBLE);
             Picasso.get().load(c.getMessage()).networkPolicy(NetworkPolicy.OFFLINE).into(viewHolder.messageImage, new Callback() {
                 @Override
                 public void onSuccess() {
