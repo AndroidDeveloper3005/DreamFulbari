@@ -1,44 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/splashScreen"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/login_page_backgroud_color">
+    android:layout_height="match_parent">
 
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="@dimen/layout_height_width_200dp"
+        android:layout_height="@dimen/layout_height_width_200dp"
         android:layout_gravity="center"
-        >
+        android:src="@drawable/ic_launcher"
+        app:layout_constraintBottom_toTopOf="@+id/ivLogo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-        <ImageView
-            android:layout_marginTop="120dp"
-            android:layout_gravity="center"
-            android:src="@drawable/flower"
-            android:id="@+id/image"
-            android:layout_width="@dimen/layout_height_width_200dp"
-            android:layout_height="@dimen/layout_height_width_200dp" />
-
-        <TextView
-            android:layout_marginTop="100dp"
-            android:textSize="30sp"
-            android:textStyle="bold|italic"
-            android:id="@+id/ivLogo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Welcome To ফুলবাড়ী"
-            android:textColor="@color/colorWhite" />
-
-    </LinearLayout>
+    <com.tt.whorlviewlibrary.WhorlView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/whor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="32dp"
+        app:whorlview_circle_speed="360"
+        app:whorlview_parallax="fast"
+        app:whorlview_strokeWidth="16"
+        app:whorlview_sweepAngle="135"/>
 
 
+    <TextView
+        android:id="@+id/ivLogo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Note"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toTopOf="@+id/whor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image" />
 
-</RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

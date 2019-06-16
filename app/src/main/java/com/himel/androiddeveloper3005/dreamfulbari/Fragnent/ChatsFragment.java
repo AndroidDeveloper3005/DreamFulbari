@@ -51,7 +51,7 @@ public class ChatsFragment extends Fragment {
     private String messagereceiverKey;
 
     private View mMainView;
-    private ProgressDialog mProgressDialog;
+
 
 
     public ChatsFragment() {
@@ -81,13 +81,6 @@ public class ChatsFragment extends Fragment {
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
 
-
-        //progress Dialog
-        mProgressDialog = new ProgressDialog(getContext());
-        mProgressDialog.setTitle("Loading Data");
-        mProgressDialog.setMessage("Please wait while we load the data.");
-        mProgressDialog.setCanceledOnTouchOutside(false);
-        mProgressDialog.show();
 
         mConvList.setHasFixedSize(true);
         mConvList.setLayoutManager(linearLayoutManager);
@@ -143,11 +136,9 @@ public class ChatsFragment extends Fragment {
 
                         if (type.equals("image")) {
                             convViewHolder.setMessage( "  A photo", conv.isSeen());
-                            mProgressDialog.dismiss();
 
                         }else {
                             convViewHolder.setMessage(data, conv.isSeen());
-                            mProgressDialog.dismiss();
 
                         }
                         

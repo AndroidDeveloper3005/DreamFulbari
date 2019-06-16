@@ -6,8 +6,11 @@ import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -53,43 +56,26 @@ public class NewsActivity extends ToolBarAndStatusBar {
     private Handler mHandler;
     private ArrayList<Comment>commentArrayList;
     private String uid,dateTime;
+    private ActionBar actionBar ;
+    private Toolbar mToolbar;
+    private ImageView post_view;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
         initView();
         initFireBaseAuth();
-        inittoolBar();
-        setToolbarTitle("News");
-
         this.mHandler = new Handler();
-
         this.mHandler.postDelayed(m_Runnable,500);
-
-        /*mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
-                if (mAuth.getCurrentUser() == null) {
-                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                    finish();
-                }
-
-            }
-        };*/
-
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference().child(Constans.POST_DATABSE_PATH);
 
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        post_view.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Upload Your Post", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
                 Intent postIntent = new Intent(getApplicationContext(), PostActivity.class);
                 startActivity(postIntent);
             }
@@ -147,6 +133,26 @@ public class NewsActivity extends ToolBarAndStatusBar {
         blogListShow = findViewById(R.id.show_blog_Post_recyclerView);
         blogListShow.setHasFixedSize(true);
         blogListShow.setLayoutManager(layoutManager);
+        //toolbar
+        mToolbar = findViewById(R.id.toolBar);
+        setSupportActionBar(mToolbar);
+        actionBar = getSupportActionBar();
+        // getSupportActionBar().setTitle(mUserName);
+        // add back arrow to toolbar
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayShowCustomEnabled(true);
+        }
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View action_bar_view = inflater.inflate(R.layout.post_custom_bar,null);
+        actionBar.setCustomView(action_bar_view);
+
+        post_view = findViewById(R.id.custom_bar_post);
+
+
+
+
 
 
 

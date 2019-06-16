@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    android:id="@+id/layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,200 +9,279 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Activity.HomePageActivity"
     tools:showIn="@layout/app_bar_home_page"
-    android:orientation="vertical">
+    android:background="@drawable/homeactivity_back_color"
+    >
 
-
-    <LinearLayout
-        android:layout_margin="10dp"
-        android:layout_weight="1"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/layout_height_width_15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/home_manu_background">
 
         <LinearLayout
-            android:layout_marginTop="@dimen/layout_margin_10dp"
-            android:layout_weight="1"
-            android:background="@drawable/input_outline"
             android:id="@+id/messenger_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_gravity="center"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/ic_messenger_black_24dp"
-                />
-            <TextView
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/messenger"
-                android:textSize="25sp"
-                android:textColor="#4576E4"/>
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/home_page_outline"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/employer_layout"
+            app:layout_constraintEnd_toStartOf="@+id/news_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/messenger_image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_messenger_black_24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="@string/messenger"
+                    android:textColor="#4576E4"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/messenger_image" />
+            </android.support.constraint.ConstraintLayout>
 
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginLeft="@dimen/layout_margin_5dp"
-            android:background="@drawable/input_outline"
-            android:layout_weight="1"
-            android:layout_marginTop="@dimen/layout_margin_10dp"
             android:id="@+id/news_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_gravity="center"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/ic_blog_24dp"
-                />
-            <TextView
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/news"
-                android:textSize="25sp"
-                android:textColor="#4576E4"/>
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/home_page_outline"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/student_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/messenger_layout"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:id="@+id/news_image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_blog_24dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/news"
+                    android:textColor="#4576E4"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/news_image"/>
+
+
+            </android.support.constraint.ConstraintLayout>
+
+
 
 
         </LinearLayout>
 
 
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_margin="10dp"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal">
-
         <LinearLayout
-            android:layout_weight="1"
-            android:background="@drawable/input_outline"
             android:id="@+id/employer_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_gravity="center"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/ic_people_black_24dp"
-                />
-            <TextView
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/employer_information"
-                android:textSize="25sp"
-                android:textColor="#4576E4"/>
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/home_page_outline"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/bloodgroup_layout"
+            app:layout_constraintEnd_toStartOf="@+id/student_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/messenger_layout">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/employe_image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/ic_people_black_24dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/employe_image"
+                    android:text="@string/employer_information"
+                    android:textColor="#4576E4"
+                    android:textSize="15sp" />
+            </android.support.constraint.ConstraintLayout>
 
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginLeft="@dimen/layout_margin_5dp"
 
-            android:layout_weight="1"
-            android:background="@drawable/input_outline"
             android:id="@+id/student_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_gravity="center"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/ic_people_black_24dp"
-                />
-            <TextView
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/studen_info"
-                android:textSize="25sp"
-                android:textColor="#4576E4"/>
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/home_page_outline"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/helpline_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/employer_layout"
+            app:layout_constraintTop_toBottomOf="@+id/news_layout">
 
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/student_image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/ic_people_black_24dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/student_image"                android:gravity="center"
+                    android:text="@string/studen_info"
+                    android:textColor="#4576E4"
+                    android:textSize="15sp" />
+
+            </android.support.constraint.ConstraintLayout>
 
         </LinearLayout>
 
 
+        <LinearLayout
+            android:id="@+id/bloodgroup_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/home_page_outline"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/helpline_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/employer_layout">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/blood_image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/ic_blood_24" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/blood_image"              android:gravity="center"
+                    android:text="@string/blood_group"
+                    android:textColor="#4576E4"
+                    android:textSize="15sp" />
+            </android.support.constraint.ConstraintLayout>
 
 
-    </LinearLayout>
+        </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/helpline_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/home_page_outline"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/bloodgroup_layout"
+            app:layout_constraintTop_toBottomOf="@+id/student_layout">
 
-    <LinearLayout
-    android:layout_margin="10dp"
-    android:layout_weight="1"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:orientation="horizontal">
+            <android.support.constraint.ConstraintLayout
+                android:layout_gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
 
-    <LinearLayout
-        android:layout_weight="1"
-        android:background="@drawable/input_outline"
-        android:id="@+id/bloodgroup_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <ImageView
-            android:layout_gravity="center"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_blood_24"
-            />
-        <TextView
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/blood_group"
-            android:textSize="25sp"
-            android:textColor="#4576E4"/>
+                <ImageView
+                    android:id="@+id/help_image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/ic_live_help_black_24dp" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/help_image"                android:gravity="center"
+                    android:text="@string/help_line"
+                    android:textColor="#4576E4"
+                    android:textSize="15sp" />
+            </android.support.constraint.ConstraintLayout>
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <LinearLayout
-        android:layout_marginLeft="@dimen/layout_margin_5dp"
-        android:layout_weight="1"
-        android:background="@drawable/input_outline"
-        android:id="@+id/helpline_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <ImageView
-            android:layout_gravity="center"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_live_help_black_24dp"
-            />
-        <TextView
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/help_line"
-            android:textSize="25sp"
-            android:textColor="#4576E4"/>
-
-
-    </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 
 
 
 
-</LinearLayout>
 
-</LinearLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>

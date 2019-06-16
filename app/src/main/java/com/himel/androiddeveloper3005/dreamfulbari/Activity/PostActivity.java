@@ -270,6 +270,9 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
             });
 
 
+        }else {
+            Toast.makeText(this, "Fill all field first.", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
         }
 
     }

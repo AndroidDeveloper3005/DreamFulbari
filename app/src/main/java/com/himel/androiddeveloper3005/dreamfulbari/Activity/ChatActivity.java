@@ -95,8 +95,7 @@ public class ChatActivity extends AppCompatActivity {
     private Bitmap thumb_bitmap,bitmap;
     private File thump_filepath;
     private Uri mImageUri,resultUri;
-    private ProgressDialog mProgressDialog;
-    private ProgressBar mProgressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,15 +150,9 @@ public class ChatActivity extends AppCompatActivity {
         mLinearLayout = new LinearLayoutManager(this);
         mMessagesList.setHasFixedSize(true);
         mMessagesList.setLayoutManager(mLinearLayout);
-        //progress Dialog
-        mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setTitle("Loading Message Data");
-        mProgressDialog.setMessage("Please wait while we load the message data.");
-        mProgressDialog.setCanceledOnTouchOutside(false);
-        mProgressDialog.show();
+
 
       //set adapter
-
         mMessagesList.setAdapter(mAdapter);
 
 
@@ -421,7 +414,6 @@ public class ChatActivity extends AppCompatActivity {
                 mAdapter.notifyDataSetChanged();
                 mMessagesList.scrollToPosition(messagesList.size() - 1);
                 mRefreshLayout.setRefreshing(false);
-                mProgressDialog.dismiss();
 
 
             }

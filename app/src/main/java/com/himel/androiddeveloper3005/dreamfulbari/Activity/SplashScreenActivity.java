@@ -21,6 +21,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.ActivityUtils;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.AppUtils;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.ToolBarAndStatusBar;
+import com.tt.whorlviewlibrary.WhorlView;
 import com.viksaa.sssplash.lib.activity.AwesomeSplash;
 import com.viksaa.sssplash.lib.cnst.Flags;
 import com.viksaa.sssplash.lib.model.ConfigSplash;
@@ -29,52 +30,36 @@ import com.himel.androiddeveloper3005.dreamfulbari.R;
 import java.util.ArrayList;
 
 public class SplashScreenActivity extends AppCompatActivity {
-
     private Context mContext;
     private Activity mActivity;
     private static final int SPLASH_DURATION = 2500;
-    private boolean mPermissionDenied = false;
-    private RelativeLayout rlLayout;
-    private ImageView logo;
-    private TextView welcomeNote;
-    private int coverArea = 0;
-    private SplashScreenActivity mainActivity;
-    private AVLoadingIndicatorView avi;
-    private Animation fromBottom,fromTop;
+    private WhorlView mWhorlView;
+
+
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN
-                , WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         initVariables();
         initView();
     }
 
-
-
-   private void initVariables() {
+    private void initVariables() {
         mActivity = SplashScreenActivity.this;
         mContext = mActivity.getApplicationContext();
-        fromBottom = AnimationUtils.loadAnimation(mContext,R.anim.frombottom);
-        fromTop = AnimationUtils.loadAnimation(mContext,R.anim.fromtop);
-
     }
+
     private void initView() {
         setContentView(R.layout.activity_splash_screen);
-        logo = findViewById(R.id.image);
-        logo.setAnimation(fromTop);
-        welcomeNote = findViewById(R.id.ivLogo);
-        welcomeNote.setAnimation(fromBottom);
-
-
-
-
+        mWhorlView = (WhorlView) this.findViewById(R.id.whor);
+        mWhorlView.start();
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -83,12 +68,11 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private void initFunctionality() {
         if (AppUtils.isNetworkAvailable(mContext)) {
-            welcomeNote.postDelayed(new Runnable() {
+            findViewById(R.id.ivLogo).postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    //ActivityUtils.getInstance().invokeActivity(mActivity, PhoneAuthActivity.class, true);
-                    ActivityUtils.getInstance().invokeActivity(mActivity, LoginActivity.class, true);
-
+                    mWhorlView.stop();
+                    ActivityUtils.getInstance().invokeActivity(mActivity, HomePageActivity.class, true);
                 }
             }, SPLASH_DURATION);
 

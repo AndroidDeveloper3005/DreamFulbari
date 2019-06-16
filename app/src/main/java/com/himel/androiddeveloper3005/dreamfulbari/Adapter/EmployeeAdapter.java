@@ -50,9 +50,9 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
     public void onBindViewHolder(@NonNull EmployeeAdapter.EmployeeViewHolder holder, int position) {
         final Employee employee = employeeArrayList.get(position);
         String employee_details = employee.getEmail() + "\n"
-                + employee.getCurrentLoc() + " \n"
-                + employee.getOrganization();
-        holder.setName("Name : "+employee.getName());
+                + employee.getOrganization()
+                + employee.getCurrentLoc();
+        holder.setName(employee.getName());
         holder.setDetails(employee_details);
         holder.setImage(context,employee.getImage());
 
