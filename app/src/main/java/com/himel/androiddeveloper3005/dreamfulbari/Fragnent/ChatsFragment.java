@@ -27,6 +27,7 @@ import com.himel.androiddeveloper3005.dreamfulbari.Activity.ChatActivity;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.Conv;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
+import com.himel.androiddeveloper3005.dreamfulbari.Util.GetTimeAgo;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -133,12 +134,19 @@ public class ChatsFragment extends Fragment {
 
                         String data = dataSnapshot.child("message").getValue().toString();
                         String type = dataSnapshot.child("type").getValue().toString();
+                        String time = dataSnapshot.child("time").getValue().toString();
+
+                        GetTimeAgo getTimeAgo = new GetTimeAgo();
+                        long lastTime = Long.parseLong(time);
+                        String lastSeenTime = getTimeAgo.getTimeAgo(lastTime, getActivity());
 
                         if (type.equals("image")) {
                             convViewHolder.setMessage( "  A photo", conv.isSeen());
+                            convViewHolder.sendTime(lastSeenTime);
 
                         }else {
                             convViewHolder.setMessage(data, conv.isSeen());
+                            convViewHolder.sendTime(lastSeenTime);
 
                         }
                         
@@ -220,6 +228,14 @@ public class ChatsFragment extends Fragment {
             super(itemView);
 
             mView = itemView;
+
+        }
+
+
+        public void sendTime(String time){
+            TextView sendMessageTimeView = (TextView) mView.findViewById(R.id.user_single_time);
+            sendMessageTimeView.setVisibility(View.VISIBLE);
+            sendMessageTimeView.setText(time);
 
         }
 

@@ -89,6 +89,10 @@ dependencies {
     implementation 'com.skyline.widget:round-corner-layout:1.0.1'
     implementation 'com.tt:whorlviewlibrary:1.0.3'
 
+    // butter knife
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
     //mapBoxSDK
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:6.0.1'
     implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-locationlayer:0.5.0'

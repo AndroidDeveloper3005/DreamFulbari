@@ -5,8 +5,8 @@
     android:id="@+id/constantlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.MessengerUserProfileActivity"
-    tools:layout_editor_absoluteY="25dp">
+    android:background="@drawable/homeactivity_back_color"
+    tools:context=".Activity.MessengerUserProfileActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbarImage"
@@ -27,201 +27,88 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
-        android:id="@+id/layout1"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="72dp"
-        android:background="@drawable/profile_backgroud_color"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbarImage">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/round_user_image"
-            android:layout_width="138dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/layout_margin_10dp"
-            android:src="@drawable/facebook_avatar" />
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="291dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/layout_margin_10dp"
-            android:gravity="center"
-            android:text="Name"
-            android:textColor="@color/white" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="98dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="28dp"
-        android:background="@drawable/layout_bg"
-        android:baselineAligned="false"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="85dp"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/layout_margin_10dp"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/posts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/layout_margin_10dp"
-                android:background="@color/white"
-                android:gravity="center"
-                android:text="Posts" />
-
-            <TextView
-                android:id="@+id/number_posts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/layout_margin_10dp"
-                android:layout_marginRight="@dimen/layout_margin_10dp"
-                android:gravity="center"
-                android:text="5"
-                android:textColor="#0BCAE4" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="85dp"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/layout_margin_10dp"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/visitors"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/layout_margin_10dp"
-                android:background="@color/white"
-                android:gravity="center"
-                android:text="Visitors" />
-
-            <TextView
-                android:id="@+id/numbers_visitor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/layout_margin_10dp"
-                android:layout_marginRight="@dimen/layout_margin_10dp"
-                android:gravity="center"
-                android:text="5"
-                android:textColor="#0BCAE4" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="66dp"
-        android:layout_marginLeft="66dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="30dp"
-        android:src="@drawable/ic_email_black_24dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
-        app:layout_constraintEnd_toStartOf="@+id/email"
+        android:id="@+id/round_user_image"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/facebook_avatar"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout1" />
+        app:layout_constraintTop_toBottomOf="@+id/appbarImage" />
 
     <TextView
-        android:id="@+id/email"
-        android:layout_width="0dp"
+        android:id="@+id/name"
+        android:layout_width="291dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="64dp"
-        android:layout_marginRight="64dp"
-        android:text="Email"
+        android:layout_margin="@dimen/layout_margin_10dp"
+        android:gravity="center"
+        android:text="Name"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/total_friend"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
-
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="66dp"
-        android:layout_marginLeft="66dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="30dp"
-        android:src="@drawable/ic_phone"
-        app:layout_constraintBottom_toTopOf="@+id/imageView3"
-        app:layout_constraintEnd_toStartOf="@+id/phone"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/round_user_image" />
 
     <TextView
-        android:id="@+id/phone"
-        android:layout_width="0dp"
+        android:id="@+id/total_friend"
+        android:layout_width="291dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="64dp"
-        android:layout_marginRight="64dp"
-        android:text="Phone"
+        android:layout_margin="@dimen/layout_margin_10dp"
+        android:gravity="center"
+        android:text="All Friends"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/change_status"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
 
-
-    <ImageView
-        android:id="@+id/imageView3"
+    <Button
+        android:id="@+id/change_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="66dp"
-        android:layout_marginLeft="66dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="57dp"
-        android:src="@drawable/ic_chat_black_24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/chat"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
-
-    <TextView
-        android:id="@+id/chat"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="64dp"
-        android:layout_marginRight="64dp"
-        android:text="Chats"
+        android:background="@drawable/buttonshape"
+        android:text="Change Status"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/change_image"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
-        app:layout_constraintTop_toTopOf="@+id/imageView3" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/total_friend" />
+
+    <Button
+        android:id="@+id/change_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/buttonshape"
+        android:text="Change Photo"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/change_status" />
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintHorizontal_bias="0.5"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toBottomOf="@+id/change_image"/>
 
 
 </android.support.constraint.ConstraintLayout>

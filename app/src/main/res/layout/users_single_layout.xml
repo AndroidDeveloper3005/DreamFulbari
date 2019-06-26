@@ -40,11 +40,23 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="6dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/user_single_time"
         app:layout_constraintStart_toEndOf="@+id/circleImageView"
+        app:layout_constraintTop_toBottomOf="@+id/user_single_name" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/user_single_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textColor="@android:color/holo_blue_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/user_single_status"
         app:layout_constraintTop_toBottomOf="@+id/user_single_name" />
 
     <ImageView

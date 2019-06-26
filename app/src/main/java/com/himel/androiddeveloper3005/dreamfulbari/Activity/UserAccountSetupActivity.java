@@ -38,7 +38,9 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -339,6 +341,10 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
         final   String user_id = mAuth.getCurrentUser().getUid().toString().trim();
         final   String phone =   "01797720353";
         //final   String phone =   mAuth.getCurrentUser().getPhoneNumber().toString().trim();
+
+
+
+
         final   String wantToBllodDonate =   wantToDoneritemSelected;
         //get token
         String deviceTokenId = FirebaseInstanceId.getInstance().getToken();
@@ -353,7 +359,7 @@ public class UserAccountSetupActivity extends BaseActivity implements View.OnCli
             thumb_bitmap.compress(Bitmap.CompressFormat.JPEG,60,byteArrayOutputStream);
             final byte[] thumb_byte = byteArrayOutputStream.toByteArray();
 
-            StorageReference filePath = mStorageReference.child(Constans.USER_IMAGE_STOREAGE_PATH).child(mImageUri.getLastPathSegment());
+            StorageReference filePath = mStorageReference.child(Constans.USER_IMAGE_STOREAGE_PATH).child(mAuth.getCurrentUser().getUid());
             UploadTask uploadTask = filePath.putBytes(thumb_byte);
 
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

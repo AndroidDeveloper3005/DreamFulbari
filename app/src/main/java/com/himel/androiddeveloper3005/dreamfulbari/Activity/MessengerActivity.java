@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +35,7 @@ public class MessengerActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private DatabaseReference mUserRef;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +60,10 @@ public class MessengerActivity extends AppCompatActivity {
     }
 
 
+
     @Override
 
     protected void onStop() {
-
         super.onStop();
         FirebaseUser currentUser = mAuth;
         if(currentUser != null) {

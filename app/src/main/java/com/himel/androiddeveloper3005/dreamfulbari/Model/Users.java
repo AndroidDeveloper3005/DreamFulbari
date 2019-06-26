@@ -8,9 +8,21 @@ import java.io.Serializable;
 
 public class Users implements Serializable {
 
-    private String name, image, phone,bloodgroup,donner_status,location;
+    private String name, image, phone,bloodgroup,donner_status,location,uid;
 
     public Users() {
+    }
+
+    public Users(String uid) {
+        this.uid = uid;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public Users(String name, String image, String phone, String bloodgroup, String donner_status, String location) {

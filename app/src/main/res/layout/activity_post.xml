@@ -36,30 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="230dp"
             android:background="@drawable/images"
-            android:scaleType="fitXY"
+            android:scaleType="center"
             />
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/layout_margin_10dp"
-            android:layout_marginRight="@dimen/layout_margin_10dp"
-            android:theme="@style/TextInputLayoutWhiteBackground">
-
-            <EditText
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                android:id="@+id/post_Title_editText"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_below="@+id/addimage_ImageView"
-                android:layout_margin="5dp"
-                android:layout_marginBottom="287dp"
-                android:gravity="fill"
-                android:hint="Post Title"
-                android:inputType="textPersonName" />
-        </android.support.design.widget.TextInputLayout>
-
-
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -71,7 +49,7 @@
                 android:id="@+id/post_Discription_editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/post_Title_editText"
+                android:layout_below="@id/addimage_ImageView"
                 android:layout_margin="5dp"
                 android:ems="10"
                 android:hint="Post Description"

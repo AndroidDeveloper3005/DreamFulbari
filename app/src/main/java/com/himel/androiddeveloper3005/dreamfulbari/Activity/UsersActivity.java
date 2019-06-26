@@ -8,13 +8,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.User;
@@ -25,7 +29,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UsersActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private RecyclerView mUsersList;
-    private DatabaseReference mDatabaseReference;
+    private DatabaseReference mDatabaseReference,mRootRef;
     private FirebaseAuth mAuth;
 
     @Override
@@ -40,6 +44,7 @@ public class UsersActivity extends AppCompatActivity {
     private void initFireBase() {
         mAuth = FirebaseAuth.getInstance();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().child(Constans.USER_DATABSE_PATH);
+        mRootRef = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -59,6 +64,23 @@ public class UsersActivity extends AppCompatActivity {
                         viewHolder.setstatus(users.getStatus());
                         viewHolder.setimage(getApplicationContext(),users.getImage());
                         String uid = getRef(position).getKey();
+                        mRootRef.child(Constans.USER_DATABSE_PATH).child(uid).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                String online = dataSnapshot.child("online").getValue().toString();
+                                if (online.equals("true")){
+                                    viewHolder.onlineIV.setVisibility(View.VISIBLE);
+
+                                }else {
+                                    viewHolder.onlineIV.setVisibility(View.INVISIBLE);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
 
                         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -78,10 +100,12 @@ public class UsersActivity extends AppCompatActivity {
 
     public static class UsersViewHolder extends  RecyclerView.ViewHolder{
         View mView;
+        ImageView onlineIV;
 
         public UsersViewHolder(View view) {
             super(view);
             mView = view;
+            onlineIV = mView.findViewById(R.id.user_single_online_icon);
         }
         public void setname(String name){
             TextView user_name = mView.findViewById(R.id.user_single_name);

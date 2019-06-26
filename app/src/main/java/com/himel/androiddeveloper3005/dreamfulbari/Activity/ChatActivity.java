@@ -30,6 +30,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -65,11 +66,12 @@ import id.zelory.compressor.Compressor;
 public class ChatActivity extends AppCompatActivity {
     private String mChatUser, mUserName;
     private Toolbar mChatToolbar;
-    private DatabaseReference mRootRef,mUserRef;
+    private DatabaseReference mRootRef,mUserRef,mDatabaseRef;
     private TextView mTitleView;
     private TextView mLastSeenView;
     private CircleImageView mProfileImage;
     private FirebaseAuth mAuth;
+    private FirebaseUser mAuthuser;
     private String mCurrentUserId;
     private ImageButton mChatAddBtn;
     private ImageButton mChatSendBtn;
@@ -95,6 +97,32 @@ public class ChatActivity extends AppCompatActivity {
     private Bitmap thumb_bitmap,bitmap;
     private File thump_filepath;
     private Uri mImageUri,resultUri;
+    private FirebaseUser mUser;
+
+/*    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mUser;
+        if(currentUser == null){
+
+        } else {
+
+            mUserRef.child("online").setValue("true");
+
+        }
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FirebaseUser currentUser = mUser;
+        if(currentUser != null) {
+            mUserRef.child("online").setValue(ServerValue.TIMESTAMP);
+
+        }
+
+    }*/
 
 
     @Override
@@ -109,12 +137,18 @@ public class ChatActivity extends AppCompatActivity {
         mRootRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         mCurrentUserId = mAuth.getCurrentUser().getUid();
+/*        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (mUser !=null){
+            mUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mUser.getUid());
+        }*/
+
+
 
         //toolbar
         mChatToolbar = findViewById(R.id.toolBar);
         setSupportActionBar(mChatToolbar);
         actionBar = getSupportActionBar();
-        // getSupportActionBar().setTitle(mUserName);
+        // getSupportActionBar().setDiscription(mUserName);
         // add back arrow to toolbar
         if (actionBar != null){
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -165,6 +199,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
 
+
         loadMessages();
 
 
@@ -172,7 +207,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
 
-// for show last time seen or online
+        // for show last time seen or online
         mRootRef.child(Constans.USER_DATABSE_PATH).child(mChatUser).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -291,6 +326,8 @@ public class ChatActivity extends AppCompatActivity {
         });
 
     }
+
+
 
 
 
@@ -518,6 +555,7 @@ public class ChatActivity extends AppCompatActivity {
     private void sendMessage() {
         String message = mChatMessageView.getText().toString();
         if(!TextUtils.isEmpty(message)){
+
 
             String current_user_ref = "messages/" + mCurrentUserId + "/" + mChatUser;
             String chat_user_ref = "messages/" + mChatUser + "/" + mCurrentUserId;

@@ -19,21 +19,40 @@ public class MyMessagingService extends com.google.firebase.messaging.FirebaseMe
         String notification_message = remoteMessage.getNotification().getBody();
         String click_action = remoteMessage.getNotification().getClickAction();
         String from_user_id = remoteMessage.getData().get("from_user_id");
+        String post_type = remoteMessage.getData().get("post_type");
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this).setSmallIcon(R.mipmap.ic_launcher)
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_launcher)
                 .setContentTitle(notification_title).setContentText(notification_message);
+        PendingIntent resultPendingIntent;
 
-        Intent resultIntent = new Intent(click_action);
-        resultIntent.putExtra("UID", from_user_id);
 
-        PendingIntent resultPendingIntent =
-                PendingIntent.getActivity(
-                        this,
-                        0,
-                        resultIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT
+        if (post_type.equals("request")){
+            Intent resultIntent = new Intent(click_action);
+            resultIntent.putExtra("UID", from_user_id);
 
-                );
+            resultPendingIntent =
+                    PendingIntent.getActivity(
+                            this,
+                            0,
+                            resultIntent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+
+                    );
+
+        }else {
+            Intent resultIntent = new Intent(click_action);
+            resultPendingIntent =
+                    PendingIntent.getActivity(
+                            this,
+                            0,
+                            resultIntent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    );
+
+        }
+
+
+
 
         mBuilder.setContentIntent(resultPendingIntent);
 

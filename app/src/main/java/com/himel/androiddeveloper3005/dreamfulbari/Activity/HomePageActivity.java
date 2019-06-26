@@ -76,9 +76,6 @@ public class HomePageActivity extends BaseActivity
         initView();
         onClickMethod();
 
-
-
-
         mDatabaseRefhelp.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -100,9 +97,9 @@ public class HomePageActivity extends BaseActivity
             }
         });
 
-        //get token
+/*        //get token
         String deviceTokenId = FirebaseInstanceId.getInstance().getToken();
-        mDatabaseReference.child(mAuth.getCurrentUser().getUid()).child("device_token").setValue(deviceTokenId);
+        mDatabaseReference.child(mAuth.getCurrentUser().getUid()).child("device_token").setValue(deviceTokenId);*/
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -417,7 +414,7 @@ public class HomePageActivity extends BaseActivity
         mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child(Constans.USER_DATABSE_PATH);
         mDatabaseUserRef = FirebaseDatabase.getInstance().getReference();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().child(Constans.USER_DATABSE_PATH);
-        mDatabaseReference.child(mAuth.getCurrentUser().getUid()).child("device_token").setValue(null);
+        //mDatabaseReference.child(mAuth.getCurrentUser().getUid()).child("device_token").setValue(null);
         mDatabaseRef.keepSynced(true);
         mDatabaseUsers.keepSynced(true);
 

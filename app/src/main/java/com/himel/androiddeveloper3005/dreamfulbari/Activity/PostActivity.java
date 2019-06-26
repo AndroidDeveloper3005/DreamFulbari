@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -38,7 +37,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import id.zelory.compressor.Compressor;
 
@@ -48,7 +50,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     private EditText postTitle,postDescription;
     private Button postSubmitBtn;
     private StorageReference mStorageReference;
-    private DatabaseReference mDatabaseRef,mDatabaseUserRef,mDatabaseRefPostCount;
+    private DatabaseReference mBlogDatabaseRef,mDatabaseUserRef,mDatabaseRefPostCount,mPostNotificationRef,mRootRef;
     private LinearLayout linearLayout;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
@@ -59,6 +61,9 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     private Bitmap thumb_bitmap,bitmap;
     private File thump_filepath;
     private Uri mImageUri,resultUri;
+    private ArrayList<String> all_user;
+    private String user_id ;
+    private long post_counter = 0;
 
 
 
@@ -73,12 +78,47 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         getToolbar();
         enableBackButton();
         setToolbarTitle("Posts");
+        all_user = new ArrayList<String>();
+        //store data for send notifications
+        //first get all user id
+
+        mRootRef.child(Constans.USER_DATABSE_PATH).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapShot:dataSnapshot.getChildren()) {
+                    //final String user_id = snapShot.child("uid").getValue().toString();
+                    all_user.add(snapShot.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        mBlogDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    post_counter = dataSnapshot.getChildrenCount();
+                }else {
+                    post_counter = 0;
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
 
     }
 
     private void initListener() {
-
         selectImageButton.setOnClickListener(this);
         postSubmitBtn.setOnClickListener(this);
         progressBar.setVisibility(View.GONE);
@@ -124,14 +164,15 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
         }
         else if (v==postSubmitBtn){
-            //setProgressbar(progress);
-
+            //postnotification();
             progressBar.setVisibility(View.VISIBLE);
             startPosting();
+
 
         }
 
     }
+
 
 
     @Override
@@ -162,7 +203,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
                     thumb_bitmap = new Compressor(this)
                             .setMaxWidth(300)
                             .setMaxHeight(300)
-                            .setQuality(50)
+                            .setQuality(60)
                             .compressToBitmap(thump_filepath);
 
 
@@ -184,7 +225,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         //progressBar.setVisibility(View.VISIBLE);
 
 
-        final String titleValue = postTitle.getText().toString().trim();
         final String descriptionValue = postDescription.getText().toString().trim();
         current_uid = mAuth.getCurrentUser().getUid().toString();
 
@@ -195,16 +235,17 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         Calendar get_Time = Calendar.getInstance();
         SimpleDateFormat curentTime = new SimpleDateFormat("hh:mm a");
         saveTime = curentTime.format(get_Time.getTime());
+
         postRandomKey = current_uid + saveDate +saveTime ;
 
 
-        if (!TextUtils.isEmpty(titleValue) &&  !TextUtils.isEmpty(descriptionValue) &&  mImageUri !=null){
+        if (!TextUtils.isEmpty(descriptionValue) &&  mImageUri !=null){
 
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             thumb_bitmap.compress(Bitmap.CompressFormat.JPEG,60,byteArrayOutputStream);
             final byte[] thumb_byte = byteArrayOutputStream.toByteArray();
 
-            StorageReference filePath = mStorageReference.child(Constans.POST_STOREAGE_PATH).child(mImageUri.getLastPathSegment());
+            StorageReference filePath = mStorageReference.child(Constans.POST_STOREAGE_PATH).child(postRandomKey);
             UploadTask uploadTask = filePath.putBytes(thumb_byte);
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -213,27 +254,58 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
                   //savePostInfo();
 
-                  final  DatabaseReference newPost = mDatabaseRef.child(postRandomKey);
+                  final  DatabaseReference newPost = mBlogDatabaseRef.child(postRandomKey);
 
-                  //store user how many  post
-                  final  DatabaseReference post_count = mDatabaseRefPostCount.child(mAuth.getCurrentUser().getUid());
-                  post_count.child(postRandomKey).setValue("0");
+                    //get one by one data and store inside database
+                    for (int i =0;i<all_user.size();i++) {
+
+                        user_id = all_user.get(i);
+                        if (!user_id.equals(current_uid)) {
+                            DatabaseReference newNotificationref = mRootRef.child("notifications_post").child(user_id).push();
+                            String newNotificationId = newNotificationref.getKey();
+
+                            HashMap<String, String> notificationData = new HashMap<>();
+                            notificationData.put("from", current_uid);
+                            notificationData.put("type", "new post");
+
+                            Map requestMap = new HashMap();
+                            requestMap.put("notifications_post/" + user_id + "/" + newNotificationId, notificationData);
+
+                            mRootRef.updateChildren(requestMap, new DatabaseReference.CompletionListener() {
+                                @Override
+                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                    if (databaseError != null) {
+                                        Toast.makeText(PostActivity.this, "There was some error in sending request", Toast.LENGTH_SHORT).show();
+
+                                    } else {
+
+                                    }
+
+                                }
+                            });
+
+                        }
 
 
-                    mDatabaseReferenceUser.addValueEventListener(new ValueEventListener() {
+
+                    }
+
+
+
+                        mDatabaseReferenceUser.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-
-                            newPost.child(Constans.TITLE).setValue(titleValue);
                             newPost.child(Constans.DESCRITION).setValue(descriptionValue);
                             newPost.child(Constans.IMAGE_URI).setValue(downloadUri);
                             newPost.child(Constans.UID).setValue(mCurrentUser.getUid());
                             newPost.child("date").setValue(saveDate);
                             newPost.child("time").setValue(saveTime);
+                            newPost.child("counter").setValue(post_counter);
                             newPost.child("username").setValue(dataSnapshot.child("name").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){
+
                                         startActivity(new Intent(PostActivity.this,NewsActivity.class));
                                     }
                                     else {
@@ -246,6 +318,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){
+
                                         startActivity(new Intent(PostActivity.this,NewsActivity.class));
                                     }
                                     else {
@@ -280,7 +353,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
     public void initView(){
         selectImageButton = findViewById(R.id.addimage_ImageView);
-        postTitle = findViewById(R.id.post_Title_editText);
         postDescription = findViewById(R.id.post_Discription_editText);
         postSubmitBtn = findViewById(R.id.post_Button);
         linearLayout = findViewById(R.id.conslayout);
@@ -294,11 +366,13 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         currentUserID = mAuth.getCurrentUser().getUid().toString();
         currentEmail = mAuth.getCurrentUser().getEmail().toString();
         mCurrentUser = mAuth.getCurrentUser();
+        mRootRef = FirebaseDatabase.getInstance().getReference();
         mDatabaseReferenceUser =FirebaseDatabase.getInstance().getReference().child(Constans.USER_DATABSE_PATH).child(mCurrentUser.getUid());
         mStorageReference = FirebaseStorage.getInstance().getReference();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference().child(Constans.POST_DATABSE_PATH);
+        mBlogDatabaseRef = FirebaseDatabase.getInstance().getReference().child(Constans.POST_DATABSE_PATH);
         mDatabaseUserRef = FirebaseDatabase.getInstance().getReference();
         mDatabaseRefPostCount = FirebaseDatabase.getInstance().getReference().child(Constans.USER_POST_COUNT_PATH);
+        mPostNotificationRef = FirebaseDatabase.getInstance().getReference().child("notifications_post");
 
     }
 

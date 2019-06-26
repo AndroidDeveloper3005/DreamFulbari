@@ -1,16 +1,17 @@
 package com.himel.androiddeveloper3005.dreamfulbari.Activity;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -21,26 +22,29 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.BlogPost;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.Comment;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.MyDividerItemDecoration;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.ToolBarAndStatusBar;
-
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NewsActivity extends ToolBarAndStatusBar {
     private android.support.v7.widget.Toolbar toolbar;
-    private FloatingActionButton fab;
+    private FloatingActionButton add_post_fab_button;
     private RecyclerView blogListShow,commentListShow;
     private FirebaseDatabase database;
     private DatabaseReference mDatabaseRef,mDatabase;
@@ -59,12 +63,17 @@ public class NewsActivity extends ToolBarAndStatusBar {
     private ActionBar actionBar ;
     private Toolbar mToolbar;
     private ImageView post_view;
+    private DatabaseReference mDatabaseLikesRef,mDatabaseBlogRef;
+    private StorageReference mStorageReference;
+    private String post_key;
+    private ProgressDialog mProgressDialog;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_news_feed);
         initView();
         initFireBaseAuth();
         this.mHandler = new Handler();
@@ -73,18 +82,20 @@ public class NewsActivity extends ToolBarAndStatusBar {
         mDatabaseRef = FirebaseDatabase.getInstance().getReference().child(Constans.POST_DATABSE_PATH);
 
 
-        post_view.setOnClickListener(new View.OnClickListener() {
+        add_post_fab_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent postIntent = new Intent(getApplicationContext(), PostActivity.class);
                 startActivity(postIntent);
             }
         });
-
         showData();
 
 
+
     }
+
+
 
 
 
@@ -137,23 +148,32 @@ public class NewsActivity extends ToolBarAndStatusBar {
         mToolbar = findViewById(R.id.toolBar);
         setSupportActionBar(mToolbar);
         actionBar = getSupportActionBar();
-        // getSupportActionBar().setTitle(mUserName);
+        // getSupportActionBar().setDiscription(mUserName);
         // add back arrow to toolbar
         if (actionBar != null){
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayShowCustomEnabled(true);
         }
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        getSupportActionBar().setTitle("News Feed");
+/*        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View action_bar_view = inflater.inflate(R.layout.post_custom_bar,null);
         actionBar.setCustomView(action_bar_view);
 
-        post_view = findViewById(R.id.custom_bar_post);
+        post_view = findViewById(R.id.custom_bar_post);*/
+        add_post_fab_button = findViewById(R.id.add_news);
 
-
-
-
-
+        blogListShow.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && add_post_fab_button.getVisibility() == View.VISIBLE) {
+                    add_post_fab_button.hide();
+                } else if (dy < 0 && add_post_fab_button.getVisibility() != View.VISIBLE) {
+                    add_post_fab_button.show();
+                }
+            }
+        });
 
 
     }
@@ -176,12 +196,13 @@ public class NewsActivity extends ToolBarAndStatusBar {
     }
 
     public void showData(){
+        Query sorting_data = mDatabaseRef.orderByChild("counter");
 
         FirebaseRecyclerAdapter<BlogPost,BlogViewHolder>fireBaseRecyclerAdapter = new FirebaseRecyclerAdapter<BlogPost, BlogViewHolder>(
                 BlogPost.class,
                 R.layout.blog_post_row,
                 BlogViewHolder.class,
-                mDatabaseRef
+                sorting_data
 
 
         ) {
@@ -191,8 +212,7 @@ public class NewsActivity extends ToolBarAndStatusBar {
                 final String post_key  = getRef(position).getKey().toString();
                 dateTime = (model.getDate() + " "+ model.getTime()).toString() ;
 
-                viewHolder.setTitle(model.getTitle());
-                viewHolder.set_Description(model.getDescription());
+                viewHolder.setDiscription(model.getDescription());
                 viewHolder.set_Image(getApplicationContext(),model.getImageUri());
                 viewHolder.setUserName(model.getUsername());
                 viewHolder.set_UserImage(getApplicationContext(),model.getUserImage());
@@ -200,32 +220,63 @@ public class NewsActivity extends ToolBarAndStatusBar {
                 viewHolder.setLkeButton(post_key);
                 viewHolder.countLike(post_key);
                 //click user image and Name to see user deatils
-                viewHolder.mUserLayout.setOnClickListener(new View.OnClickListener() {
+                viewHolder.mView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        Intent mIntent = new Intent(NewsActivity.this, NewsUserProfileActivity.class);
-                        mIntent.putExtra("UID",post_key);
-                        startActivity(mIntent);
-/*
+                    public boolean onLongClick(View v) {
 
+                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(NewsActivity.this);
+                        View mView = getLayoutInflater().inflate(R.layout.bottom_sheet, null);
+                        ConstraintLayout update = mView.findViewById(R.id.update_button);
+                        ConstraintLayout delete = mView.findViewById(R.id.delete_button);
+                        mBuilder.setView(mView);
+                        mDatabaseBlogRef = FirebaseDatabase.getInstance().getReference().child(Constans.POST_DATABSE_PATH);
+                        mDatabaseLikesRef = FirebaseDatabase.getInstance().getReference().child(Constans.LIKES);
+                        mStorageReference = FirebaseStorage.getInstance().getReference().child(Constans.POST_STOREAGE_PATH);
+                        //progress Dialog
+                        mProgressDialog = new ProgressDialog(NewsActivity.this);
+                        mProgressDialog.setTitle("Loading..");
+                        mProgressDialog.setMessage("Please wait ....");
+                        mProgressDialog.setCanceledOnTouchOutside(false);
 
+                        final AlertDialog dialog = mBuilder.create();
+                        dialog.show();
 
-                        mDatabaseRef.child(post_key).addValueEventListener(new ValueEventListener() {
+                        update.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                uid = (String) dataSnapshot.child(Constans.UID).getValue();
-                                mDatabase.child(Constans.USER_VISITORS).child(uid).child(mAuth.getCurrentUser().getUid()
-                                        +" "+dateTime).setValue("0");
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getApplicationContext(),PostUpdateActivity.class);
+                                intent.putExtra("post_key",post_key);
+                                startActivity(intent);
+                                dialog.dismiss();
+
+                            }
+                        });
+
+                        delete.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mProgressDialog.show();
+                                mDatabaseBlogRef.child(post_key).removeValue();
+                                mDatabaseLikesRef.child(post_key).removeValue();
+                                mStorageReference.child(post_key).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        mProgressDialog.dismiss();
+                                        dialog.dismiss();
+
+                                    }
+                                });
+
                             }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
 
-                            }
-                        });*/
+                        });
 
+                        return true ;
                     }
                 });
+
+
 
 
                 viewHolder.mLike.setOnClickListener(new View.OnClickListener() {
@@ -298,7 +349,6 @@ public class NewsActivity extends ToolBarAndStatusBar {
 
 
     }
-
 
 
 
@@ -384,14 +434,9 @@ public class NewsActivity extends ToolBarAndStatusBar {
             user_name.setText(username);
         }
 
-        public void setTitle(String title){
+        public void setDiscription(String title){
             TextView postTite = mView.findViewById(R.id.post_title_textView);
             postTite.setText(title);
-        }
-
-        public void set_Description(String description){
-            TextView postDescrition = mView.findViewById(R.id.post_desciption_textView);
-            postDescrition.setText(description);
         }
         public void set_Image(Context cntx, String image){
             ImageView post_Image = mView.findViewById(R.id.post_Image);
