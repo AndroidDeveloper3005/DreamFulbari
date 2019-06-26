@@ -29,12 +29,29 @@
         android:scrollbars="horizontal"
         android:id="@+id/show_blog_Post_recyclerView"
         />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_news"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="@dimen/layout_margin_25dp"
+        android:layout_marginRight="@dimen/layout_margin_25dp"
+        android:layout_marginBottom="@dimen/layout_margin_25dp"
+        android:src="@drawable/ic_add_circle_24dp"
+        app:backgroundTint="@color/button_sheet_button_color"
+        app:borderWidth="5dp"
+        app:elevation="6dp"
+        app:fabSize="normal"
+        android:layout_gravity="bottom|right"/>
+
+
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
         android:layout_gravity="center"
         />
+
 
 
 </android.support.design.widget.CoordinatorLayout>
