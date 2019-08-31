@@ -34,7 +34,9 @@ public class AdUtils {
         if (disableBannerAd) {
             mAdView.setVisibility(View.GONE);
         } else {
-            AdRequest adRequest = new AdRequest.Builder().build();
+            AdRequest adRequest = new AdRequest.Builder()
+                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                    .build();
             mAdView.loadAd(adRequest);
 
             mAdView.setAdListener(new AdListener() {
@@ -57,7 +59,9 @@ public class AdUtils {
         mInterstitialAd = new InterstitialAd(activity);
         mInterstitialAd.setAdUnitId(activity.getResources().getString(R.string.interstitial_ad_unit_id));
 
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
         mInterstitialAd.loadAd(adRequest);
     }
 

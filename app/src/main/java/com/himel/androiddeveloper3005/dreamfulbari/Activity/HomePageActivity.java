@@ -40,6 +40,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.HelpLine;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
+import com.himel.androiddeveloper3005.dreamfulbari.Service.MyService;
+
 import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -75,6 +77,7 @@ public class HomePageActivity extends BaseActivity
         initFireBaseAuth();
         initView();
         onClickMethod();
+
 
         mDatabaseRefhelp.addValueEventListener(new ValueEventListener() {
             @Override
@@ -299,7 +302,7 @@ public class HomePageActivity extends BaseActivity
                         Intent callIntent = new Intent(Intent.ACTION_CALL);
                         callIntent.setData(Uri.parse("tel:"+uno));
                         if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions((Activity) getApplicationContext(), new String[]{Manifest.permission.CALL_PHONE}, Constans.REQUEST_PHONE_CALL);
+                            ActivityCompat.requestPermissions((Activity) HomePageActivity.this, new String[]{Manifest.permission.CALL_PHONE}, Constans.REQUEST_PHONE_CALL);
                             return;
                         }
                         else {

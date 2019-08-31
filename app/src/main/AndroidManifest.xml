@@ -36,10 +36,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activity.PostUpdateActivity"></activity>
+        <service
+            android:name=".Service.MyService"
+            android:enabled="true"
+            android:exported="true"/>
+
+        <activity android:name=".Activity.PostUpdateActivity" />
         <activity
             android:name=".Activity.ChatActivity"
-            android:parentActivityName=".Activity.MessengerActivity"></activity>
+            android:parentActivityName=".Activity.MessengerActivity" />
 
         <service
             android:name=".MessageService.MyMessagingService"
@@ -64,7 +69,7 @@
             android:parentActivityName=".Activity.NewsActivity" />
         <activity android:name=".Activity.UserAccountSetupActivity" />
         <activity android:name=".Activity.RegistrationActivity" />
-        <activity android:name=".Activity.LoginActivity"></activity>
+        <activity android:name=".Activity.LoginActivity" />
         <activity android:name=".Activity.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -36,6 +37,7 @@ import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.BlogPost;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.Comment;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
+import com.himel.androiddeveloper3005.dreamfulbari.Service.MyService;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.MyDividerItemDecoration;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.ToolBarAndStatusBar;
 import java.util.ArrayList;
@@ -70,12 +72,14 @@ public class NewsActivity extends ToolBarAndStatusBar {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_feed);
         initView();
         initFireBaseAuth();
+        startService(new Intent(this, MyService.class));
         this.mHandler = new Handler();
         this.mHandler.postDelayed(m_Runnable,500);
 
@@ -213,7 +217,9 @@ public class NewsActivity extends ToolBarAndStatusBar {
                 dateTime = (model.getDate() + " "+ model.getTime()).toString() ;
 
                 viewHolder.setDiscription(model.getDescription());
-                viewHolder.set_Image(getApplicationContext(),model.getImageUri());
+                if (model.getImageUri() != null) {
+                    viewHolder.set_Image(getApplicationContext(), model.getImageUri());
+                }
                 viewHolder.setUserName(model.getUsername());
                 viewHolder.set_UserImage(getApplicationContext(),model.getUserImage());
                 viewHolder.setDateTime(dateTime);
@@ -440,7 +446,7 @@ public class NewsActivity extends ToolBarAndStatusBar {
         }
         public void set_Image(Context cntx, String image){
             ImageView post_Image = mView.findViewById(R.id.post_Image);
-
+            post_Image.setVisibility(View.VISIBLE);
             Glide.with(cntx).load(image)
                     .into(post_Image);
 

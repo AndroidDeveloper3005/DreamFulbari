@@ -1,12 +1,16 @@
 package com.himel.androiddeveloper3005.dreamfulbari.Activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -14,8 +18,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -25,6 +29,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -32,7 +37,6 @@ import com.google.firebase.storage.UploadTask;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
 import com.theartofdev.edmodo.cropper.CropImage;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -41,12 +45,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-
 import id.zelory.compressor.Compressor;
 
 public class PostActivity extends BaseActivity implements View.OnClickListener{
     public static final int GALLERY_REQUEST = 1;
-    private ImageView selectImageButton;
+    private ImageView show_image;
     private EditText postTitle,postDescription;
     private Button postSubmitBtn;
     private StorageReference mStorageReference;
@@ -64,6 +67,10 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     private ArrayList<String> all_user;
     private String user_id ;
     private long post_counter = 0;
+    private LinearLayout photo_layout;
+    private Toolbar mToolbar;
+    private ActionBar actionBar ;
+    private TextView mPost_Text;
 
 
 
@@ -75,9 +82,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         setContentView(R.layout.activity_post);
         initView();
         initListener();
-        getToolbar();
-        enableBackButton();
-        setToolbarTitle("Posts");
+
+
         all_user = new ArrayList<String>();
         //store data for send notifications
         //first get all user id
@@ -119,8 +125,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     }
 
     private void initListener() {
-        selectImageButton.setOnClickListener(this);
-        postSubmitBtn.setOnClickListener(this);
+        photo_layout.setOnClickListener(this);
+        mPost_Text.setOnClickListener(this);
         progressBar.setVisibility(View.GONE);
     }
 
@@ -157,18 +163,15 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        if (v== selectImageButton){
+        if (v== photo_layout){
             Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
             galleryIntent.setType("image/*");
             startActivityForResult(Intent.createChooser(galleryIntent, "Select Picture"), GALLERY_REQUEST);
 
         }
-        else if (v==postSubmitBtn){
-            //postnotification();
+        else if (v==mPost_Text){
             progressBar.setVisibility(View.VISIBLE);
             startPosting();
-
-
         }
 
     }
@@ -184,7 +187,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
             mImageUri = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mImageUri);
-                selectImageButton.setImageBitmap(bitmap);
+                show_image.setVisibility(View.VISIBLE);
+                show_image.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -222,9 +226,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
 
     private void startPosting() {
-        //progressBar.setVisibility(View.VISIBLE);
-
-
+        progressBar.setVisibility(View.VISIBLE);
         final String descriptionValue = postDescription.getText().toString().trim();
         current_uid = mAuth.getCurrentUser().getUid().toString();
 
@@ -244,6 +246,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             thumb_bitmap.compress(Bitmap.CompressFormat.JPEG,60,byteArrayOutputStream);
             final byte[] thumb_byte = byteArrayOutputStream.toByteArray();
+            //String key = mBlogDatabaseRef.push().getKey();
 
             StorageReference filePath = mStorageReference.child(Constans.POST_STOREAGE_PATH).child(postRandomKey);
             UploadTask uploadTask = filePath.putBytes(thumb_byte);
@@ -251,8 +254,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                   final  String downloadUri = taskSnapshot.getDownloadUrl().toString();
-
-                  //savePostInfo();
 
                   final  DatabaseReference newPost = mBlogDatabaseRef.child(postRandomKey);
 
@@ -290,8 +291,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
                     }
 
-
-
                         mDatabaseReferenceUser.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -300,13 +299,14 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
                             newPost.child(Constans.UID).setValue(mCurrentUser.getUid());
                             newPost.child("date").setValue(saveDate);
                             newPost.child("time").setValue(saveTime);
+                            newPost.child("time_stamp").setValue(ServerValue.TIMESTAMP);
                             newPost.child("counter").setValue(post_counter);
                             newPost.child("username").setValue(dataSnapshot.child("name").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){
-
-                                        startActivity(new Intent(PostActivity.this,NewsActivity.class));
+                                        Intent news = new Intent(PostActivity.this,NewsActivity.class);
+                                        startActivity(news);
                                     }
                                     else {
                                         Toast.makeText(PostActivity.this, "Your Post Does Not Stored.! ", Toast.LENGTH_SHORT).show();
@@ -318,8 +318,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){
-
-                                        startActivity(new Intent(PostActivity.this,NewsActivity.class));
+                                        Intent news = new Intent(PostActivity.this,NewsActivity.class);
+                                        startActivity(news);
                                     }
                                     else {
                                         Toast.makeText(PostActivity.this, "Your Post Does Not Stored.! ", Toast.LENGTH_SHORT).show();
@@ -343,7 +343,79 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
             });
 
 
-        }else {
+        }else if (!TextUtils.isEmpty(descriptionValue)){
+
+            final  DatabaseReference newPost = mBlogDatabaseRef.child(postRandomKey);
+            //get one by one data and store inside database
+            for (int i =0;i<all_user.size();i++) {
+
+                user_id = all_user.get(i);
+                if (!user_id.equals(current_uid)) {
+                    DatabaseReference newNotificationref = mRootRef.child("notifications_post").child(user_id).push();
+                    String newNotificationId = newNotificationref.getKey();
+
+                    HashMap<String, String> notificationData = new HashMap<>();
+                    notificationData.put("from", current_uid);
+                    notificationData.put("type", "new post");
+
+                    Map requestMap = new HashMap();
+                    requestMap.put("notifications_post/" + user_id + "/" + newNotificationId, notificationData);
+
+                    mRootRef.updateChildren(requestMap, new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                            if (databaseError != null) {
+                                Toast.makeText(PostActivity.this, "There was some error in sending request", Toast.LENGTH_SHORT).show();
+
+                            } else {
+
+                            }
+
+                        }
+                    });
+
+                }
+
+
+
+            }
+
+            mDatabaseReferenceUser.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    newPost.child(Constans.DESCRITION).setValue(descriptionValue);
+                    newPost.child(Constans.UID).setValue(mCurrentUser.getUid());
+                    newPost.child("date").setValue(saveDate);
+                    newPost.child("time").setValue(saveTime);
+                    newPost.child("time_stamp").setValue(ServerValue.TIMESTAMP);
+                    newPost.child("counter").setValue(post_counter);
+                    newPost.child("username").setValue(dataSnapshot.child("name").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                Intent news = new Intent(PostActivity.this,NewsActivity.class);
+                                startActivity(news);
+                            }
+                            else {
+                                Toast.makeText(PostActivity.this, "Your Post Does Not Stored.!", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+            progressBar.setVisibility(View.GONE);
+
+
+        } else
+         {
             Toast.makeText(this, "Fill all field first.", Toast.LENGTH_SHORT).show();
             progressBar.setVisibility(View.GONE);
         }
@@ -352,13 +424,26 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
 
     public void initView(){
-        selectImageButton = findViewById(R.id.addimage_ImageView);
+        //toolbar
+        mToolbar = findViewById(R.id.toolBar);
+        setSupportActionBar(mToolbar);
+        actionBar = getSupportActionBar();
+        // add back arrow to toolbar
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayShowCustomEnabled(true);
+        }
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View action_bar_view = inflater.inflate(R.layout.post_custom_bar,null);
+        actionBar.setCustomView(action_bar_view);
+        mPost_Text = (TextView) findViewById(R.id.custom_bar_post);
+        show_image = findViewById(R.id.showimage_ImageView);
         postDescription = findViewById(R.id.post_Discription_editText);
-        postSubmitBtn = findViewById(R.id.post_Button);
+        //postSubmitBtn = findViewById(R.id.post_Button);
         linearLayout = findViewById(R.id.conslayout);
         progressBar = findViewById(R.id.progressBar);
-        //progressBar.setVisibility(View.VISIBLE);
-
+        photo_layout = findViewById(R.id.photo_layout);
 
     }
     public void initFireBase(){

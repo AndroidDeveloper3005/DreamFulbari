@@ -24,80 +24,110 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_margin="@dimen/layout_height_width_15dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/home_manu_background">
-        <ImageView
-            android:layout_margin="@dimen/layout_margin_10dp"
-            android:id="@+id/addimage_ImageView"
+
+        <EditText
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/post_Discription_editText"
             android:layout_width="match_parent"
-            android:layout_height="230dp"
+            android:layout_height="200dp"
+            android:layout_below="@id/showimage_ImageView"
+            android:layout_margin="5dp"
+            android:ems="10"
+            android:gravity="top"
+            android:hint="What\'s on your mind?"
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/showimage_ImageView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/layout_height_width_250dp"
+            android:layout_margin="@dimen/layout_margin_10dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/images"
             android:scaleType="center"
-            />
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/layout_margin_10dp"
-            android:layout_marginRight="@dimen/layout_margin_10dp"
-            android:theme="@style/TextInputLayoutWhiteBackground">
-            <EditText
-                android:id="@+id/post_Discription_editText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/addimage_ImageView"
-                android:layout_margin="5dp"
-                android:ems="10"
-                android:hint="Post Description"
-                android:inputType="textPersonName"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                />
-        </android.support.design.widget.TextInputLayout>
-
-
-
-
-
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/post_Discription_editText"
+            app:layout_constraintHorizontal_bias="0.75"
+            app:layout_constraintStart_toStartOf="@+id/post_Discription_editText"
+            app:layout_constraintTop_toTopOf="@+id/post_Discription_editText"
+            app:layout_constraintVertical_bias="0.405" />
 
         <LinearLayout
+            android:id="@+id/photo_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical"
-            >
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/showimage_ImageView"
+            app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintStart_toStartOf="@+id/showimage_ImageView"
+            app:layout_constraintTop_toBottomOf="@+id/showimage_ImageView"
+            app:layout_constraintVertical_bias="0.246">
 
-            <Button
-                android:id="@+id/post_Button"
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_image_post_48dp" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/buttonshape"
-                android:text="Post"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                />
-
+                android:layout_marginLeft="@dimen/layout_margin_10dp"
+                android:text="Photo"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textsize_18sp" />
         </LinearLayout>
+
+
+
         <ProgressBar
+            android:visibility="gone"
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|bottom"
-            android:layout_marginTop="5dp"
-            />
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/photo_layout"
+            app:layout_constraintStart_toStartOf="@+id/photo_layout"
+            app:layout_constraintTop_toTopOf="@+id/post_Discription_editText" />
 
 
-    </LinearLayout>
+
+
+    </android.support.constraint.ConstraintLayout>
 
 
 

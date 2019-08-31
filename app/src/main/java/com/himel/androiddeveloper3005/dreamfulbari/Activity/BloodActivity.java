@@ -240,6 +240,7 @@ public class BloodActivity extends ToolBarAndStatusBar {
         mUserDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 for (DataSnapshot data:dataSnapshot.getChildren()) {
                     String userName = data.child(Constans.USER_NAME).getValue().toString();
                     String phone = data.child(Constans.USER_PHONE).getValue().toString();
@@ -269,7 +270,7 @@ public class BloodActivity extends ToolBarAndStatusBar {
     private void initFirebase() {
         mAuth = FirebaseAuth.getInstance();
         current_uid = mAuth.getCurrentUser().getUid();
-        mUserDatabase = FirebaseDatabase.getInstance().getReference("Users");
+        mUserDatabase = FirebaseDatabase.getInstance().getReference(Constans.USER_DATABSE_PATH);
         mDatabaseReference = FirebaseDatabase.getInstance().getReference(Constans
                 .BLOOD_DONER_DATABSE_PATH);
     }

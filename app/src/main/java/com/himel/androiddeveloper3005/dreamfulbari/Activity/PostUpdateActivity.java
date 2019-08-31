@@ -23,7 +23,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -39,7 +38,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Map;
 
 import id.zelory.compressor.Compressor;
 
@@ -89,7 +87,7 @@ public class PostUpdateActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void initView() {
-        selectImageButton = findViewById(R.id.addimage_ImageView);
+        selectImageButton = findViewById(R.id.showimage_ImageView);
         postDescription = findViewById(R.id.post_Discription_editText);
         postSubmitBtn = findViewById(R.id.post_Button);
         linearLayout = findViewById(R.id.conslayout);

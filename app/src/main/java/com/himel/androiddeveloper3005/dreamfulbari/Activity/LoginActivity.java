@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -113,20 +112,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 }
             });
         } else {
-            Snackbar mSnackbar = Snackbar.make(mCoordinatorLayout,"You Need To Provide Your Email And Password"
-                    ,Snackbar.LENGTH_INDEFINITE).setAction("OK", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-            // Changing message text color
-            mSnackbar.setActionTextColor(Color.RED);
-            // Changing action button text color
-            View sbView = mSnackbar.getView();
-            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-            textView.setTextColor(Color.YELLOW);
-            mSnackbar.show();
+            Toast.makeText(LoginActivity.this, "You Need To Provide Your Email And Password", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -18,7 +18,7 @@
         android:layout_toRightOf="@id/profile_image"
         android:layout_marginLeft="5dp"
         android:text="hello"
-        android:id="@+id/show_message"
+        android:id="@+id/message_text_layout"
         android:textSize="18sp"
         android:padding="8dp"
         android:background="@drawable/background_left"/>
@@ -50,7 +50,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txt_seen"
+        android:id="@+id/time_text_layout"
         android:visibility="gone"
         android:layout_below="@id/show_message"/>
 

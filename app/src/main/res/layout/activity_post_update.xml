@@ -32,7 +32,7 @@
         android:background="@drawable/home_manu_background">
         <ImageView
             android:layout_margin="@dimen/layout_margin_10dp"
-            android:id="@+id/addimage_ImageView"
+            android:id="@+id/showimage_ImageView"
             android:layout_width="match_parent"
             android:layout_height="230dp"
             android:background="@drawable/images"
@@ -50,7 +50,7 @@
                 android:id="@+id/post_Discription_editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/addimage_ImageView"
+                android:layout_below="@id/showimage_ImageView"
                 android:layout_margin="5dp"
                 android:ems="10"
                 android:hint="Whats on your mind?"

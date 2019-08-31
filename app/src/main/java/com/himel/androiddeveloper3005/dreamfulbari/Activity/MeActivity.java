@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -34,6 +35,8 @@ import com.google.firebase.storage.UploadTask;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.Users;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
+import com.himel.androiddeveloper3005.dreamfulbari.Util.AdUtils;
+import com.himel.androiddeveloper3005.dreamfulbari.Util.AppUtils;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.ByteArrayOutputStream;
@@ -84,6 +87,12 @@ public class MeActivity extends BaseActivity {
         enableBackButton();
         setToolbarTitle("Profile");
         clickListenner();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AdUtils.getInstance(mContext).showBannerAd((AdView) findViewById(R.id.adView));
     }
 
     private void clickListenner() {
