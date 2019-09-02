@@ -79,7 +79,6 @@ public class NewsActivity extends ToolBarAndStatusBar {
         setContentView(R.layout.activity_news_feed);
         initView();
         initFireBaseAuth();
-        startService(new Intent(this, MyService.class));
         this.mHandler = new Handler();
         this.mHandler.postDelayed(m_Runnable,500);
 

@@ -343,7 +343,13 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
             });
 
 
-        }else if (!TextUtils.isEmpty(descriptionValue)){
+        }else {
+            Toast.makeText(this, "Fill all field first.", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
+        }
+
+
+        if (!TextUtils.isEmpty(descriptionValue)){
 
             final  DatabaseReference newPost = mBlogDatabaseRef.child(postRandomKey);
             //get one by one data and store inside database
@@ -414,10 +420,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
             progressBar.setVisibility(View.GONE);
 
 
-        } else
-         {
-            Toast.makeText(this, "Fill all field first.", Toast.LENGTH_SHORT).show();
-            progressBar.setVisibility(View.GONE);
         }
 
     }

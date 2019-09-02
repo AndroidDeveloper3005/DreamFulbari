@@ -372,7 +372,7 @@ public class ChatActivity extends AppCompatActivity {
 
                     DatabaseReference user_message_push = mRootRef.child("messages").child(mCurrentUserId).child(mChatUser).push();
                     final String push_id = user_message_push.getKey();
-                    StorageReference filepath = mImageStorage.child("message_images").child( push_id + ".jpg");
+                    StorageReference filepath = mImageStorage.child("message_images").child( push_id);
                     UploadTask uploadTask = filepath.putBytes(thumb_byte);
 
                     uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
