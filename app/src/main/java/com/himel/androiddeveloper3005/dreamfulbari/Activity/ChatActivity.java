@@ -98,6 +98,7 @@ public class ChatActivity extends AppCompatActivity {
     private File thump_filepath;
     private Uri mImageUri,resultUri;
     private FirebaseUser mUser;
+    private String push_id;
 
 /*    @Override
     protected void onStart() {
@@ -371,7 +372,9 @@ public class ChatActivity extends AppCompatActivity {
                     final String chat_user_ref = "messages/" + mChatUser + "/" + mCurrentUserId;
 
                     DatabaseReference user_message_push = mRootRef.child("messages").child(mCurrentUserId).child(mChatUser).push();
-                    final String push_id = user_message_push.getKey();
+                    push_id = user_message_push.getKey();
+
+
                     StorageReference filepath = mImageStorage.child("message_images").child( push_id);
                     UploadTask uploadTask = filepath.putBytes(thumb_byte);
 
@@ -385,6 +388,7 @@ public class ChatActivity extends AppCompatActivity {
                             messageMap.put("type", "image");
                             messageMap.put("time", ServerValue.TIMESTAMP);
                             messageMap.put("from", mCurrentUserId);
+                            messageMap.put("push_id", push_id);
 
                             Map messageUserMap = new HashMap();
                             messageUserMap.put(current_user_ref + "/" + push_id, messageMap);
@@ -437,6 +441,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 Messages message = dataSnapshot.getValue(Messages.class);
+
 
                 itemPos++;
 
@@ -572,6 +577,7 @@ public class ChatActivity extends AppCompatActivity {
             messageMap.put("type", "text");
             messageMap.put("time", ServerValue.TIMESTAMP);
             messageMap.put("from", mCurrentUserId);
+            messageMap.put("push_id", push_id);
 
             //put value
             Map messageUserMap = new HashMap();

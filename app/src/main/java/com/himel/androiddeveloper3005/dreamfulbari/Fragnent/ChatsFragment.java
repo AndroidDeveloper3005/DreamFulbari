@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +28,7 @@ import com.himel.androiddeveloper3005.dreamfulbari.Activity.ChatActivity;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.Conv;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
+import com.himel.androiddeveloper3005.dreamfulbari.Util.AdUtils;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.GetTimeAgo;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -296,5 +298,9 @@ public class ChatsFragment extends Fragment {
     }
 
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        AdUtils.getInstance(getContext()).showBannerAd((AdView)mMainView.findViewById(R.id.adView));
+    }
 }

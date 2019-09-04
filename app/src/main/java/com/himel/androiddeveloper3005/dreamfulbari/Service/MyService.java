@@ -123,7 +123,7 @@ public class MyService extends Service {
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
                                             key = itemSnapshot.getKey();
-                                            long cutoff = new Date().getTime() - TimeUnit.MILLISECONDS.convert(1, TimeUnit.MINUTES);
+                                            long cutoff = new Date().getTime() - TimeUnit.MILLISECONDS.convert(7, TimeUnit.DAYS);
                                             Query oldItems = newDataBaseRef.orderByChild("time").endAt(cutoff);
                                             oldItems.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override

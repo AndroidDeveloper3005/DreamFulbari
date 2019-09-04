@@ -169,7 +169,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_image_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_info_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -181,11 +181,8 @@
                           <map>
                             <entry key="autoMirrored" value="true" />
                             <entry key="color" value="4db3f7" />
-                            <entry key="height" value="48" />
-                            <entry key="outputName" value="ic_image_post_48dp" />
-                            <entry key="overrideSize" value="true" />
+                            <entry key="outputName" value="ic_info_48dp" />
                             <entry key="sourceFile" value="C:\Users\User\Downloads\blood.svg" />
-                            <entry key="width" value="48" />
                           </map>
                         </option>
                       </PersistentState>

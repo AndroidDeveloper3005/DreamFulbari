@@ -6,6 +6,7 @@ public class Messages {
     private String message, type;
     private long  time;
     private boolean seen;
+    private String push_id;
 
     private String from;
 
@@ -21,11 +22,12 @@ public class Messages {
         this.from = from;
     }
 
-    public Messages(String message, String type, long time, boolean seen) {
+    public Messages(String message, String type, long time, boolean seen,String push_id) {
         this.message = message;
         this.type = type;
         this.time = time;
         this.seen = seen;
+        this.push_id = push_id;
     }
 
     public String getMessage() {
@@ -58,6 +60,14 @@ public class Messages {
 
     public void setSeen(boolean seen) {
         this.seen = seen;
+    }
+
+    public String getPush_id() {
+        return push_id;
+    }
+
+    public void setPush_id(String push_id) {
+        this.push_id = push_id;
     }
 
     public Messages(){
