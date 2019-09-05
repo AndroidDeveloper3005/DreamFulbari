@@ -36,7 +36,6 @@ public class AdUtils {
         } else {
             AdRequest adRequest = new AdRequest.Builder()
                     .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                    .addTestDevice("3268c2567c49d784")
                     .build();
             mAdView.loadAd(adRequest);
 
@@ -62,7 +61,6 @@ public class AdUtils {
 
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("3268c2567c49d784")
                 .build();
         mInterstitialAd.loadAd(adRequest);
     }
