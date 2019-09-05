@@ -26,8 +26,8 @@
 
     <!--- Addmob   !-->
     <string name="app_ad_id">ca-app-pub-3606940606832399~2525526848</string>
-    <string name="banner_ad_unit_id">ca-app-pub-3606940606832399/3208053126</string>
-    <string name="interstitial_ad_unit_id">ca-app-pub-3606940606832399/4707114857</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/8691691433</string>
     <string name="rewarded_ad_unit_id">ca-app-pub-3606940606832399/7314108656</string>
     <string name="banner">BANNER</string>
 

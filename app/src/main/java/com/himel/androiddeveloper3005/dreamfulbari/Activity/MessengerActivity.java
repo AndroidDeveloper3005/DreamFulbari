@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,8 +20,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
+import com.himel.androiddeveloper3005.dreamfulbari.Service.MyMessageDeleteService;
+import com.himel.androiddeveloper3005.dreamfulbari.Util.AdUtils;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.ViewPagerAdapter;
-
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MessengerActivity extends AppCompatActivity {
@@ -43,8 +46,37 @@ public class MessengerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_messenger);
         intiView();
         fireBase();
+        startService(new Intent(this, MyMessageDeleteService.class));
+        ads();
+
     }
 
+    private void ads() {
+        AdUtils.getInstance(this).loadFullScreenAd(this);
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        AdUtils.getInstance(MessengerActivity.this).showFullScreenAd();
+                        AdUtils.getInstance(MessengerActivity.this).loadFullScreenAd(MessengerActivity.this);
+
+                    }
+                });
+
+            }
+        }, 5 , 5, TimeUnit.MINUTES);
+    }
+
+/*    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        AdUtils.getInstance(MessengerActivity.this).showFullScreenAd();
+        AdUtils.getInstance(MessengerActivity.this).loadFullScreenAd(MessengerActivity.this);
+
+    }*/
 
     @Override
     protected void onStart() {
@@ -135,7 +167,9 @@ public class MessengerActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-
-
+    }
 }

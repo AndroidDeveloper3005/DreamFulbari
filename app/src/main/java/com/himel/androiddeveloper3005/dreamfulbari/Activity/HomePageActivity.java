@@ -7,13 +7,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
@@ -36,13 +33,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.HelpLine;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
-import com.himel.androiddeveloper3005.dreamfulbari.Service.MyService;
+import com.himel.androiddeveloper3005.dreamfulbari.Service.MyMessageDeleteService;
+import com.himel.androiddeveloper3005.dreamfulbari.Util.AdUtils;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomePageActivity extends BaseActivity
@@ -72,12 +73,12 @@ public class HomePageActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-        startService(new Intent(this, MyService.class));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initFireBaseAuth();
         initView();
         onClickMethod();
+        ads();
 
 
         mDatabaseRefhelp.addValueEventListener(new ValueEventListener() {
@@ -134,6 +135,24 @@ public class HomePageActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    private void ads() {
+        AdUtils.getInstance(this).loadFullScreenAd(this);
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        AdUtils.getInstance(HomePageActivity.this).showFullScreenAd();
+                        AdUtils.getInstance(HomePageActivity.this).loadFullScreenAd(HomePageActivity.this);
+
+                    }
+                });
+
+            }
+        }, 6 , 6, TimeUnit.MINUTES);
+    }
 
 
     public boolean isServiceOk(){
@@ -359,6 +378,8 @@ public class HomePageActivity extends BaseActivity
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        AdUtils.getInstance(HomePageActivity.this).showFullScreenAd();
+                        AdUtils.getInstance(HomePageActivity.this).loadFullScreenAd(HomePageActivity.this);
                         dialog.dismiss();
                         finish();
                     }

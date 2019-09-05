@@ -39,9 +39,13 @@ import com.himel.androiddeveloper3005.dreamfulbari.Interface.OnItemClickListener
 import com.himel.androiddeveloper3005.dreamfulbari.Model.Users;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.ActivityUtils;
+import com.himel.androiddeveloper3005.dreamfulbari.Util.AdUtils;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.MyDividerItemDecoration;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.ToolBarAndStatusBar;
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class BloodActivity extends ToolBarAndStatusBar {
     private RecyclerView recyclerView;
@@ -70,6 +74,32 @@ public class BloodActivity extends ToolBarAndStatusBar {
         sentPI = PendingIntent.getBroadcast(BloodActivity.this, 0, new Intent(SENT), 0);
         deliveredPI = PendingIntent.getBroadcast(BloodActivity.this, 0, new Intent(DELIVERED), 0);
     }
+    private void ads() {
+        AdUtils.getInstance(this).loadFullScreenAd(this);
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        AdUtils.getInstance(BloodActivity.this).showFullScreenAd();
+                        AdUtils.getInstance(BloodActivity.this).loadFullScreenAd(BloodActivity.this);
+
+                    }
+                });
+
+            }
+        }, 3 , 3, TimeUnit.MINUTES);
+    }
+
+/*    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        AdUtils.getInstance(BloodActivity.this).showFullScreenAd();
+        AdUtils.getInstance(BloodActivity.this).loadFullScreenAd(BloodActivity.this);
+
+    }*/
 
     @Override
     protected void onResume() {

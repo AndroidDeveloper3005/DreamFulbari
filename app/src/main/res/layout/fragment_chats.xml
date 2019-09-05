@@ -6,24 +6,18 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragnent.ChatsFragment"
     >
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/conv_list"
-            android:layout_width="match_parent"
-            android:layout_height="648dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginRight="0dp" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            ads:layout_constraintBottom_toTopOf="@+id/adView"
+            ads:layout_constraintEnd_toEndOf="parent"
+            ads:layout_constraintStart_toStartOf="parent"
+            ads:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.gms.ads.AdView
             android:id="@+id/adView"
@@ -34,13 +28,16 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginRight="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
             ads:adSize="@string/banner"
-            ads:adUnitId="@string/banner_ad_unit_id" />
-    </RelativeLayout>
+            ads:adUnitId="@string/banner_ad_unit_id"
+            ads:layout_constraintBottom_toBottomOf="parent"
+            ads:layout_constraintEnd_toEndOf="parent"
+            ads:layout_constraintHorizontal_bias="0.637"
+            ads:layout_constraintStart_toStartOf="parent"
+            ads:layout_constraintTop_toBottomOf="@+id/conv_list" />
+    </android.support.constraint.ConstraintLayout>
 
 
 </FrameLayout>

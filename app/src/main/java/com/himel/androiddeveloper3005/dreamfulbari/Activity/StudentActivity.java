@@ -41,10 +41,14 @@ import com.himel.androiddeveloper3005.dreamfulbari.Interface.OnItemClickListener
 import com.himel.androiddeveloper3005.dreamfulbari.Model.Student;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.ActivityUtils;
+import com.himel.androiddeveloper3005.dreamfulbari.Util.AdUtils;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.MyDividerItemDecoration;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.ToolBarAndStatusBar;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class StudentActivity extends ToolBarAndStatusBar {
     private RecyclerView studentListShow;
@@ -114,6 +118,33 @@ public class StudentActivity extends ToolBarAndStatusBar {
         getDataFromDatabase();
 
     }
+
+
+    private void ads() {
+        AdUtils.getInstance(this).loadFullScreenAd(this);
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        AdUtils.getInstance(StudentActivity.this).showFullScreenAd();
+                        AdUtils.getInstance(StudentActivity.this).loadFullScreenAd(StudentActivity.this);
+
+                    }
+                });
+
+            }
+        }, 3 , 3, TimeUnit.MINUTES);
+    }
+/*    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        AdUtils.getInstance(StudentActivity.this).showFullScreenAd();
+        AdUtils.getInstance(StudentActivity.this).loadFullScreenAd(StudentActivity.this);
+
+    }*/
 
     private void loadData() {
         if (!filterdata.isEmpty()){

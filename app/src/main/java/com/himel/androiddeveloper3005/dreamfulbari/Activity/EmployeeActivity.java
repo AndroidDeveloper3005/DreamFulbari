@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -41,10 +42,14 @@ import com.himel.androiddeveloper3005.dreamfulbari.Interface.OnItemClickListener
 import com.himel.androiddeveloper3005.dreamfulbari.Model.Employee;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.ActivityUtils;
+import com.himel.androiddeveloper3005.dreamfulbari.Util.AdUtils;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.MyDividerItemDecoration;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.ToolBarAndStatusBar;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class EmployeeActivity extends ToolBarAndStatusBar {
     private RecyclerView employeeListShow;
@@ -62,7 +67,6 @@ public class EmployeeActivity extends ToolBarAndStatusBar {
     private ProgressDialog progressDialog;
     private EmployeeAdapter adapter;
     private Toolbar toolbar;
-
     private SearchView searchView;
     private ProgressBar progressBar;
     String sms = null,phone = null;
@@ -70,6 +74,8 @@ public class EmployeeActivity extends ToolBarAndStatusBar {
     private final String DELIVERED = "SMS_DELIVERED";
     PendingIntent sentPI, deliveredPI;
     BroadcastReceiver smsSentReceiver, smsDeliveredReceiver;
+    private LinearLayout loadingView, noDataView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,12 +84,42 @@ public class EmployeeActivity extends ToolBarAndStatusBar {
         initVariable();
         initFireBase();
         initView();
+        initLoader();
+        showLoader();
         setToolbarTitle("Employer Information");
         //searchEmployee();
         getDataFromDatabase();
         sentPI = PendingIntent.getBroadcast(EmployeeActivity.this, 0, new Intent(SENT), 0);
         deliveredPI = PendingIntent.getBroadcast(EmployeeActivity.this, 0, new Intent(DELIVERED), 0);
     }
+
+    private void ads() {
+        AdUtils.getInstance(this).loadFullScreenAd(this);
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        AdUtils.getInstance(EmployeeActivity.this).showFullScreenAd();
+                        AdUtils.getInstance(EmployeeActivity.this).loadFullScreenAd(EmployeeActivity.this);
+
+                    }
+                });
+
+            }
+        }, 3 , 3, TimeUnit.MINUTES);
+    }
+
+
+/*    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        AdUtils.getInstance(EmployeeActivity.this).showFullScreenAd();
+        AdUtils.getInstance(EmployeeActivity.this).loadFullScreenAd(EmployeeActivity.this);
+
+    }*/
 
     private void initVariable() {
         employeeArrayList = new ArrayList<>();
@@ -124,6 +160,13 @@ public class EmployeeActivity extends ToolBarAndStatusBar {
 
                     if (profession.equals("Job Holder")){
                         employeeArrayList.add(employee);
+                        if (employeeArrayList != null){
+                            hideLoader();
+                        }
+                        else {
+                            hideLoader();
+                            showEmptyView();
+                        }
 
                     }
 
@@ -298,6 +341,41 @@ public class EmployeeActivity extends ToolBarAndStatusBar {
             }
         });
     }
+
+
+    public void initLoader() {
+        loadingView = (LinearLayout) findViewById(R.id.loadingView);
+        noDataView = (LinearLayout) findViewById(R.id.noDataView);
+    }
+
+    public void showLoader() {
+        if (loadingView != null) {
+            loadingView.setVisibility(View.VISIBLE);
+        }
+
+        if (noDataView != null) {
+            noDataView.setVisibility(View.GONE);
+        }
+    }
+
+    public void hideLoader() {
+        if (loadingView != null) {
+            loadingView.setVisibility(View.GONE);
+        }
+        if (noDataView != null) {
+            noDataView.setVisibility(View.GONE);
+        }
+    }
+
+    public void showEmptyView() {
+        if (loadingView != null) {
+            loadingView.setVisibility(View.GONE);
+        }
+        if (noDataView != null) {
+            noDataView.setVisibility(View.VISIBLE);
+        }
+    }
+
 
 
     private void initView(){

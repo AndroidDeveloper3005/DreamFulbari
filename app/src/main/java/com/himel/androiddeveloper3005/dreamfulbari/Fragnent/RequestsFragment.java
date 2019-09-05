@@ -29,6 +29,7 @@ import com.himel.androiddeveloper3005.dreamfulbari.Activity.MessengerUserProfile
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.FriendsRequest;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
+import com.himel.androiddeveloper3005.dreamfulbari.Util.AdUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -79,51 +80,17 @@ public class RequestsFragment extends Fragment {
         mFriendsRequestList.setLayoutManager(new LinearLayoutManager(getContext()));
         mCurrent_state = "not_friends";
 
-        //ads
-
-        if (TextUtils.isEmpty(getString(R.string.banner_home_footer))) {
-            Toast.makeText(getActivity(), "Please mention your Banner Ad ID in strings.xml", Toast.LENGTH_LONG).show();
-
-        }
-        mAdView = (AdView) mMainView.findViewById(R.id.adView);
-
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                // Check the LogCat to get your test device ID
-                .addTestDevice("82E06911D01AFF42CAA717B805FB8102")
-                .build();
-
-
-        mAdView.loadAd(adRequest);
-
-
-
         return mMainView;
     }
 
-    @Override
-    public void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();
-        }
-        super.onPause();
-    }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (mAdView != null) {
-            mAdView.resume();
-        }
+        AdUtils.getInstance(getContext()).showBannerAd((AdView)mMainView.findViewById(R.id.adView));
     }
 
-    @Override
-    public void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
-        super.onDestroy();
-    }
+
 
 
 

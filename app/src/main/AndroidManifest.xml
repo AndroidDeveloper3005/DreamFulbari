@@ -37,9 +37,13 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <service
-            android:name=".Service.MyService"
+            android:name=".Service.MyPostDeleteService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true"></service>
+        <service
+            android:name=".Service.MyMessageDeleteService"
+            android:enabled="true"
+            android:exported="true" />
 
         <activity android:name=".Activity.PostUpdateActivity" />
         <activity
@@ -60,6 +64,9 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3606940606832399~2525526848" />
 
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"

@@ -23,7 +23,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
-
     private LinearLayout loadingView, noDataView;
 
     @Override
@@ -67,71 +66,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    /*public void initDrawer() {
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        mNavigationView = (NavigationView) findViewById(R.id.navigationView);
-        mNavigationView.setNavigationItemSelectedListener(this);
-        mNavigationView.setItemIconTintList(null);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-
-        toggle.syncState();
-
-        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mDrawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        *//*if (id == R.id.action_favourite) {
-            // analytics event trigger
-            AnalyticsUtils.getAnalyticsUtils(mContext).trackEvent("Drawer : Favourite list");
-
-            ActivityUtils.getInstance().invokeActivity(mActivity, FavouriteListActivity.class, false);
-        } else if (id == R.id.action_category) {
-            ActivityUtils.getInstance().invokeActivity(mActivity, CategoryActivity.class, false);
-        }
-        // support
-        else if (id == R.id.action_call) {
-            AppUtility.makePhoneCall(mActivity, AppConstants.CALL_NUMBER);
-        } else if (id == R.id.action_message) {
-            AppUtility.sendSMS(mActivity, AppConstants.SMS_NUMBER, AppConstants.SMS_TEXT);
-        } else if (id == R.id.action_messenger) {
-            AppUtility.invokeMessengerBot(mActivity);
-        } else if (id == R.id.action_email) {
-            AppUtility.sendEmail(mActivity, AppConstants.EMAIL_ADDRESS, AppConstants.EMAIL_SUBJECT, AppConstants.EMAIL_BODY);
-        }
-
-        // others
-        else if (id == R.id.action_share) {
-            AppUtility.shareApp(mActivity);
-        } else if (id == R.id.action_rate_app) {
-            AppUtility.rateThisApp(mActivity); // this feature will only work after publish the app
-        } else if (id == R.id.action_settings) {
-            ActivityUtils.getInstance().invokeActivity(mActivity, SettingsActivity.class, false);
-        } else if (id == R.id.terms_conditions) {
-            ActivityUtils.getInstance().invokeWebPageActivity(mActivity, getResources().getString(R.string.terms), getResources().getString(R.string.terms_url));
-        } else if (id == R.id.privacy_policy) {
-            ActivityUtils.getInstance().invokeWebPageActivity(mActivity, getResources().getString(R.string.privacy), getResources().getString(R.string.privacy_url));
-        } else if (id == R.id.faq) {
-            ActivityUtils.getInstance().invokeWebPageActivity(mActivity, getResources().getString(R.string.faq), getResources().getString(R.string.faq_url));
-        }
-
-        if (mDrawerLayout != null && mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-        }
-        return true;*//*
-    }
-*/
     public void initLoader() {
         loadingView = (LinearLayout) findViewById(R.id.loadingView);
         noDataView = (LinearLayout) findViewById(R.id.noDataView);

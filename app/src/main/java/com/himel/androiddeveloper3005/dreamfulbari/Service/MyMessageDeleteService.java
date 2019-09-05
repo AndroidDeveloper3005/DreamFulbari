@@ -21,16 +21,16 @@ import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class MyService extends Service {
+public class MyMessageDeleteService extends Service {
     private DatabaseReference mDatabaseRef,mRootRef,mDatabaseLikesRef,newDataBaseRef;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private StorageReference mStorageReference;
     private String currentUserID;
-    private String TAG = "MyService";
+    private String TAG = "MyMessageDeleteService";
     private String sender_key,receiver_key,key;
 
-    public MyService() {
+    public MyMessageDeleteService() {
     }
 
     @Override
@@ -52,58 +52,14 @@ public class MyService extends Service {
             currentUserID = mAuth.getCurrentUser().getUid();
 
         }
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference().child(Constans.POST_DATABSE_PATH);
-        mStorageReference = FirebaseStorage.getInstance().getReference().child(Constans.POST_STOREAGE_PATH);
-        mDatabaseLikesRef = FirebaseDatabase.getInstance().getReference().child(Constans.LIKES);
         mStorageReference = FirebaseStorage.getInstance().getReference().child("message_images");
         mRootRef= FirebaseDatabase.getInstance().getReference();
-        //delete post
-        mDatabaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                    String user_id = snapshot.child("uid").getValue(String.class);
-                    //String timeStamp = snapshot.child("time_stamp"). getValue().toString();
-                    if (user_id !=null  && user_id.equals(currentUserID)){
-                        String post_key =  snapshot.getKey();
-                        long cutoff = new Date().getTime() - TimeUnit.MILLISECONDS.convert(7, TimeUnit.DAYS);
-                        Query oldItems = mDatabaseRef.orderByChild("time_stamp").endAt(cutoff);
-                        oldItems.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                for (DataSnapshot itemSnapshot: snapshot.getChildren()) {
-                                    itemSnapshot.getRef().removeValue();
-                                    mDatabaseLikesRef.child(post_key).removeValue();
-                                    mStorageReference.child(post_key).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Log.d(TAG,"Storeage Data Deleted : ID "+ post_key);
+        deleteMessage();
 
 
-                                        }
-                                    });
-                                }
-                            }
+    }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-                        //Toast.makeText(getApplicationContext(),"Message: "+post_key,Toast.LENGTH_LONG).show();
-
-
-                    }
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+    private void deleteMessage() {
         //delete message
         mRootRef.child("messages").addValueEventListener(new ValueEventListener() {
             @Override
@@ -183,6 +139,7 @@ public class MyService extends Service {
 
             }
         });
-
     }
+
+
 }

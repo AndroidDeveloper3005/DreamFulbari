@@ -298,8 +298,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
                             newPost.child(Constans.IMAGE_URI).setValue(downloadUri);
                             newPost.child(Constans.UID).setValue(mCurrentUser.getUid());
                             newPost.child("date").setValue(saveDate);
-                            newPost.child("time").setValue(saveTime);
-                            newPost.child("time_stamp").setValue(ServerValue.TIMESTAMP);
+                            newPost.child("time").setValue(ServerValue.TIMESTAMP);
                             newPost.child("counter").setValue(post_counter);
                             newPost.child("username").setValue(dataSnapshot.child("name").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -343,10 +342,10 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
             });
 
 
-        }else {
+        }/*else {
             Toast.makeText(this, "Fill all field first.", Toast.LENGTH_SHORT).show();
             progressBar.setVisibility(View.GONE);
-        }
+        }*/
 
 
         if (!TextUtils.isEmpty(descriptionValue)){
@@ -392,8 +391,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
                     newPost.child(Constans.DESCRITION).setValue(descriptionValue);
                     newPost.child(Constans.UID).setValue(mCurrentUser.getUid());
                     newPost.child("date").setValue(saveDate);
-                    newPost.child("time").setValue(saveTime);
-                    newPost.child("time_stamp").setValue(ServerValue.TIMESTAMP);
+                    newPost.child("time").setValue(ServerValue.TIMESTAMP);
                     newPost.child("counter").setValue(post_counter);
                     newPost.child("username").setValue(dataSnapshot.child("name").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -19,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -37,10 +37,15 @@ import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.BlogPost;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.Comment;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
-import com.himel.androiddeveloper3005.dreamfulbari.Service.MyService;
+import com.himel.androiddeveloper3005.dreamfulbari.Service.MyMessageDeleteService;
+import com.himel.androiddeveloper3005.dreamfulbari.Service.MyPostDeleteService;
+import com.himel.androiddeveloper3005.dreamfulbari.Util.AdUtils;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.MyDividerItemDecoration;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.ToolBarAndStatusBar;
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -79,6 +84,7 @@ public class NewsActivity extends ToolBarAndStatusBar {
         setContentView(R.layout.activity_news_feed);
         initView();
         initFireBaseAuth();
+        startService(new Intent(this, MyPostDeleteService.class));
         this.mHandler = new Handler();
         this.mHandler.postDelayed(m_Runnable,500);
 
@@ -93,9 +99,37 @@ public class NewsActivity extends ToolBarAndStatusBar {
             }
         });
         showData();
+        ads();
 
 
 
+
+    }
+
+/*    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        AdUtils.getInstance(NewsActivity.this).showFullScreenAd();
+        AdUtils.getInstance(NewsActivity.this).loadFullScreenAd(NewsActivity.this);
+    }*/
+
+    private void ads() {
+        AdUtils.getInstance(this).loadFullScreenAd(this);
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        AdUtils.getInstance(NewsActivity.this).showFullScreenAd();
+                        AdUtils.getInstance(NewsActivity.this).loadFullScreenAd(NewsActivity.this);
+
+                    }
+                });
+
+            }
+        }, 4 , 4, TimeUnit.MINUTES);
     }
 
 
@@ -107,8 +141,6 @@ public class NewsActivity extends ToolBarAndStatusBar {
         public void run()
 
         {
-            //Toast.makeText(NewsActivity.this,"in runnable",Toast.LENGTH_SHORT).show();
-
             NewsActivity.this.mHandler.postDelayed(m_Runnable, 500);
         }
 
@@ -213,7 +245,8 @@ public class NewsActivity extends ToolBarAndStatusBar {
             protected void populateViewHolder(final BlogViewHolder viewHolder, BlogPost model, int position) {
 
                 final String post_key  = getRef(position).getKey().toString();
-                dateTime = (model.getDate() + " "+ model.getTime()).toString() ;
+                String time = DateUtils.formatDateTime(NewsActivity.this, model.getTime(), DateUtils.FORMAT_SHOW_TIME);
+                dateTime = (model.getDate() + " "+ time ).toString() ;
 
                 viewHolder.setDiscription(model.getDescription());
                 if (model.getImageUri() != null) {

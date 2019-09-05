@@ -11,13 +11,13 @@ public class BlogPost implements Serializable {
     private String username;
     private String userImage;
     private String date;
-    private String time;
+    private long time;
 
     public BlogPost() {
     }
 
 
-    public BlogPost(String title, String description, String imageUri, String username, String userImage, String date, String time) {
+    public BlogPost(String title, String description, String imageUri, String username, String userImage, String date, long time) {
         this.title = title;
         this.description = description;
         this.imageUri = imageUri;
@@ -35,11 +35,11 @@ public class BlogPost implements Serializable {
         this.date = date;
     }
 
-    public String getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(long time) {
         this.time = time;
     }
 

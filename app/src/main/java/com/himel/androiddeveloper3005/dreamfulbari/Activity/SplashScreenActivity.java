@@ -1,39 +1,24 @@
 package com.himel.androiddeveloper3005.dreamfulbari.Activity;
 
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 
-import com.daimajia.androidanimations.library.Techniques;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.ActivityUtils;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.AppUtils;
-import com.himel.androiddeveloper3005.dreamfulbari.Util.ToolBarAndStatusBar;
 import com.tt.whorlviewlibrary.WhorlView;
-import com.viksaa.sssplash.lib.activity.AwesomeSplash;
-import com.viksaa.sssplash.lib.cnst.Flags;
-import com.viksaa.sssplash.lib.model.ConfigSplash;
-import com.wang.avi.AVLoadingIndicatorView;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
-import java.util.ArrayList;
 
 public class SplashScreenActivity extends AppCompatActivity {
     private Context mContext;
     private Activity mActivity;
     private static final int SPLASH_DURATION = 2500;
-    private WhorlView mWhorlView;
+    private ProgressBar mProgressBar;
 
 
 
@@ -55,8 +40,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private void initView() {
         setContentView(R.layout.activity_splash_screen);
-        mWhorlView = (WhorlView) this.findViewById(R.id.whor);
-        mWhorlView.start();
+        mProgressBar =  this.findViewById(R.id.progressBar);
+        mProgressBar.setVisibility(View.VISIBLE);
 
     }
 
@@ -71,7 +56,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             findViewById(R.id.ivLogo).postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mWhorlView.stop();
+                    mProgressBar.setVisibility(View.INVISIBLE);
                     ActivityUtils.getInstance().invokeActivity(mActivity, HomePageActivity.class, true);
                 }
             }, SPLASH_DURATION);

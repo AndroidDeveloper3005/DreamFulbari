@@ -46,6 +46,7 @@ import com.himel.androiddeveloper3005.dreamfulbari.Adapter.MessageAdapter;
 import com.himel.androiddeveloper3005.dreamfulbari.AppConstant.Constans;
 import com.himel.androiddeveloper3005.dreamfulbari.Model.Messages;
 import com.himel.androiddeveloper3005.dreamfulbari.R;
+import com.himel.androiddeveloper3005.dreamfulbari.Util.AdUtils;
 import com.himel.androiddeveloper3005.dreamfulbari.Util.GetTimeAgo;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -611,5 +612,10 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        AdUtils.getInstance(ChatActivity.this).showFullScreenAd();
+        AdUtils.getInstance(ChatActivity.this).loadFullScreenAd(ChatActivity.this);
+    }
 }
